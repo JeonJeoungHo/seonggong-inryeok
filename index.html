@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="성공인력 - 형틀목수, 해체, 자재정리, 철거공사, 현장인부알선 전문 직업소개소">
+    <meta name="keywords" content="성공인력, 직업소개소, 형틀목수, 해체, 철거공사, 현장인부, 건설인력, 파주">
+    <title>성공인력 - 건설 현장 인력 전문</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* 헤더 */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        /* 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 긴급 연락처 섹션 */
+        .emergency-contact {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .emergency-contact h2 {
+            color: #856404;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .phone-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .phone-number {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .phone-number strong {
+            display: block;
+            color: #856404;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .phone-number a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .phone-number a:hover {
+            color: #2a5298;
+        }
+        
+        /* 서비스 섹션 */
+        .services {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+        
+        .services h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .service-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* 특징 섹션 */
+        .features {
+            padding: 3rem 0;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+        
+        .feature-item .check {
+            color: #28a745;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-item div h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-item div p {
+            color: #666;
+        }
+        
+        /* 위치 정보 */
+        .location {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+        
+        .location h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+        
+        .location-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .location-info p {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .location-info .icon {
+            color: #1e3c72;
+            font-size: 1.5rem;
+        }
+        
+        /* CTA 버튼 */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #ffc107;
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background: #ffcd38;
+            transform: scale(1.05);
+        }
+        
+        .cta-button.secondary {
+            background: white;
+        }
+        
+        /* 푸터 */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .phone-numbers {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>⚒️ 성공인력</h1>
+            <p>건설 현장 전문 인력 소개 | 신속하고 정확한 인력 매칭</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="emergency-contact">
+            <h2>📞 24시간 긴급 연락</h2>
+            <div class="phone-numbers">
+                <div class="phone-number">
+                    <strong>대표번호</strong>
+                    <a href="tel:010-7519-1039">010-7519-1039</a>
+                </div>
+                <div class="phone-number">
+                    <strong>보조번호</strong>
+                    <a href="tel:010-7514-1029">010-7514-1029</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="services">
+        <div class="container">
+            <h2>주요 서비스</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="icon">🔨</div>
+                    <h3>형틀목수</h3>
+                    <p>숙련된 형틀목수 인력 공급</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏗️</div>
+                    <h3>해체 · 철거공사</h3>
+                    <p>안전하고 신속한 해체 작업</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📦</div>
+                    <h3>자재정리</h3>
+                    <p>현장 자재 정리 전문 인력</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">👷</div>
+                    <h3>현장인부 알선</h3>
+                    <p>다양한 현장 작업 인력 매칭</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏢</div>
+                    <h3>공사하청 전문</h3>
+                    <p>전문적인 공사 하청 관리</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">⚙️</div>
+                    <h3>전 업종 가능</h3>
+                    <p>건설 관련 모든 업종 지원</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>성공인력의 강점</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>신속한 인력 공급</h3>
+                        <p>긴급한 현장에도 빠르게 대응합니다</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>검증된 인력 풀</h3>
+                        <p>숙련도와 신뢰성을 검증한 인력만 소개합니다</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>합리적인 가격</h3>
+                        <p>투명하고 경쟁력 있는 요금 체계</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>24시간 상담</h3>
+                        <p>언제든 편하게 연락 주세요</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>전문 상담</h3>
+                        <p>현장 특성에 맞는 최적의 인력 제안</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h3>사후 관리</h3>
+                        <p>투입 후에도 지속적으로 관리합니다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="location">
+        <div class="container">
+            <h2>오시는 길</h2>
+            <div class="location-info">
+                <p>
+                    <span class="icon">📍</span>
+                    <span><strong>주소:</strong> 경기도 파주시 교하로 427, 203호<br>(동패동, 버블캐슬빌딩)</span>
+                </p>
+                <p>
+                    <span class="icon">📞</span>
+                    <span><strong>대표:</strong> 010-7519-1039</span>
+                </p>
+                <p>
+                    <span class="icon">📱</span>
+                    <span><strong>보조:</strong> 010-7514-1029</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>지금 바로 상담받으세요</h2>
+            <div class="cta-buttons">
+                <a href="tel:010-7519-1039" class="cta-button">전화 상담하기</a>
+                <a href="sms:010-7519-1039" class="cta-button secondary">문자 상담하기</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p><strong>성공인력</strong> | 등록번호: 제 2026-4060552-14-5-00001호</p>
+            <p>경기도 파주시 교하로 427, 203호 (동패동, 버블캐슬빌딩)</p>
+            <p>대표: 010-7519-1039 | 보조: 010-7514-1029</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">© 2026 성공인력. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
