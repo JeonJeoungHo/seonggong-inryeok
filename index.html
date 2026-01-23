@@ -269,6 +269,50 @@
             margin-bottom: 0.5rem;
         }
         
+        /* 플로팅 버튼 */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .floating-btn.phone {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(40,167,69,0.6);
+            }
+        }
+        
         /* 반응형 */
         @media (max-width: 768px) {
             header h1 {
@@ -283,6 +327,17 @@
             .service-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -292,6 +347,7 @@
             <img src="ganpan.jpg" alt="성공인력 간판" style="max-width: 100%; height: auto; margin-bottom: 1rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
             <h1>⚒️ 성공인력</h1>
             <p>건설 현장 전문 인력 소개 | 신속하고 정확한 인력 매칭</p>
+            <p style="font-size: 1.3rem; font-weight: bold; margin-top: 0.5rem; color: #ffc107;">🌏 전국 어디든 가능합니다!</p>
         </div>
     </header>
 
@@ -437,5 +493,12 @@
             <p style="margin-top: 1rem; opacity: 0.8;">© 2026 성공인력. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- 플로팅 버튼 -->
+    <div class="floating-buttons">
+        <a href="tel:010-7519-1039" class="floating-btn phone" title="전화 상담">
+            📞
+        </a>
+    </div>
 </body>
 </html>
