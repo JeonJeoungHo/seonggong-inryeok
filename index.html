@@ -114,6 +114,69 @@
             text-decoration: none;
         }
 
+/* 왜 성공인력인가요 */
+.why-success {
+  padding: 100px 20px !important;
+  background: #ffffff !important;
+}
+
+.why-inner {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+}
+
+.why-title {
+  text-align: center !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  margin-bottom: 60px !important;
+  color: #1f3c88 !important;
+}
+
+.why-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 40px !important;
+}
+
+.why-item {
+  background: #f9fafc !important;
+  border-radius: 16px !important;
+  padding: 30px 25px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
+}
+
+.why-item h3 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin-bottom: 10px !important;
+  color: #222 !important;
+}
+
+.why-item p {
+  font-size: 15px !important;
+  color: #555 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+.why-item .check {
+  color: #2ecc71 !important;
+  margin-right: 6px !important;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .why-title {
+    font-size: 26px !important;
+  }
+}
+        
         .phone { background: #28a745; }
         .kakao { background: #FEE500; color: #3C1E1E; }
     </style>
@@ -201,40 +264,42 @@
         </div>
     </section>
 
-<section class="features">
-    <div class="container">
-        <h2>왜 성공인력인가요?</h2>
-        <div class="feature-list">
-            <div class="feature-item">
-                <div class="check">✓</div>
-                <div>
-                    <h3>아무나 보내지 않습니다</h3>
-                    <p>현장 상황을 먼저 듣고 맞는 인력만 연결합니다</p>
-                </div>
-            </div>
-            <div class="feature-item">
-                <div class="check">✓</div>
-                <div>
-                    <h3>약속을 지키는 인력사무소</h3>
-                    <p>출근, 시간, 작업 조건을 정확히 안내합니다</p>
-                </div>
-            </div>
-            <div class="feature-item">
-                <div class="check">✓</div>
-                <div>
-                    <h3>문제 생기면 바로 소통</h3>
-                    <p>투입 후에도 연락 끊기지 않습니다</p>
-                </div>
-            </div>
-            <div class="feature-item">
-                <div class="check">✓</div>
-                <div>
-                    <h3>사람을 보고 연결합니다</h3>
-                    <p>형식적인 매칭이 아닌 실제 상황 중심 상담</p>
-                </div>
-            </div>
-        </div>
+<section class="why-success">
+  <div class="why-inner">
+    <h2 class="why-title">왜 성공인력인가요?</h2>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <h3><span class="check">✔</span> 아무나 보내지 않습니다</h3>
+        <p>현장 상황을 먼저 듣고 맞는 인력만 연결합니다</p>
+      </div>
+
+      <div class="why-item">
+        <h3><span class="check">✔</span> 약속을 지키는 인력사무소</h3>
+        <p>출근 시간, 작업 조건을 정확히 안내합니다</p>
+      </div>
+
+      <div class="why-item">
+        <h3><span class="check">✔</span> 문제 생기면 바로 소통</h3>
+        <p>투입 후에도 연락 끊기지 않습니다</p>
+      </div>
+
+      <div class="why-item">
+        <h3><span class="check">✔</span> 사람을 보고 연결합니다</h3>
+        <p>형식적인 매칭이 아닌 실제 상황 중심 상담</p>
+      </div>
+
+      <div class="why-item">
+        <h3><span class="check">✔</span> 파주 지역 밀착 운영</h3>
+        <p>파주 현장과 인력을 가장 잘 압니다</p>
+      </div>
+
+      <div class="why-item">
+        <h3><span class="check">✔</span> 대표가 직접 상담</h3>
+        <p>전화·문자 모두 직접 응대합니다</p>
+      </div>
     </div>
+  </div>
 </section>
     
 <section>
