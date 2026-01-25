@@ -86,6 +86,60 @@
             box-shadow: 0 3px 10px rgba(0,0,0,.1);
         }
 
+        /* 온라인 신청 섹션 */
+        .online-apply {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .online-apply h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .online-apply p {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+        }
+
+        .apply-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .apply-btn {
+            background: white;
+            color: #667eea;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,.2);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,.3);
+        }
+
+        .apply-btn.job-seeker {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .apply-btn.employer {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
         footer {
             background: #1e3c72;
             color: white;
@@ -100,6 +154,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            z-index: 1000;
         }
 
         .floating-btn {
@@ -112,70 +167,93 @@
             font-size: 1.8rem;
             color: white;
             text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,.3);
+            transition: transform 0.3s ease;
         }
 
-/* 왜 성공인력인가요 */
-.why-success {
-  padding: 100px 20px !important;
-  background: #ffffff !important;
-}
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
 
-.why-inner {
-  max-width: 1100px !important;
-  margin: 0 auto !important;
-}
+        /* 왜 성공인력인가요 */
+        .why-success {
+            padding: 100px 20px;
+            background: #ffffff;
+        }
 
-.why-title {
-  text-align: center !important;
-  font-size: 32px !important;
-  font-weight: 700 !important;
-  margin-bottom: 60px !important;
-  color: #1f3c88 !important;
-}
+        .why-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-.why-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 40px !important;
-}
+        .why-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #1f3c88;
+        }
 
-.why-item {
-  background: #f9fafc !important;
-  border-radius: 16px !important;
-  padding: 30px 25px !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
-}
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
 
-.why-item h3 {
-  font-size: 18px !important;
-  font-weight: 700 !important;
-  margin-bottom: 10px !important;
-  color: #222 !important;
-}
+        .why-item {
+            background: #f9fafc;
+            border-radius: 16px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
 
-.why-item p {
-  font-size: 15px !important;
-  color: #555 !important;
-  line-height: 1.6 !important;
-  margin: 0 !important;
-}
+        .why-item:hover {
+            transform: translateY(-5px);
+        }
 
-.why-item .check {
-  color: #2ecc71 !important;
-  margin-right: 6px !important;
-}
+        .why-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #222;
+        }
 
-/* 모바일 */
-@media (max-width: 768px) {
-  .why-grid {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
+        .why-item p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
 
-  .why-title {
-    font-size: 26px !important;
-  }
-}
+        .why-item .check {
+            color: #2ecc71;
+            margin-right: 6px;
+        }
+
+        /* 모바일 */
+        @media (max-width: 768px) {
+            .why-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .why-title {
+                font-size: 26px;
+            }
+
+            .apply-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .apply-btn {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            header h1 { font-size: 2rem; }
+        }
         
         .phone { background: #28a745; }
         .kakao { background: #FEE500; color: #3C1E1E; }
@@ -226,80 +304,99 @@
     </div>
 </section>
 
-    <section class="services">
-        <div class="container">
-            <h2>주요 서비스</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="icon">🔨</div>
-                    <h3>형틀목수</h3>
-                    <p>숙련된 형틀목수 인력 공급</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🏗️</div>
-                    <h3>해체 · 철거공사</h3>
-                    <p>안전하고 신속한 해체 작업</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">📦</div>
-                    <h3>자재정리</h3>
-                    <p>현장 자재 정리 전문 인력</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">👷</div>
-                    <h3>현장인부 알선</h3>
-                    <p>다양한 현장 작업 인력 매칭</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🏢</div>
-                    <h3>공사하청 전문</h3>
-                    <p>전문적인 공사 하청 관리</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">⚙️</div>
-                    <h3>전 업종 가능</h3>
-                    <p>건설 관련 모든 업종 지원</p>
-                </div>
+<section class="services">
+    <div class="container">
+        <h2>주요 서비스</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="icon">🔨</div>
+                <h3>형틀목수</h3>
+                <p>숙련된 형틀목수 인력 공급</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🏗️</div>
+                <h3>해체 · 철거공사</h3>
+                <p>안전하고 신속한 해체 작업</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">📦</div>
+                <h3>자재정리</h3>
+                <p>현장 자재 정리 전문 인력</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">👷</div>
+                <h3>현장인부 알선</h3>
+                <p>다양한 현장 작업 인력 매칭</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🏢</div>
+                <h3>공사하청 전문</h3>
+                <p>전문적인 공사 하청 관리</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">⚙️</div>
+                <h3>전 업종 가능</h3>
+                <p>건설 관련 모든 업종 지원</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- 🆕 온라인 신청 섹션 추가 -->
+<section class="online-apply">
+    <div class="container">
+        <h2>💻 온라인 신청</h2>
+        <p>
+            전화가 어려우신가요?<br>
+            아래 버튼을 눌러 온라인으로 간편하게 신청하세요!
+        </p>
+        <div class="apply-buttons">
+            <a href="https://forms.gle/xV4cLV6aW6HwgYsXA" class="apply-btn job-seeker" target="_blank">
+                👤 일자리 찾기 (구직 신청)
+            </a>
+            <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="apply-btn employer" target="_blank">
+                🏢 인력 구하기 (채용 공고)
+            </a>
+        </div>
+    </div>
+</section>
 
 <section class="why-success">
-  <div class="why-inner">
-    <h2 class="why-title">왜 성공인력인가요?</h2>
+    <div class="why-inner">
+        <h2 class="why-title">왜 성공인력인가요?</h2>
 
-    <div class="why-grid">
-      <div class="why-item">
-        <h3><span class="check">✔</span> 아무나 보내지 않습니다</h3>
-        <p>현장 상황을 먼저 듣고 맞는 인력만 연결합니다</p>
-      </div>
+        <div class="why-grid">
+            <div class="why-item">
+                <h3><span class="check">✔</span> 아무나 보내지 않습니다</h3>
+                <p>현장 상황을 먼저 듣고 맞는 인력만 연결합니다</p>
+            </div>
 
-      <div class="why-item">
-        <h3><span class="check">✔</span> 약속을 지키는 인력사무소</h3>
-        <p>출근 시간, 작업 조건을 정확히 안내합니다</p>
-      </div>
+            <div class="why-item">
+                <h3><span class="check">✔</span> 약속을 지키는 인력사무소</h3>
+                <p>출근 시간, 작업 조건을 정확히 안내합니다</p>
+            </div>
 
-      <div class="why-item">
-        <h3><span class="check">✔</span> 문제 생기면 바로 소통</h3>
-        <p>투입 후에도 연락 끊기지 않습니다</p>
-      </div>
+            <div class="why-item">
+                <h3><span class="check">✔</span> 문제 생기면 바로 소통</h3>
+                <p>투입 후에도 연락 끊기지 않습니다</p>
+            </div>
 
-      <div class="why-item">
-        <h3><span class="check">✔</span> 사람을 보고 연결합니다</h3>
-        <p>형식적인 매칭이 아닌 실제 상황 중심 상담</p>
-      </div>
+            <div class="why-item">
+                <h3><span class="check">✔</span> 사람을 보고 연결합니다</h3>
+                <p>형식적인 매칭이 아닌 실제 상황 중심 상담</p>
+            </div>
 
-      <div class="why-item">
-        <h3><span class="check">✔</span> 파주 지역 밀착 운영</h3>
-        <p>파주 현장과 인력을 가장 잘 압니다</p>
-      </div>
+            <div class="why-item">
+                <h3><span class="check">✔</span> 파주 지역 밀착 운영</h3>
+                <p>파주 현장과 인력을 가장 잘 압니다</p>
+            </div>
 
-      <div class="why-item">
-        <h3><span class="check">✔</span> 대표가 직접 상담</h3>
-        <p>전화·문자 모두 직접 응대합니다</p>
-      </div>
+            <div class="why-item">
+                <h3><span class="check">✔</span> 대표가 직접 상담</h3>
+                <p>전화·문자 모두 직접 응대합니다</p>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
     
 <section>
