@@ -1,0 +1,98 @@
+{% extends "_base.html.j2" %}
+
+{# 구직 — 일하러 오는 쪽.
+   이 사람의 질문도 셋이다: 뭘 준비하나 / 일당은 언제 들어오나 / 어떻게 등록하나.
+   모르는 값(지급 시점 등)은 섹션째 숨긴다. 돈 이야기를 잘못 써두면 그대로 분쟁이 된다. #}
+
+{% set d = region.job %}
+
+{% block seo_title %}{{ d.seo.title }}{% endblock %}
+{% block seo_description %}{{ d.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ d.seo.keywords }}{% endblock %}
+{% block og_title %}{{ d.seo.og_title }}{% endblock %}
+{% block og_description %}{{ d.seo.og_description }}{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <div class="container">
+        <a href="{{ link('home') }}" class="brand">{{ region.name }}</a>
+        <a href="{{ link('hire') }}" class="home-link">인력 구하세요? →</a>
+    </div>
+</div>
+
+<div class="page-head">
+    <div class="container">
+        <h1>{{ d.headline }}</h1>
+        <p>{{ d.sub }}</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <a href="tel:{{ region.phones[0].number }}" class="call-cta">
+            📞 구직 상담 {{ region.phones[0].number }}
+            <small>어떤 일을 해오셨는지 말씀해주세요</small>
+        </a>
+
+        <p class="note">
+            나가시는 현장 — {{ region.cover_areas | join(' · ') }}
+        </p>
+    </div>
+</section>
+
+{% if d.required_docs %}
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>준비하실 것</h2>
+        <ul class="info-list">
+            {% for doc in d.required_docs %}
+            <li>
+                <strong>{{ doc.name }}</strong>
+                {{ doc.note }}
+            </li>
+            {% endfor %}
+        </ul>
+        <p class="note">없는 서류가 있어도 일단 전화 주세요. 방법을 같이 찾습니다.</p>
+    </div>
+</section>
+{% endif %}
+
+{% if d.pay_timing %}
+<section>
+    <div class="container">
+        <h2>일당은 언제 받나요</h2>
+        <p class="note" style="font-size:1.05rem;color:#333;">{{ d.pay_timing }}</p>
+    </div>
+</section>
+{% endif %}
+
+{% if d.faq %}
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>자주 묻는 질문</h2>
+        <div class="faq">
+            {% for item in d.faq %}
+            <div class="faq-item">
+                <div class="faq-q">Q. {{ item.q }}</div>
+                <div class="faq-a">{{ item.a }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section>
+    <div class="container">
+        <h2>구직 등록하기</h2>
+        <p style="text-align:center;margin-bottom:1.5rem;">
+            아래 양식에 연락처와 가능한 일을 남겨주시면,<br>
+            맞는 현장이 생길 때 연락드립니다.
+        </p>
+        <a href="{{ region.apply_links.job_seeker }}" class="call-cta" style="background:#F5A623;color:#3a2a05;box-shadow:0 5px 14px rgba(245,166,35,.4);" target="_blank">
+            👤 구직 신청서 작성하기
+        </a>
+        <p class="note">글로 쓰기 번거로우시면 전화 주셔도 됩니다.</p>
+    </div>
+</section>
+{% endblock %}

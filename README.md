@@ -19,21 +19,36 @@ git add -A && git commit -m "..." && git push
 ## 폴더
 
 ```
-site.json                사이트 전체 설정 (브랜드명·도메인·루트 지역)
-regions/<slug>.json      사무소 한 곳의 정보   <- 지역마다 다른 것
-templates/               화면 한 벌            <- 전 지역 공통인 것
-build.py                 빌드 스크립트
+site.json                   사이트 전체 설정 (브랜드명·도메인·루트 지역)
+regions/<slug>.json         사무소 한 곳의 정보   <- 지역마다 다른 것
+templates/_base.html.j2     공통 껍데기 (CSS·머리·꼬리·하단바)
+templates/index.html.j2     홈 — 갈림길
+templates/hire.html.j2      구인 (소장)
+templates/job.html.j2       구직 (인부)
+build.py                    빌드 스크립트
+make_assets.py              간판 -> 공유 이미지·파비콘
 
-index.html               <- 빌드 결과 (루트 지역 = site.json의 root_region)
-<slug>/index.html        <- 빌드 결과 (그 외 지역)
-sitemap.xml              <- 빌드 결과
-ganpan.jpg               간판 이미지
-CNAME                    도메인 연결 (건드리지 말 것)
-naver*.html              네이버 사이트 소유확인 (건드리지 말 것)
+ganpan.jpg                  간판 이미지
+CNAME                       도메인 연결 (건드리지 말 것)
+naver*.html                 네이버 사이트 소유확인 (건드리지 말 것)
 ```
 
-**주의: `index.html` · `<slug>/index.html` · `sitemap.xml` 을 직접 고치지 말 것.**
+한 지역이 페이지 세 장을 갖는다. 루트 지역은 도메인 바로 아래:
+
+```
+루트 지역 (site.json의 root_region)     그 외 지역
+./index.html        홈 · 갈림길          ./<slug>/index.html
+./hire/index.html   구인                 ./<slug>/hire/index.html
+./job/index.html    구직                 ./<slug>/job/index.html
+./sitemap.xml  ./robots.txt  ./favicon.ico  ./apple-touch-icon.png  ./assets/
+```
+
+**주의: `*/index.html` · `sitemap.xml` · `robots.txt` 를 직접 고치지 말 것.**
 다음 빌드가 덮어쓴다. 고칠 곳은 `templates/`(전 지역) 아니면 `regions/`(그 지역만)다.
+
+페이지를 한 장 더 늘리려면 `build.py` 의 `PAGES` 에 한 줄 추가하고 템플릿을 만들면 된다.
+페이지끼리의 링크는 템플릿에서 `link('hire')` 로 부른다 — 지역이 루트에 있든
+`/daejeon/` 아래에 있든 깊이는 빌드가 계산한다.
 
 ## 지역 사무소 추가하기
 
@@ -70,6 +85,18 @@ naver*.html              네이버 사이트 소유확인 (건드리지 말 것)
 | `app_linked` | 바로장비 인력 기능 사용 여부. `false` 면 앱 버튼 없이 전화·카톡만 |
 | `rates_verified` | 시세를 **숫자로** 공개할 직종. 검수 통과분만 |
 | `updated` | 사이트맵 `lastmod`. 내용을 고친 날로 직접 갱신 |
+
+### 비어 있으면 섹션이 사라지는 값들
+
+모르는 값을 지어내는 대신 그 섹션을 통째로 숨긴다. 돈·시간 이야기는 틀리면
+그대로 분쟁이 되기 때문이다. 아래를 채우면 해당 섹션이 나타난다.
+
+| 필드 | 무엇 |
+|---|---|
+| `hire.cutoff_note` | 몇 시까지 연락하면 다음날 아침 투입이 되는지 (소장이 제일 먼저 묻는 것) |
+| `job.pay_timing` | 일당이 언제 들어오는지 (인부가 제일 먼저 묻는 것) |
+| `job.faq` | 인부들이 실제로 전화로 묻는 것들 |
+| `rates_verified` | 직종별 일당 구간 (아래 참고) |
 
 ### `rates_verified` 를 비워 두는 이유
 

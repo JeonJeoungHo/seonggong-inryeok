@@ -7,12 +7,15 @@
 있고, 지역마다 다른 값(상호·등록번호·전화·커버지역·시세)만 JSON에서 온다.
 그래서 화면을 고치면 전 지역이 같이 고쳐지고, 사무소가 늘어도 JSON 한 장이면 된다.
 
-출력 위치:
-    site.json의 root_region 과 같은 slug  ->  ./index.html          (기존 유입이 들어오는 자리)
-    그 외 지역                            ->  ./<slug>/index.html
-    사이트맵                              ->  ./sitemap.xml
+한 지역이 페이지 세 장을 갖는다(PAGES). 루트 지역은 도메인 바로 아래에 깔린다:
 
-⚠️ 출력 파일(index.html, <slug>/index.html, sitemap.xml)을 **직접 고치지 말 것.**
+    루트 지역 (site.json의 root_region)    그 외 지역
+    ./index.html         홈 · 갈림길       ./<slug>/index.html
+    ./hire/index.html    구인(소장)        ./<slug>/hire/index.html
+    ./job/index.html     구직(인부)        ./<slug>/job/index.html
+    ./sitemap.xml  ./robots.txt
+
+⚠️ 출력 파일(*/index.html, sitemap.xml, robots.txt)을 **직접 고치지 말 것.**
    다음 빌드가 덮어쓴다. 고칠 곳은 `templates/`(전 지역 공통) 아니면 `regions/`(그 지역만)다.
 
 빌드 결과도 git에 커밋한다 — GitHub Pages는 저장소에 들어 있는 파일을 그대로 서빙하기
@@ -30,6 +33,15 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 ROOT = os.path.dirname(os.path.abspath(__file__))
 REGIONS_DIR = os.path.join(ROOT, 'regions')
 TEMPLATES_DIR = os.path.join(ROOT, 'templates')
+
+# 지역 한 곳이 갖는 페이지들. 소장과 인부는 찾는 게 달라서 길을 갈라놨다(설계 2단계).
+#   path = 지역 폴더 안에서의 위치. '' 면 그 지역의 첫 페이지.
+#   priority = 사이트맵 우선순위.
+PAGES = [
+    {'key': 'home', 'template': 'index.html.j2', 'path': '', 'priority': '1.0'},
+    {'key': 'hire', 'template': 'hire.html.j2', 'path': 'hire/', 'priority': '0.9'},
+    {'key': 'job', 'template': 'job.html.j2', 'path': 'job/', 'priority': '0.9'},
+]
 
 
 def load_json(path):
@@ -117,6 +129,25 @@ def make_asset(depth):
     return asset
 
 
+def make_link(page_path):
+    """같은 지역의 다른 페이지로 가는 상대 링크. `link('hire')` 처럼 쓴다.
+
+    지역 폴더 안에서의 깊이만 보면 된다 — 형제 페이지끼리의 거리는 지역이 루트에 있든
+    `/daejeon/` 아래에 있든 똑같기 때문이다. 그래서 `/daejeon/hire/` 에서 job 으로 가는
+    링크도 `../job/` 한 줄로 끝난다(지역 이름을 다시 쓸 필요가 없다).
+    """
+    prefix = '../' * page_path.count('/')
+    by_key = {p['key']: p for p in PAGES}
+
+    def link(key):
+        if key not in by_key:
+            raise KeyError('알 수 없는 페이지 key: %r (있는 것: %s)'
+                           % (key, ', '.join(by_key)))
+        return (prefix + by_key[key]['path']) or './'
+
+    return link
+
+
 def main():
     site = load_json(os.path.join(ROOT, 'site.json'))
     regions = load_regions()
@@ -139,34 +170,44 @@ def main():
         lstrip_blocks=True,
         keep_trailing_newline=True,
     )
-    page_tpl = env.get_template('index.html.j2')
     sitemap_tpl = env.get_template('sitemap.xml.j2')
 
     pages = []
     for region in regions:
         is_root = region['slug'] == site['root_region']
-        url_path = '/' if is_root else '/%s/' % region['slug']
-        page_url = base_url + url_path
-        out_dir = ROOT if is_root else os.path.join(ROOT, region['slug'])
-        if not os.path.isdir(out_dir):
-            os.makedirs(out_dir)
-        out_path = os.path.join(out_dir, 'index.html')
+        # 루트 지역은 도메인 바로 아래에 둔다 — 명함·블로그에 이미 뿌려진 주소가
+        # 그대로 살아 있어야 한다(지역 선택 화면을 끼우면 기존 방문자만 손해).
+        region_base = '' if is_root else '%s/' % region['slug']
 
-        html = page_tpl.render(
-            site=site, region=region, page_url=page_url, is_root=is_root,
-            asset=make_asset(0 if is_root else 1),
-            ascii_base='https://%s' % site['domain_ascii'],
-            jsonld=build_jsonld(site, region, page_url),
-        )
-        with io.open(out_path, 'w', encoding='utf-8', newline='\n') as f:
-            f.write(html)
+        for page in PAGES:
+            rel_path = region_base + page['path']          # '', 'hire/', 'daejeon/job/' ...
+            depth = rel_path.count('/')
+            page_url = base_url + '/' + rel_path
 
-        pages.append({
-            'url': page_url,
-            'updated': region.get('updated', ''),
-            'priority': '1.0' if is_root else '0.8',
-        })
-        print('  %-10s -> %s' % (region['slug'], os.path.relpath(out_path, ROOT)))
+            out_dir = os.path.join(ROOT, *[p for p in rel_path.split('/') if p])
+            if not os.path.isdir(out_dir):
+                os.makedirs(out_dir)
+            out_path = os.path.join(out_dir, 'index.html')
+
+            html = env.get_template(page['template']).render(
+                site=site, region=region, page_url=page_url, is_root=is_root,
+                page_key=page['key'],
+                asset=make_asset(depth),
+                link=make_link(page["path"]),
+                ascii_base='https://%s' % site['domain_ascii'],
+                # 사업체 정보는 페이지마다 같다 — url 은 늘 그 지역의 첫 페이지를 가리킨다.
+                jsonld=build_jsonld(site, region, base_url + '/' + region_base),
+            )
+            with io.open(out_path, 'w', encoding='utf-8', newline='\n') as f:
+                f.write(html)
+
+            pages.append({
+                'url': page_url,
+                'updated': region.get('updated', ''),
+                'priority': page['priority'] if is_root else '0.8',
+            })
+            print('  %-16s -> %s' % (region['slug'] + '/' + page['key'],
+                                     os.path.relpath(out_path, ROOT)))
 
     sitemap = sitemap_tpl.render(site=site, pages=pages)
     with io.open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
