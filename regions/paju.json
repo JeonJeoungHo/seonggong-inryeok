@@ -1,0 +1,91 @@
+{
+  "_comment": "사무소 한 곳 = 이 파일 한 장. 필드 이름은 바로장비 labor.LaborOffice에 맞춰둔다(나중에 앱 연동 시 변환 없이 붙이려고).",
+
+  "slug": "paju",
+  "name": "성공인력",
+  "office_name": "파주성공인력",
+  "region": "경기 파주시",
+  "area_name": "파주",
+  "owner_name": "이해숙",
+  "business_number": "",
+  "license_number": "제 2026-4060552-14-5-00001호",
+  "address": "경기도 파주시 교하로 427, 203호",
+  "address_region": "경기도",
+  "address_locality": "파주시",
+  "latitude": null,
+  "longitude": null,
+  "opened_on": "2026-01-15",
+
+  "_comment_relation": "origin=원조 / branch=직영지점 / affiliate=이름을 빌려 쓰는 제휴 / independent=자기 상호 유지. 페이지 문구만 달라지고 구조는 같다.",
+  "relation": "affiliate",
+
+  "phones": [
+    { "label": "대표", "number": "010-7519-1039" },
+    { "label": "실장", "number": "010-7514-1029" }
+  ],
+  "kakao_open_chat": "https://open.kakao.com/o/sUcwbSci",
+  "naver_blog": "https://blog.naver.com/seonggongjob",
+  "naver_place": "https://map.naver.com/p/entry/place/2008705453?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202601250525&locale=ko&svcName=map_pcv5",
+
+  "_comment_cover": "커버 지역 — 앱 branches.Territory와 같은 시군구 단위로 적는다.",
+  "cover_areas": ["파주시", "고양시", "김포시", "연천군"],
+  "cutoff_time": "",
+
+  "_comment_app": "바로장비 인력 기능을 쓰는 사무소인가. false면 그 지역 페이지엔 앱 버튼이 안 뜨고 전화·카톡만 남는다.",
+  "app_linked": true,
+
+  "_comment_rates": "시세를 숫자로 공개할 직종. 검수 통과분만 넣는다 — 공개된 숫자는 단가 분쟁의 근거가 된다. 비어 있으면 시세 영역을 아예 안 그린다.",
+  "rates_verified": [],
+
+  "signboard": "/ganpan.jpg",
+  "signboard_alt": "성공인력 간판 - 파주 인력 전문 직업소개소",
+  "_comment_og": "카톡·페이스북에 링크를 보냈을 때 뜨는 카드 이미지. make_assets.py 가 간판에서 만든다.",
+  "og_image": "/assets/og-paju.jpg",
+  "updated": "2026-09-14",
+
+  "seo": {
+    "title": "성공인력 | 파주인력·파주인력사무소·파주일자리 전문 직업소개소",
+    "description": "성공인력은 파주 인력 전문 직업소개소입니다. 파주인력·파주인력사무소·파주일자리 상담 가능. 당일·단기·현장·식당·물류 인력 연결",
+    "keywords": "성공인력, 파주인력, 파주인력사무소, 파주일자리, 파주 직업소개소, 인력사무소, 일용직, 당일인력, 단기인력, 현장인부",
+    "og_title": "성공인력 - 파주 인력 전문 직업소개소",
+    "og_description": "파주인력·파주인력사무소·파주일자리 상담. 사람이 먼저인 인력 연결"
+  },
+
+  "tagline_lines": ["파주인력 · 파주인력사무소", "사람이 먼저인 인력 연결"],
+
+  "intro_title": "성공인력은 이렇게 일합니다",
+  "intro_lines": [
+    "성공인력은 파주 지역을 중심으로",
+    "당일·단기·장기 일자리와",
+    "현장·식당·물류·단순 작업 인력을 연결하는",
+    "파주 인력 전문 직업소개소입니다."
+  ],
+
+  "services": [
+    { "icon": "🔨", "title": "형틀목수", "desc": "숙련된 형틀목수 인력 공급" },
+    { "icon": "🏗️", "title": "해체 · 철거공사", "desc": "안전하고 신속한 해체 작업" },
+    { "icon": "📦", "title": "자재정리", "desc": "현장 자재 정리 전문 인력" },
+    { "icon": "👷", "title": "현장인부 알선", "desc": "다양한 현장 작업 인력 매칭" },
+    { "icon": "🏢", "title": "공사하청 전문", "desc": "전문적인 공사 하청 관리" },
+    { "icon": "⚙️", "title": "전 업종 가능", "desc": "건설 관련 모든 업종 지원" }
+  ],
+
+  "why_items": [
+    { "title": "아무나 보내지 않습니다", "desc": "현장 상황을 먼저 듣고 맞는 인력만 연결합니다" },
+    { "title": "약속을 지키는 인력사무소", "desc": "출근 시간, 작업 조건을 정확히 안내합니다" },
+    { "title": "문제 생기면 바로 소통", "desc": "투입 후에도 연락 끊기지 않습니다" },
+    { "title": "사람을 보고 연결합니다", "desc": "형식적인 매칭이 아닌 실제 상황 중심 상담" },
+    { "title": "파주 지역 밀착 운영", "desc": "파주 현장과 인력을 가장 잘 압니다" },
+    { "title": "대표가 직접 상담", "desc": "전화·문자 모두 직접 응대합니다" }
+  ],
+
+  "apply_links": {
+    "job_seeker": "https://forms.gle/2xPHvcLkvEBN4cFs6",
+    "employer": "https://forms.gle/wasDzDtYAGTqMEBWA"
+  },
+
+  "official_lines": [
+    "성공인력은 네이버 플레이스, 블로그, 홈페이지를 통해",
+    "파주 인력 정보를 투명하게 안내하고 있습니다."
+  ]
+}

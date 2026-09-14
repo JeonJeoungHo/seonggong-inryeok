@@ -1,0 +1,15 @@
+{#
+  사이트맵 — 지역이 늘면 자동으로 줄이 늘어난다.
+  lastmod는 regions/*.json의 "updated" 값이다. 빌드할 때마다 오늘 날짜로 바꾸지 않는다
+  (내용이 안 바뀌었는데 날짜만 바뀌면 검색엔진에 거짓 신호가 된다).
+#}<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for page in pages %}
+  <url>
+    <loc>{{ page.url }}</loc>
+    <lastmod>{{ page.updated }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>{{ page.priority }}</priority>
+  </url>
+{% endfor %}
+</urlset>

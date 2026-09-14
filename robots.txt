@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://성공인력.kr/sitemap.xml

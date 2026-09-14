@@ -1,78 +1,44 @@
-<!DOCTYPE html>
+{#
+  지역 사무소 페이지 — 전 지역이 이 템플릿 한 벌을 쓴다.
+  여기를 고치면 모든 지역이 같이 고쳐진다. 지역마다 다른 값은 regions/*.json에서 온다.
+#}<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>성공인력 | 파주인력·파주인력사무소·파주일자리 전문 직업소개소</title>
+    <title>{{ region.seo.title }}</title>
 
     <!-- SEO 기본 -->
-    <meta name="description" content="성공인력은 파주 인력 전문 직업소개소입니다. 파주인력·파주인력사무소·파주일자리 상담 가능. 당일·단기·현장·식당·물류 인력 연결">
-    <meta name="keywords" content="성공인력, 파주인력, 파주인력사무소, 파주일자리, 파주 직업소개소, 인력사무소, 일용직, 당일인력, 단기인력, 현장인부">
-    <meta name="author" content="성공인력">
+    <meta name="description" content="{{ region.seo.description }}">
+    <meta name="keywords" content="{{ region.seo.keywords }}">
+    <meta name="author" content="{{ region.name }}">
     <meta name="robots" content="index, follow">
 
     <!-- 네이버 / 구글 -->
-    <meta name="google-site-verification" content="2cqATSzhr9rRHPUWV-UYbBwdXkr9P5Lqoxg7iRDPo2U">
+    <meta name="google-site-verification" content="{{ site.google_site_verification }}">
 
     <!-- 아이콘 -->
-    <link rel="icon" href="favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="{{ asset('/favicon.ico') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('/apple-touch-icon.png') }}">
 
     <!-- Open Graph — 카톡으로 링크를 보냈을 때 뜨는 카드 -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="성공인력 - 파주 인력 전문 직업소개소">
-    <meta property="og:description" content="파주인력·파주인력사무소·파주일자리 상담. 사람이 먼저인 인력 연결">
-    <meta property="og:url" content="https://성공인력.kr/">
-    <meta property="og:site_name" content="성공인력">
-    <meta property="og:image" content="https://xn--ob0b55sqjhyvg.kr/assets/og-paju.jpg">
+    <meta property="og:title" content="{{ region.seo.og_title }}">
+    <meta property="og:description" content="{{ region.seo.og_description }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:site_name" content="{{ site.brand }}">
+    {% if region.og_image %}
+    <meta property="og:image" content="{{ ascii_base }}{{ region.og_image }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
+    {% endif %}
 
-    <link rel="canonical" href="https://성공인력.kr/">
+    <link rel="canonical" href="{{ page_url }}">
 
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "EmploymentAgency",
-  "name": "성공인력",
-  "description": "성공인력은 파주 인력 전문 직업소개소입니다. 파주인력·파주인력사무소·파주일자리 상담 가능. 당일·단기·현장·식당·물류 인력 연결",
-  "url": "https://성공인력.kr/",
-  "telephone": "010-7519-1039",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "경기도 파주시 교하로 427, 203호",
-    "addressLocality": "파주시",
-    "addressRegion": "경기도",
-    "addressCountry": "KR"
-  },
-  "areaServed": [
-    {
-      "@type": "City",
-      "name": "파주시"
-    },
-    {
-      "@type": "City",
-      "name": "고양시"
-    },
-    {
-      "@type": "City",
-      "name": "김포시"
-    },
-    {
-      "@type": "City",
-      "name": "연천군"
-    }
-  ],
-  "alternateName": "파주성공인력",
-  "image": "https://xn--ob0b55sqjhyvg.kr/assets/og-paju.jpg",
-  "foundingDate": "2026-01-15",
-  "sameAs": [
-    "https://map.naver.com/p/entry/place/2008705453?c=15.00,0,0,0,dh\u0026placePath=/home?from=map\u0026fromPanelNum=1\u0026additionalHeight=76\u0026timestamp=202601250525\u0026locale=ko\u0026svcName=map_pcv5",
-    "https://blog.naver.com/seonggongjob"
-  ]
-}
+{{ jsonld | safe }}
     </script>
 
     <style>
@@ -355,10 +321,11 @@
 
 <header>
     <div class="container">
-        <img src="ganpan.jpg" alt="성공인력 간판 - 파주 인력 전문 직업소개소" style="max-width:100%;border-radius:10px;margin-bottom:1rem;">
-        <h1 itemprop="name">성공인력</h1>
+        <img src="{{ asset(region.signboard) }}" alt="{{ region.signboard_alt }}" style="max-width:100%;border-radius:10px;margin-bottom:1rem;">
+        <h1 itemprop="name">{{ region.name }}</h1>
         <p itemprop="description">
-파주인력 · 파주인력사무소<br>사람이 먼저인 인력 연결        </p>
+            {% for line in region.tagline_lines %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+        </p>
     </div>
 </header>
 
@@ -366,14 +333,12 @@
     <div class="emergency-contact">
         <h2>📞 상담 안내</h2>
         <div class="phone-numbers">
+            {% for p in region.phones %}
             <div class="phone-number">
-                <strong>대표</strong><br>
-                <a href="tel:010-7519-1039">010-7519-1039</a>
+                <strong>{{ p.label }}</strong><br>
+                <a href="tel:{{ p.number }}">{{ p.number }}</a>
             </div>
-            <div class="phone-number">
-                <strong>실장</strong><br>
-                <a href="tel:010-7514-1029">010-7514-1029</a>
-            </div>
+            {% endfor %}
         </div>
         <p style="margin-top:1rem;">
             ※ 네이버 플레이스에서 업체 정보를 확인하실 수 있습니다.
@@ -383,9 +348,10 @@
 
 <section>
     <div class="container">
-        <h2>성공인력은 이렇게 일합니다</h2>
+        <h2>{{ region.intro_title }}</h2>
         <p style="text-align:center;">
-성공인력은 파주 지역을 중심으로<br>당일·단기·장기 일자리와<br>현장·식당·물류·단순 작업 인력을 연결하는<br>파주 인력 전문 직업소개소입니다.        </p>
+            {% for line in region.intro_lines %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+        </p>
     </div>
 </section>
 
@@ -393,36 +359,13 @@
     <div class="container">
         <h2>주요 서비스</h2>
         <div class="service-grid">
+            {% for s in region.services %}
             <div class="service-card">
-                <div class="icon">🔨</div>
-                <h3>형틀목수</h3>
-                <p>숙련된 형틀목수 인력 공급</p>
+                <div class="icon">{{ s.icon }}</div>
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.desc }}</p>
             </div>
-            <div class="service-card">
-                <div class="icon">🏗️</div>
-                <h3>해체 · 철거공사</h3>
-                <p>안전하고 신속한 해체 작업</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">📦</div>
-                <h3>자재정리</h3>
-                <p>현장 자재 정리 전문 인력</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">👷</div>
-                <h3>현장인부 알선</h3>
-                <p>다양한 현장 작업 인력 매칭</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">🏢</div>
-                <h3>공사하청 전문</h3>
-                <p>전문적인 공사 하청 관리</p>
-            </div>
-            <div class="service-card">
-                <div class="icon">⚙️</div>
-                <h3>전 업종 가능</h3>
-                <p>건설 관련 모든 업종 지원</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -436,10 +379,10 @@
             아래 버튼을 눌러 온라인으로 간편하게 신청하세요!
         </p>
         <div class="apply-buttons">
-            <a href="https://forms.gle/2xPHvcLkvEBN4cFs6" class="apply-btn job-seeker" target="_blank">
+            <a href="{{ region.apply_links.job_seeker }}" class="apply-btn job-seeker" target="_blank">
                 👤 일자리 찾기 (구직 신청)
             </a>
-            <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="apply-btn employer" target="_blank">
+            <a href="{{ region.apply_links.employer }}" class="apply-btn employer" target="_blank">
                 🏢 인력 구하기 (채용 공고)
             </a>
         </div>
@@ -448,33 +391,15 @@
 
 <section class="why-success">
     <div class="why-inner">
-        <h2 class="why-title">왜 성공인력인가요?</h2>
+        <h2 class="why-title">왜 {{ region.name }}인가요?</h2>
 
         <div class="why-grid">
+            {% for w in region.why_items %}
             <div class="why-item">
-                <h3><span class="check">✔</span> 아무나 보내지 않습니다</h3>
-                <p>현장 상황을 먼저 듣고 맞는 인력만 연결합니다</p>
+                <h3><span class="check">✔</span> {{ w.title }}</h3>
+                <p>{{ w.desc }}</p>
             </div>
-            <div class="why-item">
-                <h3><span class="check">✔</span> 약속을 지키는 인력사무소</h3>
-                <p>출근 시간, 작업 조건을 정확히 안내합니다</p>
-            </div>
-            <div class="why-item">
-                <h3><span class="check">✔</span> 문제 생기면 바로 소통</h3>
-                <p>투입 후에도 연락 끊기지 않습니다</p>
-            </div>
-            <div class="why-item">
-                <h3><span class="check">✔</span> 사람을 보고 연결합니다</h3>
-                <p>형식적인 매칭이 아닌 실제 상황 중심 상담</p>
-            </div>
-            <div class="why-item">
-                <h3><span class="check">✔</span> 파주 지역 밀착 운영</h3>
-                <p>파주 현장과 인력을 가장 잘 압니다</p>
-            </div>
-            <div class="why-item">
-                <h3><span class="check">✔</span> 대표가 직접 상담</h3>
-                <p>전화·문자 모두 직접 응대합니다</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -483,34 +408,41 @@
     <div class="container">
         <h2>공식 안내</h2>
         <p style="text-align:center;">
-성공인력은 네이버 플레이스, 블로그, 홈페이지를 통해<br>파주 인력 정보를 투명하게 안내하고 있습니다.        </p>
+            {% for line in region.official_lines %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+        </p>
         <p style="text-align:center;margin-top:1rem;">
-            👉 <a href="https://blog.naver.com/seonggongjob" target="_blank">네이버 블로그 바로가기</a><br>
-            👉 <a href="https://map.naver.com/p/entry/place/2008705453?c=15.00,0,0,0,dh&amp;placePath=/home?from=map&amp;fromPanelNum=1&amp;additionalHeight=76&amp;timestamp=202601250525&amp;locale=ko&amp;svcName=map_pcv5" target="_blank">네이버 플레이스에서 성공인력 보기</a>
+            👉 <a href="{{ region.naver_blog }}" target="_blank">네이버 블로그 바로가기</a><br>
+            👉 <a href="{{ region.naver_place }}" target="_blank">네이버 플레이스에서 {{ region.name }} 보기</a>
         </p>
     </div>
 </section>
 
 <footer>
     <div class="container">
-        <p><strong>성공인력</strong></p>
-        <p>대표 이해숙</p>
-        <p>경기도 파주시 교하로 427, 203호</p>
-        <p>대표 010-7519-1039 | 실장 010-7514-1029</p>
-        <p style="opacity:.85;">직업소개사업 등록번호 제 2026-4060552-14-5-00001호</p>
-        <p style="opacity:.8;margin-top:.5rem;">© 2026 성공인력</p>
+        <p><strong>{{ region.name }}</strong></p>
+        {% if region.owner_name %}
+        <p>대표 {{ region.owner_name }}</p>
+        {% endif %}
+        <p>{{ region.address }}</p>
+        <p>{% for p in region.phones %}{{ p.label }} {{ p.number }}{% if not loop.last %} | {% endif %}{% endfor %}</p>
+        {# 직업소개사업 등록번호 — 간판 사진 안에만 있어서 글자로는 어디에도 없었다.
+           사업소 단위로 받는 번호라 지역마다 자기 것을 쓴다. #}
+        {% if region.license_number %}
+        <p style="opacity:.85;">직업소개사업 등록번호 {{ region.license_number }}</p>
+        {% endif %}
+        <p style="opacity:.8;margin-top:.5rem;">© {{ site.copyright_year }} {{ region.name }}</p>
     </div>
 </footer>
 
 <div class="floating-buttons">
-    <a href="tel:010-7519-1039" class="floating-btn phone">📞</a>
-    <a href="https://open.kakao.com/o/sUcwbSci" class="floating-btn kakao" target="_blank">💬</a>
+    <a href="tel:{{ region.phones[0].number }}" class="floating-btn phone">📞</a>
+    <a href="{{ region.kakao_open_chat }}" class="floating-btn kakao" target="_blank">💬</a>
 </div>
 
 <nav class="bottom-bar">
-    <a href="tel:010-7519-1039" class="bar-call">📞 전화상담</a>
-    <a href="https://open.kakao.com/o/sUcwbSci" class="bar-kakao" target="_blank">💬 카톡문의</a>
-    <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="bar-apply" target="_blank">🏢 인력요청</a>
+    <a href="tel:{{ region.phones[0].number }}" class="bar-call">📞 전화상담</a>
+    <a href="{{ region.kakao_open_chat }}" class="bar-kakao" target="_blank">💬 카톡문의</a>
+    <a href="{{ region.apply_links.employer }}" class="bar-apply" target="_blank">🏢 인력요청</a>
 </nav>
 
 </body>

@@ -1,0 +1,13 @@
+{
+  "brand": "성공인력",
+  "domain": "성공인력.kr",
+  "_comment_domain_ascii": "퓨니코드. 크롤러가 읽는 절대경로(og:image 등)엔 이쪽을 쓴다 — 한글 도메인을 못 읽는 수집기가 있다.",
+  "domain_ascii": "xn--ob0b55sqjhyvg.kr",
+  "root_region": "paju",
+  "google_site_verification": "2cqATSzhr9rRHPUWV-UYbBwdXkr9P5Lqoxg7iRDPo2U",
+  "copyright_year": 2026,
+
+  "_comment_logo": "파비콘은 간판 사진에서 로고 부분만 잘라 쓴다. crop = (left, top, right, bottom).",
+  "logo_source": "/ganpan.jpg",
+  "logo_crop": [18, 14, 138, 134]
+}
