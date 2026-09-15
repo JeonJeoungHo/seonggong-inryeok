@@ -1,0 +1,136 @@
+{% extends "_base.html.j2" %}
+
+{# 직종별 일당 시세 — 검색 유입의 핵심 페이지.
+   "파주 형틀목수 일당" 같은 검색은 실수요 검색인데 답을 주는 사이트가 거의 없다.
+   목록의 현장 별칭(가다와꾸·곰빵·아시바)이 그대로 롱테일 검색어가 된다.
+
+   ⚠️ 여기 숫자는 공개된 순간 단가 분쟁의 근거로 인용된다. 그래서
+      ① 기준 시점을 명시하고 ② "조건에 따라 달라진다"를 숫자 옆에 붙이고
+      ③ 공표 노임단가가 있는 직종은 출처를 같이 보여준다. #}
+
+{% set d = region.rates %}
+
+{% block seo_title %}{{ d.seo.title }}{% endblock %}
+{% block seo_description %}{{ d.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ d.seo.keywords }}{% endblock %}
+{% block og_title %}{{ d.seo.og_title }}{% endblock %}
+{% block og_description %}{{ d.seo.og_description }}{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <div class="container">
+        <a href="{{ link('home') }}" class="brand">{{ region.name }}</a>
+        <a href="{{ link('hire') }}" class="home-link">인력 요청 →</a>
+    </div>
+</div>
+
+<div class="page-head">
+    <div class="container">
+        <h1>{{ d.headline }}</h1>
+        <p>{{ d.sub }}</p>
+    </div>
+</div>
+
+{% if region.rates_verified %}
+<section>
+    <div class="container">
+        <div class="rate-table">
+            {% for r in region.rates_verified %}
+            <div class="rate-row">
+                <div class="rate-name">
+                    {{ r.role }}
+                    {% if r.alias %}<span class="rate-alias">{{ r.alias }}</span>{% endif %}
+                </div>
+                <div class="rate-price">
+                    {{ '{:,}'.format(r.low) }}원 ~ {{ '{:,}'.format(r.high) }}원
+                    {% if r.source %}<span class="rate-source">{{ r.source }}</span>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <p class="note">
+            {% if region.rates_updated %}{{ region.rates_updated }} 기준 · {% endif %}
+            1인 1일 기준입니다.<br>
+            현장 조건(층수 · 자재 운반 · 작업 강도 · 작업 기간)에 따라 달라지므로,
+            정확한 금액은 현장 이야기를 듣고 안내해 드립니다.
+        </p>
+        <p class="note">
+            표에 없는 직종도 대부분 연결해 드립니다. 전화로 물어봐 주세요.
+        </p>
+    </div>
+</section>
+{% else %}
+<section>
+    <div class="container">
+        <p class="note">
+            일당은 직종과 현장 조건에 따라 달라집니다.<br>
+            전화 주시면 현장 이야기를 듣고 바로 알려드립니다.
+        </p>
+    </div>
+</section>
+{% endif %}
+
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>직접 물어보시는 게 빠릅니다</h2>
+        <a href="tel:{{ region.phones[0].number }}" class="call-cta">
+            📞 일당 문의 {{ region.phones[0].number }}
+            <small>현장 조건을 말씀해주시면 바로 알려드립니다</small>
+        </a>
+
+        <div class="fork-grid" style="margin-top:2rem;">
+            <a href="{{ link('hire') }}" class="fork-card fork-hire">
+                <span class="fork-icon">🏢</span>
+                <span class="fork-title">인력 요청하기</span>
+                <span class="fork-sub">현장에 사람이 필요하신 분</span>
+            </a>
+            <a href="{{ link('job') }}" class="fork-card fork-job">
+                <span class="fork-icon">👷</span>
+                <span class="fork-title">일자리 찾기</span>
+                <span class="fork-sub">일하실 분 · 구직 등록</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+        .rate-table { max-width: 760px; margin: 0 auto; }
+
+        .rate-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.05rem .4rem;
+            border-bottom: 1px solid #e5e8ee;
+        }
+
+        .rate-row:last-child { border-bottom: none; }
+
+        .rate-name { font-weight: bold; color: #1e3c72; font-size: 1.05rem; }
+
+        /* 현장 별칭 — "가다와꾸"로만 아는 분이 자기 직종을 찾을 수 있어야 한다 */
+        .rate-alias {
+            display: inline-block;
+            margin-left: .45rem;
+            font-weight: normal;
+            font-size: .88rem;
+            color: #8a8f98;
+        }
+
+        .rate-price { text-align: right; font-size: 1.05rem; color: #333; white-space: nowrap; }
+
+        .rate-source {
+            display: block;
+            font-size: .82rem;
+            color: #8a8f98;
+            white-space: normal;
+        }
+
+        @media (max-width: 768px) {
+            .rate-row { flex-direction: column; align-items: flex-start; gap: .25rem; }
+            .rate-price { text-align: left; }
+        }
+{% endblock %}

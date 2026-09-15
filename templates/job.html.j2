@@ -62,6 +62,13 @@
     <div class="container">
         <h2>일당은 언제 받나요</h2>
         <p class="note" style="font-size:1.05rem;color:#333;">{{ d.pay_timing }}</p>
+        {% if region.rates_verified %}
+        <p style="text-align:center;margin-top:1.2rem;">
+            <a href="{{ link('rates') }}" style="color:#1e3c72;font-weight:bold;">
+                직종별 일당 시세 보기 →
+            </a>
+        </p>
+        {% endif %}
     </div>
 </section>
 {% endif %}

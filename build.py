@@ -41,6 +41,7 @@ PAGES = [
     {'key': 'home', 'template': 'index.html.j2', 'path': '', 'priority': '1.0'},
     {'key': 'hire', 'template': 'hire.html.j2', 'path': 'hire/', 'priority': '0.9'},
     {'key': 'job', 'template': 'job.html.j2', 'path': 'job/', 'priority': '0.9'},
+    {'key': 'rates', 'template': 'rates.html.j2', 'path': 'rates/', 'priority': '0.9'},
 ]
 
 
