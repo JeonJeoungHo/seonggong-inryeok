@@ -290,6 +290,18 @@
             font-size: .92rem;
         }
 
+        /* 본문 아래로 이어지는 링크 줄 — 좁은 화면에서는 한 줄씩 내려간다 */
+        .sub-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: .6rem 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .sub-links a { color: #1e3c72; font-weight: bold; text-decoration: none; }
+        .sub-links a:hover { text-decoration: underline; }
+
         /* ── 하단 고정 바 (모바일) ──────────────────────────────
            동그란 플로팅 버튼이 본문과 신청 버튼 위에 겹쳐 있었다.
            바는 아무것도 안 가리고 항상 보인다. 데스크탑은 여백이 넉넉해 플로팅 유지. */
@@ -478,6 +490,9 @@
         </p>
         <p class="note">
             표에 없는 직종도 대부분 연결해 드립니다. 전화로 물어봐 주세요.
+        </p>
+        <p class="sub-links">
+            <a href="../roles/">각 직종이 무슨 일인지 보기 →</a>
         </p>
     </div>
 </section>

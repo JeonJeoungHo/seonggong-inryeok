@@ -21,10 +21,13 @@ git add -A && git commit -m "..." && git push
 ```
 site.json                   사이트 전체 설정 (브랜드명·도메인·루트 지역)
 regions/<slug>.json         사무소 한 곳의 정보   <- 지역마다 다른 것
+data/roles.json             건설 직종 33개        <- 지역과 무관한 공통 데이터
 templates/_base.html.j2     공통 껍데기 (CSS·머리·꼬리·하단바)
 templates/index.html.j2     홈 — 갈림길
 templates/hire.html.j2      구인 (소장)
 templates/job.html.j2       구직 (인부)
+templates/rates.html.j2     직종별 일당 시세
+templates/roles.html.j2     건설 직종 안내
 build.py                    빌드 스크립트
 make_assets.py              간판 -> 공유 이미지·파비콘
 
@@ -33,15 +36,21 @@ CNAME                       도메인 연결 (건드리지 말 것)
 naver*.html                 네이버 사이트 소유확인 (건드리지 말 것)
 ```
 
-한 지역이 페이지 세 장을 갖는다. 루트 지역은 도메인 바로 아래:
+한 지역이 페이지 다섯 장을 갖는다. 루트 지역은 도메인 바로 아래:
 
 ```
-루트 지역 (site.json의 root_region)     그 외 지역
-./index.html        홈 · 갈림길          ./<slug>/index.html
-./hire/index.html   구인                 ./<slug>/hire/index.html
-./job/index.html    구직                 ./<slug>/job/index.html
+루트 지역 (site.json의 root_region)      그 외 지역
+./index.html         홈 · 갈림길          ./<slug>/index.html
+./hire/index.html    구인                 ./<slug>/hire/index.html
+./job/index.html     구직                 ./<slug>/job/index.html
+./rates/index.html   일당 시세            ./<slug>/rates/index.html
+./roles/index.html   직종 안내            ./<slug>/roles/index.html
 ./sitemap.xml  ./robots.txt  ./favicon.ico  ./apple-touch-icon.png  ./assets/
 ```
+
+`data/` 의 공통 데이터는 `build.py` 의 `SHARED_DATA` 에 등록되어 모든 템플릿에
+같은 이름으로 들어간다 (`roles.json` -> `{{ roles }}`). 지역마다 달라지는 값이
+아니면 `regions/` 가 아니라 여기에 둔다.
 
 **주의: `*/index.html` · `sitemap.xml` · `robots.txt` 를 직접 고치지 말 것.**
 다음 빌드가 덮어쓴다. 고칠 곳은 `templates/`(전 지역) 아니면 `regions/`(그 지역만)다.

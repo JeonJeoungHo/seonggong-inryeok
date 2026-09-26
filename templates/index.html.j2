@@ -35,13 +35,12 @@
             </a>
         </div>
 
-        {% if region.rates_verified %}
-        <p style="text-align:center;margin-top:1.5rem;">
-            <a href="{{ link('rates') }}" style="color:#1e3c72;font-weight:bold;">
-                직종별 일당 시세 보기 →
-            </a>
+        <p class="sub-links">
+            {% if region.rates_verified %}
+            <a href="{{ link('rates') }}">직종별 일당 시세 →</a>
+            {% endif %}
+            <a href="{{ link('roles') }}">건설 직종 안내 →</a>
         </p>
-        {% endif %}
     </div>
 </section>
 

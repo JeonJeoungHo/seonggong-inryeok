@@ -42,7 +42,11 @@ PAGES = [
     {'key': 'hire', 'template': 'hire.html.j2', 'path': 'hire/', 'priority': '0.9'},
     {'key': 'job', 'template': 'job.html.j2', 'path': 'job/', 'priority': '0.9'},
     {'key': 'rates', 'template': 'rates.html.j2', 'path': 'rates/', 'priority': '0.9'},
+    {'key': 'roles', 'template': 'roles.html.j2', 'path': 'roles/', 'priority': '0.8'},
 ]
+
+# 전 지역 공통 데이터 — 지역마다 다르지 않은 것은 regions/ 가 아니라 data/ 에 둔다.
+SHARED_DATA = {'roles': 'roles.json'}
 
 
 def load_json(path):
@@ -149,9 +153,21 @@ def make_link(page_path):
     return link
 
 
+def load_shared():
+    """data/ 의 공통 데이터. 템플릿에서 이름 그대로 쓴다(roles.json -> {{ roles }})."""
+    shared = {}
+    for key, filename in SHARED_DATA.items():
+        path = os.path.join(ROOT, 'data', filename)
+        if not os.path.isfile(path):
+            sys.exit('data/%s 가 없습니다.' % filename)
+        shared[key] = load_json(path)
+    return shared
+
+
 def main():
     site = load_json(os.path.join(ROOT, 'site.json'))
     regions = load_regions()
+    shared = load_shared()
 
     slugs = [r['slug'] for r in regions]
     if site['root_region'] not in slugs:
@@ -192,6 +208,7 @@ def main():
 
             html = env.get_template(page['template']).render(
                 site=site, region=region, page_url=page_url, is_root=is_root,
+                **shared,
                 page_key=page['key'],
                 asset=make_asset(depth),
                 link=make_link(page["path"]),
