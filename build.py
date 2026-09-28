@@ -43,6 +43,7 @@ PAGES = [
     {'key': 'job', 'template': 'job.html.j2', 'path': 'job/', 'priority': '0.9'},
     {'key': 'rates', 'template': 'rates.html.j2', 'path': 'rates/', 'priority': '0.9'},
     {'key': 'roles', 'template': 'roles.html.j2', 'path': 'roles/', 'priority': '0.8'},
+    {'key': 'guide', 'template': 'guide.html.j2', 'path': 'guide/', 'priority': '0.8'},
 ]
 
 # 전 지역 공통 데이터 — 지역마다 다르지 않은 것은 regions/ 가 아니라 data/ 에 둔다.
@@ -95,7 +96,13 @@ def build_jsonld(site, region, page_url):
             'addressRegion': region['address_region'],
             'addressCountry': 'KR',
         },
-        'areaServed': [{'@type': 'City', 'name': a} for a in region['cover_areas']],
+        # 시·군은 City, 파주 안 동네(운정·교하·문산)는 AdministrativeArea 로 같이 넣는다 —
+        # 사람들은 "운정 인력"처럼 동네 이름으로 찾는다.
+        'areaServed': (
+            [{'@type': 'City', 'name': a} for a in region['cover_areas']]
+            + [{'@type': 'AdministrativeArea', 'name': a}
+               for a in region.get('local_areas', [])]
+        ),
     }
     if region.get('office_name') and region['office_name'] != region['name']:
         data['alternateName'] = region['office_name']
