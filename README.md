@@ -29,6 +29,7 @@ templates/job.html.j2       구직 (인부)
 templates/rates.html.j2     직종별 일당 시세
 templates/roles.html.j2     건설 직종 안내
 templates/guide.html.j2     이용 방법
+templates/privacy.html.j2   개인정보 처리방침
 build.py                    빌드 스크립트
 make_assets.py              간판 -> 공유 이미지·파비콘
 
@@ -37,7 +38,7 @@ CNAME                       도메인 연결 (건드리지 말 것)
 naver*.html                 네이버 사이트 소유확인 (건드리지 말 것)
 ```
 
-한 지역이 페이지 여섯 장을 갖는다. 루트 지역은 도메인 바로 아래:
+한 지역이 페이지 일곱 장을 갖는다. 루트 지역은 도메인 바로 아래:
 
 ```
 루트 지역 (site.json의 root_region)      그 외 지역
@@ -47,6 +48,7 @@ naver*.html                 네이버 사이트 소유확인 (건드리지 말 �
 ./rates/index.html   일당 시세            ./<slug>/rates/index.html
 ./roles/index.html   직종 안내            ./<slug>/roles/index.html
 ./guide/index.html   이용 방법            ./<slug>/guide/index.html
+./privacy/index.html 개인정보 처리방침     ./<slug>/privacy/index.html
 ./sitemap.xml  ./robots.txt  ./favicon.ico  ./apple-touch-icon.png  ./assets/
 ```
 

@@ -44,6 +44,7 @@ PAGES = [
     {'key': 'rates', 'template': 'rates.html.j2', 'path': 'rates/', 'priority': '0.9'},
     {'key': 'roles', 'template': 'roles.html.j2', 'path': 'roles/', 'priority': '0.8'},
     {'key': 'guide', 'template': 'guide.html.j2', 'path': 'guide/', 'priority': '0.8'},
+    {'key': 'privacy', 'template': 'privacy.html.j2', 'path': 'privacy/', 'priority': '0.3'},
 ]
 
 # 전 지역 공통 데이터 — 지역마다 다르지 않은 것은 regions/ 가 아니라 data/ 에 둔다.

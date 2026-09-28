@@ -5,6 +5,9 @@
   "domain_ascii": "xn--ob0b55sqjhyvg.kr",
   "root_region": "paju",
   "google_site_verification": "2cqATSzhr9rRHPUWV-UYbBwdXkr9P5Lqoxg7iRDPo2U",
+
+  "_comment_ga": "구글 애널리틱스 측정 ID(2026-09-29 개설, barojangbi@gmail.com 계정). 비우면 측정 코드와 클릭 집계가 통째로 빠진다 — 개인정보 안내도 그에 맞춰 문장이 달라져야 하니 끌 때는 privacy 페이지도 같이 볼 것.",
+  "ga_measurement_id": "G-D3FF2KQZYC",
   "copyright_year": 2026,
 
   "_comment_logo": "파비콘은 간판 사진에서 로고 부분만 잘라 쓴다. crop = (left, top, right, bottom).",

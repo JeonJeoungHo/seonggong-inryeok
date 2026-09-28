@@ -1,0 +1,134 @@
+{% extends "_base.html.j2" %}
+
+{# 개인정보 처리방침.
+
+   두 가지 이유로 필요하다:
+   ① 구인·구직 신청서로 성함·연락처를 실제로 받고 있다. 직업소개사업자는
+      개인정보처리방침을 정하고 공개해야 한다.
+   ② 2026-09-29부터 구글 애널리틱스 쿠키를 쓴다.
+
+   ⚠️ 여기 적힌 것은 **사이트가 실제로 하는 일**이어야 한다. 폼 항목을 바꾸거나
+      측정을 끄면 이 페이지도 같이 고쳐야 한다. 지어낸 문장을 두면
+      방침과 실제가 어긋나고, 그게 더 나쁘다. #}
+
+{% set d = region.privacy %}
+
+{% block seo_title %}{{ d.seo.title }}{% endblock %}
+{% block seo_description %}{{ d.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ d.seo.keywords }}{% endblock %}
+{% block og_title %}{{ d.seo.og_title }}{% endblock %}
+{% block og_description %}{{ d.seo.og_description }}{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <div class="container">
+        <a href="{{ link('home') }}" class="brand">{{ region.name }}</a>
+        <a href="tel:{{ region.phones[0].number }}" class="home-link">📞 {{ region.phones[0].number }}</a>
+    </div>
+</div>
+
+<div class="page-head">
+    <div class="container">
+        <h1>개인정보 처리방침</h1>
+        <p>{{ region.name }}가 어떤 정보를 받아 어떻게 쓰는지 알려드립니다</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="policy">
+            <h2>1. 어떤 정보를 받나요</h2>
+            <p><strong>인력 요청서</strong>를 남기시면 — 성함, 연락처, 현장 주소 또는 지역,
+               필요한 날짜와 인원, 필요한 직종을 받습니다.
+               회사명, 제시 일당, 출근 시간, 현장 특이사항은 선택 사항입니다.</p>
+            <p><strong>구직 신청서</strong>를 남기시면 — 성함, 연락처, 하실 수 있는 일, 경력을 받습니다.
+               생년월일, 희망 근무지, 보유 자격증·기술은 선택 사항입니다.</p>
+            <p><strong>전화·카카오톡</strong>으로 상담하실 때에는 말씀해 주신 내용을 상담 기록으로 남깁니다.</p>
+            {% if site.ga_measurement_id %}
+            <p><strong>홈페이지 방문 기록</strong> — 어떤 페이지를 언제 보셨는지, 어떤 기기로
+               들어오셨는지, 어디를 거쳐 오셨는지를 구글 애널리틱스로 집계합니다.
+               이 과정에서 쿠키가 사용됩니다. 성함·연락처 같은 개인정보는 여기에 담기지 않습니다.</p>
+            {% endif %}
+
+            <h2>2. 무엇에 쓰나요</h2>
+            <p>받은 정보는 <strong>인력 연결과 그에 따른 상담</strong>에만 씁니다.
+               구인하시는 분께는 맞는 인력을 찾아 연결하고, 일자리를 찾으시는 분께는
+               맞는 현장이 생겼을 때 연락드리기 위해 사용합니다.</p>
+            {% if site.ga_measurement_id %}
+            <p>방문 기록은 홈페이지를 고치는 데에만 씁니다.</p>
+            {% endif %}
+
+            <h2>3. 다른 곳에 넘기나요</h2>
+            <p>인력을 배정할 때, 현장에서 필요한 범위에 한해
+               <strong>배정된 분의 성함과 연락처를 그 현장에 알려드립니다.</strong>
+               현장은 누가 오는지 알아야 출입과 안전 관리를 할 수 있기 때문입니다.
+               그 밖의 목적으로 다른 곳에 제공하거나 판매하지 않습니다.</p>
+            <p>법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우에는 그에 따릅니다.</p>
+
+            <h2>4. 맡겨서 처리하는 곳</h2>
+            <p>다음 서비스를 이용합니다.</p>
+            <ul>
+                <li><strong>Google (구글 설문지)</strong> — 온라인 신청서 접수·보관</li>
+                {% if site.ga_measurement_id %}
+                <li><strong>Google (구글 애널리틱스)</strong> — 홈페이지 방문 통계</li>
+                {% endif %}
+            </ul>
+
+            <h2>5. 얼마나 보관하나요</h2>
+            <p>상담과 인력 연결이라는 목적이 끝나면 지체 없이 파기합니다.
+               다만 관계 법령이 보관을 정한 경우에는 그 기간 동안 보관합니다.</p>
+
+            <h2>6. 원하시면 언제든 빼드립니다</h2>
+            <p>본인의 정보를 <strong>보여달라거나, 고쳐달라거나, 지워달라거나,
+               쓰지 말아달라고</strong> 요구하실 수 있습니다.
+               아래 연락처로 말씀해 주시면 확인 후 바로 처리해 드립니다.</p>
+            {% if site.ga_measurement_id %}
+            <p>방문 기록 집계를 원하지 않으시면 브라우저 설정에서 쿠키를 차단하시거나,
+               구글이 제공하는
+               <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">구글 애널리틱스 차단 도구</a>를
+               설치하시면 됩니다. 차단하셔도 홈페이지 이용에는 아무 지장이 없습니다.</p>
+            {% endif %}
+
+            <h2>7. 문의처</h2>
+            <p>
+                <strong>{{ region.name }}</strong><br>
+                {% if region.owner_name %}개인정보 보호책임자 — 대표 {{ region.owner_name }}<br>{% endif %}
+                {{ region.address }}<br>
+                {% for p in region.phones %}{{ p.label }} <a href="tel:{{ p.number }}">{{ p.number }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+                {% if region.license_number %}<br>직업소개사업 등록번호 {{ region.license_number }}{% endif %}
+            </p>
+
+            {% if d.effective_date %}
+            <p class="policy-date">시행일 · {{ d.effective_date }}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+        .policy { max-width: 760px; margin: 0 auto; }
+
+        .policy h2 {
+            text-align: left;
+            font-size: 1.15rem;
+            color: #1e3c72;
+            margin: 2.2rem 0 .7rem;
+            padding-bottom: .4rem;
+            border-bottom: 2px solid #e9ecf2;
+        }
+
+        .policy h2:first-child { margin-top: 0; }
+        .policy p { color: #444; margin-bottom: .7rem; }
+        .policy ul { margin: 0 0 .7rem 1.2rem; color: #444; }
+        .policy li { margin-bottom: .3rem; }
+        .policy a { color: #1e3c72; }
+
+        .policy-date {
+            margin-top: 2.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecf2;
+            color: #8a8f98;
+            font-size: .9rem;
+        }
+{% endblock %}

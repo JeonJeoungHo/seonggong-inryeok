@@ -87,6 +87,15 @@
 }
     </script>
 
+    <!-- Google 애널리틱스 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3FF2KQZYC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', "G-D3FF2KQZYC");
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         /* word-break: keep-all — 한글은 이게 없으면 단어 한가운데서 줄이 끊긴다
@@ -545,6 +554,9 @@
         <p>경기도 파주시 교하로 427, 203호</p>
         <p>대표 010-7519-1039 | 실장 010-7514-1029</p>
         <p style="opacity:.85;">직업소개사업 등록번호 제 2026-4060552-14-5-00001호</p>
+        <p style="margin-top:.8rem;">
+            <a href="privacy/">개인정보 처리방침</a>
+        </p>
         <p style="opacity:.8;margin-top:.5rem;">© 2026 성공인력</p>
     </div>
 </footer>
@@ -559,6 +571,35 @@
     <a href="https://open.kakao.com/o/sUcwbSci" class="bar-kakao" target="_blank">💬 카톡문의</a>
     <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="bar-apply" target="_blank">🏢 인력요청</a>
 </nav>
+
+<script>
+(function () {
+  // 전화·카톡·신청서 클릭을 센다.
+  //
+  // ⚠️ tel: 링크는 GA4의 '이탈 클릭'(향상된 측정)에 잡히지 않는다 — http(s) 링크가
+  //    아니기 때문이다. 그런데 이 사이트에서 제일 중요한 행동이 바로 전화 걸기다.
+  //    그래서 직접 보낸다. 이게 없으면 "전화가 몇 번 눌렸나"를 영영 알 수 없다.
+  var HIRE_FORM = "https://forms.gle/wasDzDtYAGTqMEBWA";
+  var JOB_FORM = "https://forms.gle/2xPHvcLkvEBN4cFs6";
+  var PAGE = "home";
+
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a || typeof gtag !== 'function') return;
+    var href = a.getAttribute('href') || '';
+
+    if (href.indexOf('tel:') === 0) {
+      gtag('event', 'call_click', { page_key: PAGE, phone_number: href.slice(4) });
+    } else if (href.indexOf('open.kakao.com') > -1) {
+      gtag('event', 'kakao_click', { page_key: PAGE });
+    } else if (href === HIRE_FORM) {
+      gtag('event', 'apply_click', { page_key: PAGE, apply_type: 'hire' });
+    } else if (href === JOB_FORM) {
+      gtag('event', 'apply_click', { page_key: PAGE, apply_type: 'job' });
+    }
+  }, true);
+})();
+</script>
 
 </body>
 </html>

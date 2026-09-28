@@ -1,64 +1,100 @@
-{#
-  전 지역·전 페이지 공통 껍데기.
-
-  여기를 고치면 모든 지역의 모든 페이지가 같이 고쳐진다.
-  페이지별로 다른 것만 아래 블록으로 넘긴다:
-
-      seo_title / seo_description / seo_keywords / og_title / og_description
-      extra_css   <- **style 태그 없이 CSS 규칙만.** 여기는 이미 <style> 안이다.
-      content
-
-  ⚠️ 자식 템플릿에서 블록 바깥에 쓴 것은 렌더링되지 않는다. 전부 블록 안에 넣을 것.
-#}<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block seo_title %}{{ region.seo.title }}{% endblock %}</title>
+    <title>개인정보 처리방침 | 성공인력</title>
 
     <!-- SEO 기본 -->
-    <meta name="description" content="{% block seo_description %}{{ region.seo.description }}{% endblock %}">
-    <meta name="keywords" content="{% block seo_keywords %}{{ region.seo.keywords }}{% endblock %}">
-    <meta name="author" content="{{ region.name }}">
+    <meta name="description" content="성공인력이 인력 요청서·구직 신청서와 홈페이지 방문 기록으로 어떤 정보를 받아 어떻게 쓰는지 안내합니다.">
+    <meta name="keywords" content="성공인력 개인정보 처리방침">
+    <meta name="author" content="성공인력">
     <meta name="robots" content="index, follow">
 
     <!-- 네이버 / 구글 -->
-    <meta name="google-site-verification" content="{{ site.google_site_verification }}">
+    <meta name="google-site-verification" content="2cqATSzhr9rRHPUWV-UYbBwdXkr9P5Lqoxg7iRDPo2U">
 
     <!-- 아이콘 -->
-    <link rel="icon" href="{{ asset('/favicon.ico') }}" sizes="any">
-    <link rel="apple-touch-icon" href="{{ asset('/apple-touch-icon.png') }}">
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 
     <!-- Open Graph — 카톡으로 링크를 보냈을 때 뜨는 카드 -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{% block og_title %}{{ region.seo.og_title }}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{{ region.seo.og_description }}{% endblock %}">
-    <meta property="og:url" content="{{ page_url }}">
-    <meta property="og:site_name" content="{{ site.brand }}">
-    {% if region.og_image %}
-    <meta property="og:image" content="{{ ascii_base }}{{ region.og_image }}">
+    <meta property="og:title" content="개인정보 처리방침 - 성공인력">
+    <meta property="og:description" content="어떤 정보를 받아 어떻게 쓰는지 알려드립니다.">
+    <meta property="og:url" content="https://성공인력.kr/privacy/">
+    <meta property="og:site_name" content="성공인력">
+    <meta property="og:image" content="https://xn--ob0b55sqjhyvg.kr/assets/og-paju.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    {% endif %}
 
-    <link rel="canonical" href="{{ page_url }}">
+    <link rel="canonical" href="https://성공인력.kr/privacy/">
 
     <script type="application/ld+json">
-{{ jsonld | safe }}
+{
+  "@context": "https://schema.org",
+  "@type": "EmploymentAgency",
+  "name": "성공인력",
+  "description": "성공인력은 파주 인력 전문 직업소개소입니다. 파주인력·파주인력사무소·파주일자리 상담 가능. 당일·단기·현장·식당·물류 인력 연결",
+  "url": "https://성공인력.kr/",
+  "telephone": "010-7519-1039",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "경기도 파주시 교하로 427, 203호",
+    "addressLocality": "파주시",
+    "addressRegion": "경기도",
+    "addressCountry": "KR"
+  },
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "파주시"
+    },
+    {
+      "@type": "City",
+      "name": "고양시"
+    },
+    {
+      "@type": "City",
+      "name": "김포시"
+    },
+    {
+      "@type": "City",
+      "name": "연천군"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "운정"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "교하"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "문산"
+    }
+  ],
+  "alternateName": "파주성공인력",
+  "image": "https://xn--ob0b55sqjhyvg.kr/assets/og-paju.jpg",
+  "foundingDate": "2026-01-15",
+  "sameAs": [
+    "https://map.naver.com/p/entry/place/2008705453?c=15.00,0,0,0,dh\u0026placePath=/home?from=map\u0026fromPanelNum=1\u0026additionalHeight=76\u0026timestamp=202601250525\u0026locale=ko\u0026svcName=map_pcv5",
+    "https://blog.naver.com/seonggongjob"
+  ]
+}
     </script>
 
-    {% if site.ga_measurement_id %}
     <!-- Google 애널리틱스 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_measurement_id }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3FF2KQZYC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', {{ site.ga_measurement_id | tojson }});
+      gtag('config', "G-D3FF2KQZYC");
     </script>
-    {% endif %}
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -327,50 +363,132 @@
             h2 { font-size: 1.6rem; }
         }
 
-{% block extra_css %}{% endblock %}
+        .policy { max-width: 760px; margin: 0 auto; }
+
+        .policy h2 {
+            text-align: left;
+            font-size: 1.15rem;
+            color: #1e3c72;
+            margin: 2.2rem 0 .7rem;
+            padding-bottom: .4rem;
+            border-bottom: 2px solid #e9ecf2;
+        }
+
+        .policy h2:first-child { margin-top: 0; }
+        .policy p { color: #444; margin-bottom: .7rem; }
+        .policy ul { margin: 0 0 .7rem 1.2rem; color: #444; }
+        .policy li { margin-bottom: .3rem; }
+        .policy a { color: #1e3c72; }
+
+        .policy-date {
+            margin-top: 2.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecf2;
+            color: #8a8f98;
+            font-size: .9rem;
+        }
     </style>
 </head>
 
 <body itemscope itemtype="http://schema.org/LocalBusiness">
 
-{% block content %}{% endblock %}
+<div class="topbar">
+    <div class="container">
+        <a href="../" class="brand">성공인력</a>
+        <a href="tel:010-7519-1039" class="home-link">📞 010-7519-1039</a>
+    </div>
+</div>
+
+<div class="page-head">
+    <div class="container">
+        <h1>개인정보 처리방침</h1>
+        <p>성공인력가 어떤 정보를 받아 어떻게 쓰는지 알려드립니다</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="policy">
+            <h2>1. 어떤 정보를 받나요</h2>
+            <p><strong>인력 요청서</strong>를 남기시면 — 성함, 연락처, 현장 주소 또는 지역,
+               필요한 날짜와 인원, 필요한 직종을 받습니다.
+               회사명, 제시 일당, 출근 시간, 현장 특이사항은 선택 사항입니다.</p>
+            <p><strong>구직 신청서</strong>를 남기시면 — 성함, 연락처, 하실 수 있는 일, 경력을 받습니다.
+               생년월일, 희망 근무지, 보유 자격증·기술은 선택 사항입니다.</p>
+            <p><strong>전화·카카오톡</strong>으로 상담하실 때에는 말씀해 주신 내용을 상담 기록으로 남깁니다.</p>
+            <p><strong>홈페이지 방문 기록</strong> — 어떤 페이지를 언제 보셨는지, 어떤 기기로
+               들어오셨는지, 어디를 거쳐 오셨는지를 구글 애널리틱스로 집계합니다.
+               이 과정에서 쿠키가 사용됩니다. 성함·연락처 같은 개인정보는 여기에 담기지 않습니다.</p>
+
+            <h2>2. 무엇에 쓰나요</h2>
+            <p>받은 정보는 <strong>인력 연결과 그에 따른 상담</strong>에만 씁니다.
+               구인하시는 분께는 맞는 인력을 찾아 연결하고, 일자리를 찾으시는 분께는
+               맞는 현장이 생겼을 때 연락드리기 위해 사용합니다.</p>
+            <p>방문 기록은 홈페이지를 고치는 데에만 씁니다.</p>
+
+            <h2>3. 다른 곳에 넘기나요</h2>
+            <p>인력을 배정할 때, 현장에서 필요한 범위에 한해
+               <strong>배정된 분의 성함과 연락처를 그 현장에 알려드립니다.</strong>
+               현장은 누가 오는지 알아야 출입과 안전 관리를 할 수 있기 때문입니다.
+               그 밖의 목적으로 다른 곳에 제공하거나 판매하지 않습니다.</p>
+            <p>법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우에는 그에 따릅니다.</p>
+
+            <h2>4. 맡겨서 처리하는 곳</h2>
+            <p>다음 서비스를 이용합니다.</p>
+            <ul>
+                <li><strong>Google (구글 설문지)</strong> — 온라인 신청서 접수·보관</li>
+                <li><strong>Google (구글 애널리틱스)</strong> — 홈페이지 방문 통계</li>
+            </ul>
+
+            <h2>5. 얼마나 보관하나요</h2>
+            <p>상담과 인력 연결이라는 목적이 끝나면 지체 없이 파기합니다.
+               다만 관계 법령이 보관을 정한 경우에는 그 기간 동안 보관합니다.</p>
+
+            <h2>6. 원하시면 언제든 빼드립니다</h2>
+            <p>본인의 정보를 <strong>보여달라거나, 고쳐달라거나, 지워달라거나,
+               쓰지 말아달라고</strong> 요구하실 수 있습니다.
+               아래 연락처로 말씀해 주시면 확인 후 바로 처리해 드립니다.</p>
+            <p>방문 기록 집계를 원하지 않으시면 브라우저 설정에서 쿠키를 차단하시거나,
+               구글이 제공하는
+               <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">구글 애널리틱스 차단 도구</a>를
+               설치하시면 됩니다. 차단하셔도 홈페이지 이용에는 아무 지장이 없습니다.</p>
+
+            <h2>7. 문의처</h2>
+            <p>
+                <strong>성공인력</strong><br>
+개인정보 보호책임자 — 대표 이해숙<br>                경기도 파주시 교하로 427, 203호<br>
+대표 <a href="tel:010-7519-1039">010-7519-1039</a> · 실장 <a href="tel:010-7514-1029">010-7514-1029</a><br>직업소개사업 등록번호 제 2026-4060552-14-5-00001호            </p>
+
+            <p class="policy-date">시행일 · 2026년 9월 29일</p>
+        </div>
+    </div>
+</section>
 
 <footer>
     <div class="container">
-        <p><strong>{{ region.name }}</strong></p>
-        {% if region.owner_name %}
-        <p>대표 {{ region.owner_name }}</p>
-        {% endif %}
-        <p>{{ region.address }}</p>
-        <p>{% for p in region.phones %}{{ p.label }} {{ p.number }}{% if not loop.last %} | {% endif %}{% endfor %}</p>
-        {# 직업소개사업 등록번호 — 사업소 단위로 받는 번호라 지역마다 자기 것을 쓴다. #}
-        {% if region.license_number %}
-        <p style="opacity:.85;">직업소개사업 등록번호 {{ region.license_number }}</p>
-        {% endif %}
+        <p><strong>성공인력</strong></p>
+        <p>대표 이해숙</p>
+        <p>경기도 파주시 교하로 427, 203호</p>
+        <p>대표 010-7519-1039 | 실장 010-7514-1029</p>
+        <p style="opacity:.85;">직업소개사업 등록번호 제 2026-4060552-14-5-00001호</p>
         <p style="margin-top:.8rem;">
-            {% if page_key != 'home' %}<a href="{{ link('home') }}">홈으로</a> · {% endif %}
-            <a href="{{ link('privacy') }}">개인정보 처리방침</a>
+<a href="../">홈으로</a> ·             <a href="../privacy/">개인정보 처리방침</a>
         </p>
-        <p style="opacity:.8;margin-top:.5rem;">© {{ site.copyright_year }} {{ region.name }}</p>
+        <p style="opacity:.8;margin-top:.5rem;">© 2026 성공인력</p>
     </div>
 </footer>
 
 <div class="floating-buttons">
-    <a href="tel:{{ region.phones[0].number }}" class="floating-btn phone">📞</a>
-    <a href="{{ region.kakao_open_chat }}" class="floating-btn kakao" target="_blank">💬</a>
+    <a href="tel:010-7519-1039" class="floating-btn phone">📞</a>
+    <a href="https://open.kakao.com/o/sUcwbSci" class="floating-btn kakao" target="_blank">💬</a>
 </div>
 
 <nav class="bottom-bar">
-    <a href="tel:{{ region.phones[0].number }}" class="bar-call">📞 전화상담</a>
-    <a href="{{ region.kakao_open_chat }}" class="bar-kakao" target="_blank">💬 카톡문의</a>
-    {% if page_key == 'job' %}
-    <a href="{{ region.apply_links.job_seeker }}" class="bar-apply" target="_blank">👤 구직신청</a>
-    {% else %}
-    <a href="{{ region.apply_links.employer }}" class="bar-apply" target="_blank">🏢 인력요청</a>
-    {% endif %}
+    <a href="tel:010-7519-1039" class="bar-call">📞 전화상담</a>
+    <a href="https://open.kakao.com/o/sUcwbSci" class="bar-kakao" target="_blank">💬 카톡문의</a>
+    <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="bar-apply" target="_blank">🏢 인력요청</a>
 </nav>
 
-{% if site.ga_measurement_id %}
 <script>
 (function () {
   // 전화·카톡·신청서 클릭을 센다.
@@ -378,9 +496,9 @@
   // ⚠️ tel: 링크는 GA4의 '이탈 클릭'(향상된 측정)에 잡히지 않는다 — http(s) 링크가
   //    아니기 때문이다. 그런데 이 사이트에서 제일 중요한 행동이 바로 전화 걸기다.
   //    그래서 직접 보낸다. 이게 없으면 "전화가 몇 번 눌렸나"를 영영 알 수 없다.
-  var HIRE_FORM = {{ region.apply_links.employer | tojson }};
-  var JOB_FORM = {{ region.apply_links.job_seeker | tojson }};
-  var PAGE = {{ page_key | tojson }};
+  var HIRE_FORM = "https://forms.gle/wasDzDtYAGTqMEBWA";
+  var JOB_FORM = "https://forms.gle/2xPHvcLkvEBN4cFs6";
+  var PAGE = "privacy";
 
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a') : null;
@@ -399,7 +517,6 @@
   }, true);
 })();
 </script>
-{% endif %}
 
 </body>
 </html>
