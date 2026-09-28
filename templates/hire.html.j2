@@ -41,7 +41,7 @@
         <p class="note">
             커버 지역 — {{ region.cover_areas | join(' · ') }}
             {% if region.local_areas %}
-            <br>파주 안은 {{ region.local_areas | join(' · ') }} 등 전 지역으로 나갑니다.
+            <br>{{ region.local_areas | join(' · ') }} 등 가까운 현장은 어디든 나갑니다.
             {% endif %}
         </p>
     </div>
