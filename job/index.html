@@ -100,80 +100,130 @@
       gtag('config', "G-D3FF2KQZYC");
     </script>
 
+    <!-- 본문 글꼴 — Pretendard. 한글 굵기 표현이 맑은 고딕보다 훨씬 또렷하다.
+         dynamic-subset 이라 그 페이지에 실제로 쓰인 글자만 내려받는다(가볍다).
+         못 받아오면 아래 font-family 의 시스템 글꼴로 자연스럽게 내려간다. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
     <style>
+        /* 색·모양 한 벌 — 값을 여기서만 바꾸면 전 페이지가 같이 바뀐다.
+           색을 규칙 안에 직접 적어 넣지 말 것. */
+        :root {
+            --navy: #1e3c72;
+            --navy-deep: #17305c;
+            --amber: #f5a623;
+            --green: #17a34a;
+            --ink: #22272f;
+            --ink-soft: #5b6472;
+            --line: #e7ebf2;
+            --tint: #f6f8fc;
+            --radius: 14px;
+            --shadow: 0 2px 10px rgba(17,24,39,.06);
+            --shadow-up: 0 10px 26px rgba(17,24,39,.12);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         /* word-break: keep-all — 한글은 이게 없으면 단어 한가운데서 줄이 끊긴다
            ("연천군"의 '군'만 다음 줄로 넘어가는 식). 읽는 속도가 눈에 띄게 달라진다. */
         body {
-            font-family: 'Malgun Gothic', sans-serif;
-            line-height: 1.6;
-            color: #333;
+            font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+                         system-ui, 'Malgun Gothic', sans-serif;
+            line-height: 1.65;
+            color: var(--ink);
             word-break: keep-all;
+            -webkit-font-smoothing: antialiased;
+            background: #fff;
         }
 
         header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 2rem 0;
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color: #fff;
+            padding: 2.2rem 0 2.6rem;
             text-align: center;
         }
 
-        header h1 { font-size: 2.5rem; margin-bottom: .5rem; }
-        header p { font-size: 1.1rem; opacity: .95; }
+        /* 간판 사진 — 사업자의 실물 증거라 빼지 않는다. 다만 액자처럼 두어
+           "현수막을 그대로 붙인" 인상은 덜어낸다. */
+        header img { border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header h1 { font-size: 2.1rem; letter-spacing: -.02em; margin-bottom: .45rem; }
+        header p { font-size: 1.05rem; opacity: .92; }
 
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+        /* 상담 안내 — 노란 박스 대신 흰 카드에 앰버 한 줄 */
         .emergency-contact {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 1.5rem;
-            margin: 2rem 0;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--amber);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem 1.4rem;
+            margin: 2.2rem 0;
             text-align: center;
         }
 
-        .phone-numbers {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
+        .phone-numbers { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
         .phone-number {
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,.1);
+            background: var(--tint);
+            border: 1px solid var(--line);
+            padding: .9rem 1.6rem;
+            border-radius: 12px;
+            min-width: 190px;
         }
+
+        .phone-number strong { color: var(--ink-soft); font-size: .92rem; font-weight: 600; }
 
         .phone-number a {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #1e3c72;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--navy);
             text-decoration: none;
+            letter-spacing: -.01em;
         }
 
-        section { padding: 3rem 0; }
-        h2 { text-align: center; font-size: 2rem; margin-bottom: 2rem; color: #1e3c72; }
+        section { padding: 3.2rem 0; }
+
+        h2 {
+            text-align: center;
+            font-size: 1.65rem;
+            letter-spacing: -.02em;
+            margin-bottom: 1.8rem;
+            color: var(--navy);
+        }
 
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+            gap: 1.1rem;
         }
 
         .service-card {
             background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
+            border: 1px solid var(--line);
+            padding: 1.7rem 1.2rem;
+            border-radius: var(--radius);
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,.1);
+            box-shadow: var(--shadow);
+            transition: transform .2s ease, box-shadow .2s ease;
         }
 
+        .service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-up); }
+        .service-card .icon { font-size: 1.9rem; line-height: 1; margin-bottom: .6rem; }
+        .service-card h3 { font-size: 1.05rem; color: var(--navy); margin-bottom: .3rem; }
+        .service-card p { color: var(--ink-soft); font-size: .94rem; }
+
         footer {
-            background: #1e3c72;
-            color: white;
+            background: var(--navy-deep);
+            color: #fff;
             text-align: center;
-            padding: 2rem 0;
+            padding: 2.4rem 0;
+            font-size: .95rem;
+            line-height: 1.9;
         }
 
         footer a { color: #ffd98a; }
@@ -184,32 +234,32 @@
             right: 25px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             z-index: 1000;
         }
 
         .floating-btn {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: white;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,.3);
-            transition: transform 0.3s ease;
+            box-shadow: 0 6px 16px rgba(0,0,0,.22);
+            transition: transform .2s ease;
         }
 
-        .floating-btn:hover { transform: scale(1.1); }
+        .floating-btn:hover { transform: scale(1.08); }
 
-        .phone { background: #28a745; }
+        .phone { background: var(--green); }
         .kakao { background: #FEE500; color: #3C1E1E; }
 
         /* ── 상단 바 (홈이 아닌 페이지) ───────────────────────── */
         .topbar {
-            background: #1e3c72;
+            background: var(--navy-deep);
             color: #fff;
             padding: .9rem 0;
         }
@@ -237,35 +287,35 @@
 
         .fork-card {
             display: block;
-            border-radius: 14px;
-            padding: 1.8rem 1.4rem;
+            border-radius: var(--radius);
+            padding: 1.9rem 1.4rem;
             text-decoration: none;
             text-align: center;
-            box-shadow: 0 6px 18px rgba(0,0,0,.12);
+            box-shadow: var(--shadow);
             transition: transform .2s ease, box-shadow .2s ease;
         }
 
-        .fork-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
+        .fork-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-up); }
 
         .fork-card .fork-icon { font-size: 2.4rem; display: block; margin-bottom: .6rem; }
         .fork-card .fork-title { font-size: 1.3rem; font-weight: bold; display: block; margin-bottom: .35rem; }
         .fork-card .fork-sub { font-size: .95rem; opacity: .92; display: block; }
 
-        .fork-hire { background: linear-gradient(135deg, #1B3A6B 0%, #2a5298 100%); color: #fff; }
-        .fork-job { background: linear-gradient(135deg, #F5A623 0%, #f7b955 100%); color: #3a2a05; }
+        .fork-hire { background: linear-gradient(150deg, var(--navy) 0%, var(--navy-deep) 100%); color: #fff; }
+        .fork-job { background: linear-gradient(150deg, var(--amber) 0%, #ffc561 100%); color: #3a2a05; }
 
         /* ── 큰 전화 버튼 ───────────────────────────────────── */
         .call-cta {
             display: block;
-            background: #28a745;
+            background: var(--green);
             color: #fff;
             text-align: center;
             text-decoration: none;
             font-size: 1.35rem;
             font-weight: bold;
             padding: 1.1rem 1rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 14px rgba(40,167,69,.35);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px rgba(23,163,74,.30);
             margin: 0 auto 1rem;
             max-width: 520px;
         }
@@ -274,9 +324,9 @@
 
         /* ── 페이지 머리 ────────────────────────────────────── */
         .page-head {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
             color: #fff;
-            padding: 2.6rem 0;
+            padding: 2.8rem 0;
             text-align: center;
         }
 
@@ -287,32 +337,33 @@
         .info-list { max-width: 760px; margin: 0 auto; list-style: none; }
 
         .info-list li {
-            background: #f9fafc;
-            border-radius: 12px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
             padding: 1.1rem 1.3rem;
             margin-bottom: .8rem;
-            box-shadow: 0 4px 14px rgba(0,0,0,.05);
+            box-shadow: var(--shadow);
         }
 
-        .info-list li strong { display: block; color: #1e3c72; margin-bottom: .2rem; }
+        .info-list li strong { display: block; color: var(--navy); margin-bottom: .2rem; }
 
         .faq { max-width: 760px; margin: 0 auto; }
 
         .faq-item {
-            border-bottom: 1px solid #e5e8ee;
+            border-bottom: 1px solid var(--line);
             padding: 1.1rem .3rem;
         }
 
         .faq-item:last-child { border-bottom: none; }
-        .faq-q { font-weight: bold; color: #1e3c72; margin-bottom: .35rem; }
+        .faq-q { font-weight: bold; color: var(--navy); margin-bottom: .35rem; }
         .faq-a { color: #555; }
 
         .note {
             max-width: 760px;
             margin: 1.2rem auto 0;
             text-align: center;
-            color: #777;
-            font-size: .92rem;
+            color: var(--ink-soft);
+            font-size: .93rem;
         }
 
         /* 본문 아래로 이어지는 링크 줄 — 좁은 화면에서는 한 줄씩 내려간다 */
@@ -324,7 +375,7 @@
             margin-top: 1.5rem;
         }
 
-        .sub-links a { color: #1e3c72; font-weight: bold; text-decoration: none; }
+        .sub-links a { color: var(--navy); font-weight: bold; text-decoration: none; }
         .sub-links a:hover { text-decoration: underline; }
 
         /* ── 하단 고정 바 (모바일) ──────────────────────────────
@@ -355,16 +406,31 @@
                 line-height: 1.3;
             }
 
-            .bottom-bar .bar-call { background: #28a745; color: #fff; }
+            .bottom-bar .bar-call { background: var(--green); color: #fff; }
             .bottom-bar .bar-kakao { background: #FEE500; color: #3C1E1E; }
-            .bottom-bar .bar-apply { background: #1e3c72; color: #fff; }
+            .bottom-bar .bar-apply { background: var(--navy-deep); color: #fff; }
 
             body { padding-bottom: 56px; }
 
-            .fork-grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 2rem; }
-            .page-head h1 { font-size: 1.5rem; }
-            h2 { font-size: 1.6rem; }
+            /* 첫 화면 밀도 — 휴대폰에서는 간판·제목이 화면을 다 먹어 전화 버튼이
+               아래로 밀린다. 제일 중요한 버튼이 스크롤 없이 보이도록 조인다. */
+            header { padding: 1.4rem 0 1.8rem; }
+            header h1 { font-size: 1.75rem; margin-bottom: .3rem; }
+            header p { font-size: .97rem; }
+
+            section { padding: 2.4rem 0; }
+            h2 { font-size: 1.4rem; margin-bottom: 1.3rem; }
+
+            .fork-grid { grid-template-columns: 1fr; gap: .8rem; }
+            .fork-card { padding: 1.25rem 1rem; }
+            .fork-card .fork-icon { font-size: 1.9rem; margin-bottom: .35rem; }
+            .fork-card .fork-title { font-size: 1.2rem; }
+
+            .emergency-contact { padding: 1.4rem 1rem; margin: 1.6rem 0; }
+            .phone-number { min-width: 0; width: 100%; padding: .8rem 1rem; }
+
+            .page-head { padding: 2rem 0; }
+            .page-head h1 { font-size: 1.45rem; }
         }
 
     </style>
