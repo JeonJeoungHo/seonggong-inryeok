@@ -27,11 +27,30 @@
 <div class="page-head">
     <div class="container">
         <h1>{{ d.name }} 앱 설치하기</h1>
-        <p>출근체크와 확인서를 휴대폰으로</p>
+        <p>{{ d.tagline }}</p>
     </div>
 </div>
 
+{% if d.get('audiences') %}
 <section>
+    <div class="container">
+        <h2>누가 쓰나요</h2>
+        <ul class="info-list">
+            {% for a in d.audiences %}
+            <li>
+                <strong>{{ a.icon }} {{ a.who }}</strong>
+                {{ a.what }}
+            </li>
+            {% endfor %}
+        </ul>
+        <p class="note">
+            세 분이 같은 앱을 쓰지만, 로그인하시면 <strong>각자에게 필요한 화면만</strong> 보입니다.
+        </p>
+    </div>
+</section>
+{% endif %}
+
+<section{% if d.get('audiences') %} style="background:#f8f9fa;"{% endif %}>
     <div class="container">
         <p class="note" style="font-size:1.02rem;color:var(--ink);">{{ d.what }}</p>
 

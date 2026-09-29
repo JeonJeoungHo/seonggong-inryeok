@@ -433,6 +433,58 @@
             .page-head h1 { font-size: 1.45rem; }
         }
 
+        /* 바로일감 안내 띠 — 갈림길 아래. 구인·구직 카드보다 조용해야 한다.
+           여기가 시끄러우면 처음 오신 분이 전화 걸기까지의 거리가 멀어진다. */
+        .app-band {
+            display: block;
+            max-width: 760px;
+            margin: 1.8rem auto 0;
+            padding: 1.4rem 1.5rem;
+            background: var(--tint);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .app-band:hover { border-color: #c8d3e6; box-shadow: var(--shadow); }
+
+        .app-band-head {
+            display: block;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin-bottom: .15rem;
+        }
+
+        .app-band-sub {
+            display: block;
+            font-size: .95rem;
+            color: var(--navy);
+            opacity: .8;
+            margin-bottom: .5rem;
+        }
+
+        .app-band-body {
+            display: block;
+            font-size: .93rem;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+
+        .app-band-more {
+            display: block;
+            margin-top: .6rem;
+            font-size: .93rem;
+            font-weight: bold;
+            color: var(--navy);
+        }
+
+        @media (max-width: 768px) {
+            .app-band { padding: 1.15rem 1.1rem; margin-top: 1.4rem; }
+            .app-band-head { font-size: 1.05rem; }
+        }
+
         /* 왜 성공인력인가요 — 홈에서만 쓴다 */
         .why-success { padding: 100px 20px; background: #ffffff; }
         .why-inner { max-width: 1100px; margin: 0 auto; }
@@ -503,7 +555,15 @@
             <a href="guide/">처음이신가요? 이용 방법 →</a>
             <a href="rates/">직종별 일당 시세 →</a>
             <a href="roles/">건설 직종 안내 →</a>
+            <a href="app/">바로일감 앱 →</a>
         </p>
+
+        <a href="app/" class="app-band">
+            <span class="app-band-head">📱 바로일감</span>
+            <span class="app-band-sub">인력사무소 · 현장소장 · 일하시는 분 모두 한 곳에서</span>
+            <span class="app-band-body">사무소는 인력 배치와 확인서를, 현장은 출근체크와 노무비 서류를, 일하시는 분은 일감 연락과 급여 내역을 — 휴대폰 하나로 봅니다.</span>
+            <span class="app-band-more">알아보기 →</span>
+        </a>
     </div>
 </section>
 
