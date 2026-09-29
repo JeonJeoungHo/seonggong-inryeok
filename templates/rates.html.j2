@@ -31,7 +31,7 @@
     </div>
 </div>
 
-{% if region.rates_verified %}
+{% if region.get('rates_verified') %}
 <section>
     <div class="container">
         <div class="rate-table">
@@ -39,18 +39,18 @@
             <div class="rate-row">
                 <div class="rate-name">
                     {{ r.role }}
-                    {% if r.alias %}<span class="rate-alias">{{ r.alias }}</span>{% endif %}
+                    {% if r.get('alias') %}<span class="rate-alias">{{ r.alias }}</span>{% endif %}
                 </div>
                 <div class="rate-price">
                     {{ '{:,}'.format(r.low) }}원 ~ {{ '{:,}'.format(r.high) }}원
-                    {% if r.source %}<span class="rate-source">{{ r.source }}</span>{% endif %}
+                    {% if r.get('source') %}<span class="rate-source">{{ r.source }}</span>{% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
 
         <p class="note">
-            {% if region.rates_updated %}{{ region.rates_updated }} 기준 · {% endif %}
+            {% if region.get('rates_updated') %}{{ region.rates_updated }} 기준 · {% endif %}
             1인 1일 기준입니다.<br>
             현장 조건(층수 · 자재 운반 · 작업 강도 · 작업 기간)에 따라 달라지므로,
             정확한 금액은 현장 이야기를 듣고 안내해 드립니다.

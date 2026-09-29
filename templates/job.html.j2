@@ -36,7 +36,7 @@
 
         <p class="note">
             나가시는 현장 — {{ region.cover_areas | join(' · ') }}
-            {% if region.local_areas %}
+            {% if region.get('local_areas') %}
             <br>{{ region.local_areas | join(' · ') }} 등 가까운 현장으로 나가십니다.
             {% endif %}
         </p>
@@ -46,7 +46,7 @@
     </div>
 </section>
 
-{% if d.required_docs %}
+{% if d.get('required_docs') %}
 <section style="background:#f8f9fa;">
     <div class="container">
         <h2>준비하실 것</h2>
@@ -63,12 +63,12 @@
 </section>
 {% endif %}
 
-{% if d.pay_timing %}
+{% if d.get('pay_timing') %}
 <section>
     <div class="container">
         <h2>일당은 언제 받나요</h2>
         <p class="note" style="font-size:1.05rem;color:#333;">{{ d.pay_timing }}</p>
-        {% if region.rates_verified %}
+        {% if region.get('rates_verified') %}
         <p style="text-align:center;margin-top:1.2rem;">
             <a href="{{ link('rates') }}" style="color:#1e3c72;font-weight:bold;">
                 직종별 일당 시세 보기 →
@@ -79,7 +79,23 @@
 </section>
 {% endif %}
 
-{% if d.faq %}
+{% if region.get('worker_app') %}
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>📱 일 나가시면</h2>
+        <p class="note" style="color:var(--ink);font-size:1.02rem;">
+            출근체크는 <strong>{{ region.worker_app.name }}</strong>으로 합니다.
+            확인서도 여기서 만들어집니다.<br>
+            배정되시면 안내해 드리지만, 미리 준비해두셔도 좋습니다.
+        </p>
+        <p class="sub-links">
+            <a href="{{ link('app') }}">{{ region.worker_app.name }} 설치 방법 보기 →</a>
+        </p>
+    </div>
+</section>
+{% endif %}
+
+{% if d.get('faq') %}
 <section style="background:#f8f9fa;">
     <div class="container">
         <h2>자주 묻는 질문</h2>

@@ -36,7 +36,7 @@
     <meta property="og:description" content="{% block og_description %}{{ region.seo.og_description }}{% endblock %}">
     <meta property="og:url" content="{{ page_url }}">
     <meta property="og:site_name" content="{{ site.brand }}">
-    {% if region.og_image %}
+    {% if region.get('og_image') %}
     <meta property="og:image" content="{{ ascii_base }}{{ region.og_image }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -404,13 +404,13 @@
 <footer>
     <div class="container">
         <p><strong>{{ region.name }}</strong></p>
-        {% if region.owner_name %}
+        {% if region.get('owner_name') %}
         <p>대표 {{ region.owner_name }}</p>
         {% endif %}
         <p>{{ region.address }}</p>
         <p>{% for p in region.phones %}{{ p.label }} {{ p.number }}{% if not loop.last %} | {% endif %}{% endfor %}</p>
         {# 직업소개사업 등록번호 — 사업소 단위로 받는 번호라 지역마다 자기 것을 쓴다. #}
-        {% if region.license_number %}
+        {% if region.get('license_number') %}
         <p style="opacity:.85;">직업소개사업 등록번호 {{ region.license_number }}</p>
         {% endif %}
         <p style="margin-top:.8rem;">

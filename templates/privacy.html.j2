@@ -92,13 +92,13 @@
             <h2>7. 문의처</h2>
             <p>
                 <strong>{{ region.name }}</strong><br>
-                {% if region.owner_name %}개인정보 보호책임자 — 대표 {{ region.owner_name }}<br>{% endif %}
+                {% if region.get('owner_name') %}개인정보 보호책임자 — 대표 {{ region.owner_name }}<br>{% endif %}
                 {{ region.address }}<br>
                 {% for p in region.phones %}{{ p.label }} <a href="tel:{{ p.number }}">{{ p.number }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
-                {% if region.license_number %}<br>직업소개사업 등록번호 {{ region.license_number }}{% endif %}
+                {% if region.get('license_number') %}<br>직업소개사업 등록번호 {{ region.license_number }}{% endif %}
             </p>
 
-            {% if d.effective_date %}
+            {% if d.get('effective_date') %}
             <p class="policy-date">시행일 · {{ d.effective_date }}</p>
             {% endif %}
         </div>

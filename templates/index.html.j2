@@ -37,7 +37,7 @@
 
         <p class="sub-links">
             <a href="{{ link('guide') }}">처음이신가요? 이용 방법 →</a>
-            {% if region.rates_verified %}
+            {% if region.get('rates_verified') %}
             <a href="{{ link('rates') }}">직종별 일당 시세 →</a>
             {% endif %}
             <a href="{{ link('roles') }}">건설 직종 안내 →</a>

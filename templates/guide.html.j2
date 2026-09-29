@@ -61,6 +61,9 @@
         </ol>
         <p class="sub-links">
             <a href="{{ link('job') }}">구직 안내 보기 →</a>
+            {% if region.get('worker_app') %}
+            <a href="{{ link('app') }}">{{ region.worker_app.name }} 설치 →</a>
+            {% endif %}
         </p>
     </div>
 </section>
@@ -73,7 +76,7 @@
             <small>처음이셔도 괜찮습니다. 상황만 말씀해 주세요</small>
         </a>
         <p class="sub-links">
-            {% if region.rates_verified %}
+            {% if region.get('rates_verified') %}
             <a href="{{ link('rates') }}">일당 시세 →</a>
             {% endif %}
             <a href="{{ link('roles') }}">직종 안내 →</a>

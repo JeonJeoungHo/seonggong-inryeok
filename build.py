@@ -45,6 +45,10 @@ PAGES = [
     {'key': 'roles', 'template': 'roles.html.j2', 'path': 'roles/', 'priority': '0.8'},
     {'key': 'guide', 'template': 'guide.html.j2', 'path': 'guide/', 'priority': '0.8'},
     {'key': 'privacy', 'template': 'privacy.html.j2', 'path': 'privacy/', 'priority': '0.3'},
+    # when = 그 지역 JSON에 이 값이 있을 때만 만든다. 바로일감을 안 쓰는 사무소가
+    #        생겨도 그 지역만 이 페이지가 통째로 빠지도록.
+    {'key': 'app', 'template': 'app.html.j2', 'path': 'app/', 'priority': '0.5',
+     'when': 'worker_app'},
 ]
 
 # 전 지역 공통 데이터 — 지역마다 다르지 않은 것은 regions/ 가 아니라 data/ 에 둔다.
@@ -205,6 +209,8 @@ def main():
         region_base = '' if is_root else '%s/' % region['slug']
 
         for page in PAGES:
+            if page.get('when') and not region.get(page['when']):
+                continue
             rel_path = region_base + page['path']          # '', 'hire/', 'daejeon/job/' ...
             depth = rel_path.count('/')
             page_url = base_url + '/' + rel_path

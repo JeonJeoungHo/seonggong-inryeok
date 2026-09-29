@@ -82,7 +82,7 @@
             </a>
         </div>
 
-        {% if region.rates_verified %}
+        {% if region.get('rates_verified') %}
         <p style="text-align:center;margin-top:1.5rem;">
             <a href="{{ link('rates') }}" style="color:#1e3c72;font-weight:bold;">
                 직종별 일당 시세 보기 →
