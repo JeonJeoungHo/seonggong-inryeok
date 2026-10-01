@@ -61,19 +61,57 @@ def load_json(path):
 
 
 def load_regions():
-    """regions/*.json 을 slug 순서로 읽는다. "_" 로 시작하는 키는 주석이라 그대로 둔다."""
+    """regions/*.json 을 slug 순서로 읽는다. "_" 로 시작하는 키는 주석이라 그대로 둔다.
+
+    `extends: "paju"` 를 적으면 그 지역을 **바탕으로 깔고** 적은 것만 덮어쓴다
+    (2026-10-01). 사무소 한 곳이 여러 지역을 맡을 때 쓴다 — 일산은 사무소가
+    따로 있는 게 아니라 **파주 사무소가 나가는 지역**이다.
+
+    ⚠️ 이게 없으면 시세 10줄·연락처·사업자 정보가 파일마다 복사된다. 단가가
+       바뀌는 날 한 군데만 고치고 나머지를 잊으면, 같은 사무소가 지역마다 다른
+       금액을 말하게 된다.
+    ⚠️ 한 겹만 받는다. 상속의 상속까지 받기 시작하면 어느 값이 어디서 왔는지
+       추적이 안 된다 — 지금 쓰임새엔 한 겹이면 충분하다.
+    ⚠️ 덮어쓰기는 **키 단위**다. cover_areas 처럼 목록이면 통째로 갈린다
+       (일부만 더하지 않는다 — 더하기와 갈아끼우기를 섞으면 결과를 못 읽는다).
+    """
     if not os.path.isdir(REGIONS_DIR):
         sys.exit('regions/ 폴더가 없습니다.')
-    regions = []
+    raw = {}
     for name in sorted(os.listdir(REGIONS_DIR)):
         if not name.endswith('.json'):
             continue
         region = load_json(os.path.join(REGIONS_DIR, name))
         if region.get('slug') != os.path.splitext(name)[0]:
             sys.exit('%s: 파일 이름과 slug 가 다릅니다 (slug=%r).' % (name, region.get('slug')))
-        regions.append(region)
-    if not regions:
+        raw[region['slug']] = region
+    if not raw:
         sys.exit('regions/ 에 지역 파일이 없습니다.')
+
+    # ⚠️ 루트 지역을 맨 앞에 둔다. 그냥 slug 순으로 하면 'ilsan' 이 'paju' 보다
+    #    앞서서, sitemap 에 **곁지역이 먼저 나오고 홈이 뒤에** 깔린다.
+    #    site.json 을 여기서 읽지 않으므로(순환 참조) 이름만 보고 고른다.
+    root = None
+    try:
+        root = load_json(os.path.join(ROOT, 'site.json')).get('root_region')
+    except Exception:
+        pass
+    order = sorted(raw, key=lambda s: (s != root, s))
+
+    regions = []
+    for slug in order:
+        region = raw[slug]
+        base_slug = region.get('extends')
+        if base_slug:
+            if base_slug not in raw:
+                sys.exit('%s.json: extends 가 가리키는 %r 지역이 없습니다.' % (slug, base_slug))
+            if raw[base_slug].get('extends'):
+                sys.exit('%s.json: extends 는 한 겹까지만 됩니다 (%r 도 상속받고 있습니다).'
+                         % (slug, base_slug))
+            merged = dict(raw[base_slug])
+            merged.update(region)
+            region = merged
+        regions.append(region)
     return regions
 
 

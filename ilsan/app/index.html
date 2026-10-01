@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>파주·일산 일당 시세 | 성공인력 - 형틀목수·철근·비계·잡부 일당</title>
+    <title>바로일감 앱 설치 안내 | 성공인력 - 출근체크·확인서</title>
 
     <!-- SEO 기본 -->
-    <meta name="description" content="파주 건설 현장 직종별 일당 시세. 형틀목수(가다와꾸)·철근공·비계공(아시바)·타일공·곰방(양중)·보통인부(잡부) 1인 1일 기준 구간 안내. 문의 010-7519-1039">
-    <meta name="keywords" content="일산 일당, 고양 일당, 파주 일당, 형틀목수 일당, 철근공 일당, 비계공 일당, 타일공 일당, 잡부 일당, 곰방 단가, 파주 인력 단가, 시중노임단가">
+    <meta name="description" content="인력사무소·현장소장·일하시는 분이 함께 쓰는 바로일감 앱 설치 방법. 안드로이드·아이폰 각각 홈 화면에 추가하는 방법을 순서대로 안내합니다.">
+    <meta name="keywords" content="바로일감, 바로일감 앱, 출근체크 앱, 건설 출근체크, 근로 확인서, 성공인력">
     <meta name="author" content="성공인력">
     <meta name="robots" content="index, follow">
 
@@ -16,29 +16,29 @@
     <meta name="google-site-verification" content="2cqATSzhr9rRHPUWV-UYbBwdXkr9P5Lqoxg7iRDPo2U">
 
     <!-- 아이콘 -->
-    <link rel="icon" href="../favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" href="../../favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 
     <!-- Open Graph — 카톡으로 링크를 보냈을 때 뜨는 카드 -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="파주 직종별 일당 시세 - 성공인력">
-    <meta property="og:description" content="형틀목수·철근·비계·타일·곰방·잡부 1인 1일 기준 구간.">
-    <meta property="og:url" content="https://성공인력.kr/rates/">
+    <meta property="og:title" content="바로일감 앱 설치 안내 - 성공인력">
+    <meta property="og:description" content="출근체크와 확인서를 휴대폰으로. 설치 방법 안내.">
+    <meta property="og:url" content="https://성공인력.kr/ilsan/app/">
     <meta property="og:site_name" content="성공인력">
     <meta property="og:image" content="https://xn--ob0b55sqjhyvg.kr/assets/og-paju.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="canonical" href="https://성공인력.kr/rates/">
+    <link rel="canonical" href="https://성공인력.kr/ilsan/app/">
 
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "EmploymentAgency",
   "name": "성공인력",
-  "description": "성공인력은 파주·일산 인력 전문 직업소개소입니다. 파주인력·일산인력·인력사무소·일자리 상담 가능. 파주 전 지역과 일산·고양·김포·연천까지 당일·단기 인력 연결",
-  "url": "https://성공인력.kr/",
+  "description": "일산·고양 현장에 인력을 연결합니다. 형틀목수·해체·자재정리·현장인부 당일 출역 가능. 사무소는 파주 교하에 있고 일산·백석·마두·주엽 현장으로 나갑니다.",
+  "url": "https://성공인력.kr/ilsan/",
   "telephone": "010-7519-1039",
   "address": {
     "@type": "PostalAddress",
@@ -50,11 +50,11 @@
   "areaServed": [
     {
       "@type": "City",
-      "name": "파주시"
+      "name": "고양시"
     },
     {
       "@type": "City",
-      "name": "고양시"
+      "name": "파주시"
     },
     {
       "@type": "City",
@@ -66,19 +66,27 @@
     },
     {
       "@type": "AdministrativeArea",
-      "name": "운정"
-    },
-    {
-      "@type": "AdministrativeArea",
-      "name": "교하"
-    },
-    {
-      "@type": "AdministrativeArea",
-      "name": "문산"
-    },
-    {
-      "@type": "AdministrativeArea",
       "name": "일산"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "백석"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "마두"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "주엽"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "화정"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "운정"
     }
   ],
   "alternateName": "파주성공인력",
@@ -646,42 +654,58 @@
             .page-head h1 { font-size: 1.45rem; }
         }
 
-        .rate-table { max-width: 760px; margin: 0 auto; }
+        /* 이용 방법 페이지와 같은 번호 목록을 쓴다 */
+        .step-list { max-width: 760px; margin: 0 auto; list-style: none; counter-reset: step; }
 
-        .rate-row {
+        .step-list li {
+            position: relative;
+            counter-increment: step;
+            padding: 0 0 1.6rem 3.3rem;
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            background: var(--navy);
+            color: #fff;
+            font-weight: bold;
             display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.05rem .4rem;
-            border-bottom: 1px solid #e5e8ee;
+            align-items: center;
+            justify-content: center;
         }
 
-        .rate-row:last-child { border-bottom: none; }
-
-        .rate-name { font-weight: bold; color: #1e3c72; font-size: 1.05rem; }
-
-        /* 현장 별칭 — "가다와꾸"로만 아는 분이 자기 직종을 찾을 수 있어야 한다 */
-        .rate-alias {
-            display: inline-block;
-            margin-left: .45rem;
-            font-weight: normal;
-            font-size: .88rem;
-            color: #8a8f98;
+        .step-list li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 1.05rem;
+            top: 2.4rem;
+            bottom: .35rem;
+            width: 2px;
+            background: #dfe4ee;
         }
 
-        .rate-price { text-align: right; font-size: 1.05rem; color: #333; white-space: nowrap; }
+        .step-list li strong { display: block; color: var(--navy); margin-bottom: .2rem; }
+        .step-list li span { color: var(--ink-soft); }
 
-        .rate-source {
-            display: block;
-            font-size: .82rem;
-            color: #8a8f98;
-            white-space: normal;
+        .step-list-job li::before { background: var(--amber); color: #3a2a05; }
+
+        /* 아이폰 주의 문구 — 현장에서 제일 많이 막히는 지점이라 눈에 띄게 */
+        .note.warn {
+            background: #fff8e8;
+            border: 1px solid #f3dfae;
+            border-radius: var(--radius);
+            padding: 1rem 1.2rem;
+            color: #7a5a12;
+            margin-bottom: 1.6rem;
         }
 
         @media (max-width: 768px) {
-            .rate-row { flex-direction: column; align-items: flex-start; gap: .25rem; }
-            .rate-price { text-align: left; }
+            .step-list li { padding-left: 2.9rem; }
         }
     </style>
 </head>
@@ -691,196 +715,119 @@
 <div class="topbar">
     <div class="container">
         <a href="../" class="brand">성공인력</a>
-        <a href="../hire/" class="home-link">인력 요청 →</a>
+        <a href="tel:010-7519-1039" class="home-link">📞 010-7519-1039</a>
     </div>
 </div>
 
 <div class="page-head">
     <div class="container">
-        <h1>직종별 일당 시세</h1>
-        <p>파주 현장 기준 · 1인 1일</p>
+        <h1>바로일감 앱 설치하기</h1>
+        <p>인력사무소 · 현장소장 · 일하시는 분 모두 한 곳에서</p>
     </div>
 </div>
 
 <section>
     <div class="container">
-        <div class="rate-table">
-            <div class="rate-row">
-                <div class="rate-name">
-                    형틀목수
-<span class="rate-alias">가다와꾸</span>                </div>
-                <div class="rate-price">
-                    230,000원 ~ 280,000원
-<span class="rate-source">공표 시중노임단가 276,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    철근공
-<span class="rate-alias">뎃킹공</span>                </div>
-                <div class="rate-price">
-                    230,000원 ~ 280,000원
-<span class="rate-source">공표 시중노임단가 268,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    비계공
-<span class="rate-alias">아시바공</span>                </div>
-                <div class="rate-price">
-                    220,000원 ~ 280,000원
-<span class="rate-source">공표 시중노임단가 282,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    콘크리트 타설공
-<span class="rate-alias">공구리</span>                </div>
-                <div class="rate-price">
-                    220,000원 ~ 260,000원
-                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    미장공
-<span class="rate-alias">사깡</span>                </div>
-                <div class="rate-price">
-                    250,000원 ~ 300,000원
-<span class="rate-source">공표 시중노임단가 277,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    타일공
-<span class="rate-alias">타일</span>                </div>
-                <div class="rate-price">
-                    300,000원 ~ 350,000원
-<span class="rate-source">공표 시중노임단가 291,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    곰방
-<span class="rate-alias">곰빵·양중</span>                </div>
-                <div class="rate-price">
-                    200,000원 ~ 250,000원
-                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    신호수
-<span class="rate-alias">유도원</span>                </div>
-                <div class="rate-price">
-                    160,000원 ~ 180,000원
-                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    보통인부
-<span class="rate-alias">잡부</span>                </div>
-                <div class="rate-price">
-                    160,000원 ~ 180,000원
-<span class="rate-source">공표 시중노임단가 172,000원</span>                </div>
-            </div>
-            <div class="rate-row">
-                <div class="rate-name">
-                    현장 정리원
-<span class="rate-alias">단도리</span>                </div>
-                <div class="rate-price">
-                    160,000원 ~ 170,000원
-                </div>
-            </div>
-        </div>
-
-        <p class="note note-source">
-            ℹ️ <b>공표 시중노임단가</b>는 건설업계가 조사해 반년마다 발표하는
-            기준 금액입니다. 비교해 보시라고 같이 적었습니다 —
-            실제 일당은 현장 조건과 그날 사정에 따라 이보다 오르기도 내리기도 합니다.
-        </p>
-
+        <h2>누가 쓰나요</h2>
+        <ul class="info-list">
+            <li>
+                <strong>🏢 인력사무소</strong>
+                인력 명단과 가용 확인, 현장 배치, 인건비지급확인서, 일당 지급 내역 정리까지 한 줄로 이어집니다.
+            </li>
+            <li>
+                <strong>👷 현장소장님</strong>
+                현장 인력 출근체크와 노무비 서류를 직접 관리하시고, 사람이 더 필요할 때 사무소에 바로 요청하십니다.
+            </li>
+            <li>
+                <strong>🧑‍🔧 일하시는 분</strong>
+                문자로 온 링크에 답만 하시면 됩니다. 급여 내역과 근로계약서도 휴대폰으로 확인하십니다.
+            </li>
+        </ul>
         <p class="note">
-2026년 9월 기준 ·             1인 1일 기준입니다.<br>
-            현장 조건(층수 · 자재 운반 · 작업 강도 · 작업 기간)에 따라 달라지므로,
-            정확한 금액은 현장 이야기를 듣고 안내해 드립니다.
-        </p>
-        <p class="note">
-            표에 없는 직종도 대부분 연결해 드립니다. 전화로 물어봐 주세요.
-        </p>
-        <div class="calc" id="rateCalc"
-             data-rates='[230000, 230000, 220000, 220000, 250000, 300000, 200000, 160000, 160000, 160000]'
-             data-highs='[280000, 280000, 280000, 260000, 300000, 350000, 250000, 180000, 180000, 170000]'
-             data-names='["\ud615\ud2c0\ubaa9\uc218", "\ucca0\uadfc\uacf5", "\ube44\uacc4\uacf5", "\ucf58\ud06c\ub9ac\ud2b8 \ud0c0\uc124\uacf5", "\ubbf8\uc7a5\uacf5", "\ud0c0\uc77c\uacf5", "\uacf0\ubc29", "\uc2e0\ud638\uc218", "\ubcf4\ud1b5\uc778\ubd80", "\ud604\uc7a5 \uc815\ub9ac\uc6d0"]'>
-            <h3 class="calc-head">💰 얼마나 들까요?</h3>
-
-            <div class="calc-row">
-                <label class="calc-label" for="calcRole">직종</label>
-                <select id="calcRole" class="calc-select">
-                    <option value="0">형틀목수 (가다와꾸)</option>
-                    <option value="1">철근공 (뎃킹공)</option>
-                    <option value="2">비계공 (아시바공)</option>
-                    <option value="3">콘크리트 타설공 (공구리)</option>
-                    <option value="4">미장공 (사깡)</option>
-                    <option value="5">타일공 (타일)</option>
-                    <option value="6">곰방 (곰빵·양중)</option>
-                    <option value="7">신호수 (유도원)</option>
-                    <option value="8">보통인부 (잡부)</option>
-                    <option value="9">현장 정리원 (단도리)</option>
-                </select>
-            </div>
-
-            <div class="calc-row">
-                <label class="calc-label">인원</label>
-                <div class="calc-step">
-                    <button type="button" class="calc-btn" data-step="people" data-delta="-1" aria-label="인원 줄이기">−</button>
-                    <span class="calc-num" id="calcPeople">1</span><span class="calc-unit">명</span>
-                    <button type="button" class="calc-btn" data-step="people" data-delta="1" aria-label="인원 늘리기">+</button>
-                </div>
-            </div>
-
-            <div class="calc-row">
-                <label class="calc-label">일수</label>
-                <div class="calc-step">
-                    <button type="button" class="calc-btn" data-step="days" data-delta="-1" aria-label="일수 줄이기">−</button>
-                    <span class="calc-num" id="calcDays">1</span><span class="calc-unit">일</span>
-                    <button type="button" class="calc-btn" data-step="days" data-delta="1" aria-label="일수 늘리기">+</button>
-                </div>
-            </div>
-
-            <div class="calc-out">
-                <strong id="calcTotal">230,000원 ~ 280,000원</strong>
-                <small id="calcWhat">형틀목수 1명 × 1일</small>
-            </div>
-
-            <p class="calc-note">
-                표의 금액에 인원과 일수를 곱한 값입니다.
-                현장 조건에 따라 달라지니 <b>정확한 금액은 전화로</b> 알려드립니다.
-            </p>
-            <a href="tel:010-7519-1039" class="calc-call">
-                📞 정확한 금액 물어보기 010-7519-1039
-            </a>
-        </div>
-
-        <p class="sub-links">
-            <a href="../roles/">각 직종이 무슨 일인지 보기 →</a>
+            세 분이 같은 앱을 쓰지만, 로그인하시면 <strong>각자에게 필요한 화면만</strong> 보입니다.
         </p>
     </div>
 </section>
 
 <section style="background:#f8f9fa;">
     <div class="container">
-        <h2>직접 물어보시는 게 빠릅니다</h2>
-        <a href="tel:010-7519-1039" class="call-cta">
-            📞 일당 문의 010-7519-1039
-            <small>현장 조건을 말씀해주시면 바로 알려드립니다</small>
+        <p class="note" style="font-size:1.02rem;color:var(--ink);">현장에 나가시면 출근체크를 바로일감으로 합니다. 확인서도 여기서 만들어집니다. 사무소와 현장소장님도 같은 앱에서 배치와 서류를 관리하십니다.</p>
+
+        <a href="https://바로일감.kr" class="call-cta" style="background:var(--navy);box-shadow:0 6px 18px rgba(30,60,114,.30);" target="_blank" rel="noopener">
+            📱 바로일감 열기
+            <small>먼저 열어보시고, 아래 방법으로 홈 화면에 추가하세요</small>
         </a>
 
-        <div class="fork-grid" style="margin-top:2rem;">
-            <a href="../hire/" class="fork-card fork-hire">
-                <span class="fork-icon">🏢</span>
-                <span class="fork-title">인력 요청하기</span>
-                <span class="fork-sub">현장에 사람이 필요하신 분</span>
-            </a>
-            <a href="../job/" class="fork-card fork-job">
-                <span class="fork-icon">👷</span>
-                <span class="fork-title">일자리 찾기</span>
-                <span class="fork-sub">일하실 분 · 구직 등록</span>
-            </a>
-        </div>
+        <p class="note">
+            설치라고 해도 따로 받는 게 아닙니다. <strong>홈 화면에 아이콘을 하나 만드는 것</strong>이라
+            용량을 거의 차지하지 않고, 지우는 것도 아이콘만 지우면 됩니다.
+        </p>
+    </div>
+</section>
+
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>📱 안드로이드 (삼성·LG 등)</h2>
+        <ol class="step-list">
+            <li>
+                <strong>크롬으로 https://바로일감.kr 접속</strong>
+                <span>위의 파란 버튼을 눌러 여셔도 됩니다.</span>
+            </li>
+            <li>
+                <strong>화면 오른쪽 위 점 세 개(⋮) 누르기</strong>
+                <span>주소창 옆에 있습니다.</span>
+            </li>
+            <li>
+                <strong>"앱 설치" 또는 "홈 화면에 추가" 누르기</strong>
+                <span>휴대폰에 따라 문구가 조금 다릅니다.</span>
+            </li>
+            <li>
+                <strong>설치 누르기</strong>
+                <span>홈 화면에 바로일감 아이콘이 생깁니다. 이제 그 아이콘으로 바로 들어가시면 됩니다.</span>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2>🍎 아이폰</h2>
+        <p class="note warn">
+            ⚠️ 아이폰은 <strong>반드시 사파리(Safari)</strong>로 여셔야 합니다.<br>
+            크롬으로 열면 "홈 화면에 추가"가 나오지 않습니다.
+        </p>
+        <ol class="step-list step-list-job">
+            <li>
+                <strong>사파리로 https://바로일감.kr 접속</strong>
+                <span>나침반 모양의 기본 브라우저입니다.</span>
+            </li>
+            <li>
+                <strong>화면 아래 공유 버튼 누르기</strong>
+                <span>네모에서 화살표가 위로 나가는 모양입니다.</span>
+            </li>
+            <li>
+                <strong>목록을 내려서 "홈 화면에 추가" 누르기</strong>
+                <span>조금 아래쪽에 있습니다.</span>
+            </li>
+            <li>
+                <strong>오른쪽 위 "추가" 누르기</strong>
+                <span>홈 화면에 바로일감 아이콘이 생깁니다.</span>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<section style="background:#f8f9fa;">
+    <div class="container">
+        <h2>잘 안 되시나요?</h2>
+        <a href="tel:010-7519-1039" class="call-cta">
+            📞 전화 주세요 010-7519-1039
+            <small>같이 보면서 알려드립니다</small>
+        </a>
+        <p class="sub-links">
+            <a href="../job/">구직 등록하기 →</a>
+            <a href="../guide/">이용 방법 →</a>
+        </p>
     </div>
 </section>
 
@@ -1195,7 +1142,7 @@
   //    그래서 직접 보낸다. 이게 없으면 "전화가 몇 번 눌렸나"를 영영 알 수 없다.
   var HIRE_FORM = "https://forms.gle/wasDzDtYAGTqMEBWA";
   var JOB_FORM = "https://forms.gle/2xPHvcLkvEBN4cFs6";
-  var PAGE = "rates";
+  var PAGE = "app";
 
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a') : null;
