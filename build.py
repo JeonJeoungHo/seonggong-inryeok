@@ -52,7 +52,7 @@ PAGES = [
 ]
 
 # 전 지역 공통 데이터 — 지역마다 다르지 않은 것은 regions/ 가 아니라 data/ 에 둔다.
-SHARED_DATA = {'roles': 'roles.json'}
+SHARED_DATA = {'roles': 'roles.json', 'daily': 'daily.json'}
 
 
 def load_json(path):
@@ -165,6 +165,26 @@ def make_link(page_path):
     return link
 
 
+def josa(word, pair='이/가'):
+    """받침을 보고 조사를 고른다. `{{ region.name | josa('은/는') }}` 처럼 쓴다.
+
+    2026-10-01에 개인정보 처리방침 첫 줄이 "성공인력**가** 어떤 정보를…"이었다.
+    사무소 이름 뒤에 조사를 그냥 붙여놨던 탓이다.
+
+    ⚠️ 지역을 늘리면 이름도 늘어난다. 한 번 틀리면 그 사무소 페이지마다 틀린다.
+    ⚠️ 한글이 아닌 글자(숫자·영문)로 끝나면 **받침 있는 쪽**을 쓴다. "성공인력 A가"
+       보다 "성공인력 A이"가 덜 어색한 경우는 드물지만, 둘 중 하나는 골라야 한다.
+       이름이 그렇게 끝나면 그때 눈으로 보고 정한다.
+    """
+    with_final, without_final = pair.split('/')
+    tail = (word or '').strip()[-1:]
+    if not tail:
+        return without_final
+    if '가' <= tail <= '힣':
+        return with_final if (ord(tail) - 0xAC00) % 28 else without_final
+    return with_final
+
+
 def load_shared():
     """data/ 의 공통 데이터. 템플릿에서 이름 그대로 쓴다(roles.json -> {{ roles }})."""
     shared = {}
@@ -199,6 +219,7 @@ def main():
         lstrip_blocks=True,
         keep_trailing_newline=True,
     )
+    env.filters['josa'] = josa
     sitemap_tpl = env.get_template('sitemap.xml.j2')
 
     pages = []

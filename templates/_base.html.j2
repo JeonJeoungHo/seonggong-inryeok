@@ -338,6 +338,42 @@
         .sub-links a { color: var(--navy); font-weight: bold; text-decoration: none; }
         .sub-links a:hover { text-decoration: underline; }
 
+        /* 하루 한 줄 (2026-10-01 정호님) — 눈에 띄되 갈림길을 이기지 않는다.
+           ⚠️ 처음엔 흰 바탕에 연회색 글이라 **거의 안 보였다**(정호님: "눈에 잘
+              띄이게"). 간판의 노란색을 옅게 깔고 글자를 진하게 했다.
+           ⚠️ 높이를 미리 잡아둔다(min-height). 글 길이가 날마다 달라서 그때그때
+              늘었다 줄었다 하면 아래 버튼들이 들썩인다. */
+        .daily-line {
+            margin: 1.8rem auto 0;
+            max-width: 30rem;
+            min-height: 3.4em;
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.55;
+            color: #3d3522;
+            background: #fff8e1;
+            border: 1px solid #f2dfa4;
+            border-left: 5px solid #f0b429;
+            border-radius: 12px;
+            padding: .95rem 1.2rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+        }
+
+        /* 결마다 다른 얼굴 — 아이콘이 있으면 시선이 먼저 간다.
+           ⚠️ 폭을 고정한다. 이모지는 글꼴마다 폭이 달라서, 안 그러면 글 시작점이
+              날마다 조금씩 어긋난다. */
+        .daily-line .daily-icon {
+            flex: 0 0 auto;
+            width: 1.6em;
+            font-size: 1.35rem;
+            line-height: 1;
+            text-align: center;
+        }
+
         /* ── 하단 고정 바 (모바일) ──────────────────────────────
            동그란 플로팅 버튼이 본문과 신청 버튼 위에 겹쳐 있었다.
            바는 아무것도 안 가리고 항상 보인다. 데스크탑은 여백이 넉넉해 플로팅 유지. */
@@ -435,6 +471,54 @@
     <a href="{{ region.apply_links.employer }}" class="bar-apply" target="_blank">🏢 인력요청</a>
     {% endif %}
 </nav>
+
+{# 하루 한 줄 — 날짜를 시드로 고른다 (2026-10-01 정호님).
+   ⚠️ **측정(GA) 조건 밖에 둔다.** 안에 넣었다가, 측정을 끄는 날 한 줄까지
+      같이 사라지는 걸 알고 꺼냈다. 이 글은 측정과 아무 상관이 없다. #}
+<script>
+(function () {
+  // ★ 같은 날은 누가 봐도 같은 글이고, 자정에 바뀐다. 무작위로 고르면 새로고침할
+  //   때마다 달라져서 "오늘의 한마디"가 아니라 그냥 랜덤 문구가 된다.
+  // ★ 서버가 이미 하나를 그려뒀다(index.html.j2). 여기서는 **오늘 것으로 바꾸기만**
+  //   한다 — 그래야 로딩 중에 빈 줄이 안 보이고, JS가 막혀도 뭔가는 남는다.
+  // ⚠️ 보는 사람 기기의 날짜를 쓴다. 시차가 있는 곳에서 보면 하루 어긋날 수 있는데,
+  //    파주 현장 사이트라 그게 문제가 되는 경우는 없다.
+  var el = document.getElementById('dailyLine');
+  if (!el) return;
+  var LINES = {{ daily.lines | tojson }};
+  if (!LINES.length) return;
+
+  // 며칠째인가 — 로컬 날짜를 하루 단위 일련번호로. 매일 정확히 1씩 는다.
+  //   ⚠️ 20261001 같은 숫자를 그냥 쓰면 안 된다. 월말→월초에 70이 뛰어서
+  //      아래 결 고르기(% 3)가 불규칙해진다.
+  var d = new Date();
+  var day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+
+  // ★ **결을 먼저 고르고** 그 안에서 뽑는다.
+  //   그냥 배열에서 순서대로 뽑으면 스물닷새 내리 실용팁만 나온다 — 파일이
+  //   work 25개 · joke 25개 · tip 25개 순서로 묶여 있기 때문이다.
+  //   이렇게 하면 격려 → 개그 → 실용이 하루씩 돌아간다.
+  var KINDS = ['work', 'joke', 'tip'];
+  var ICONS = { work: '☀️', joke: '😄', tip: '💡' };
+  var pool = [], kind = '';
+  for (var k = 0; k < KINDS.length && !pool.length; k++) {
+    kind = KINDS[(day + k) % KINDS.length];       // 그 결이 비어 있으면 다음 결로
+    pool = LINES.filter(function (l) { return l.kind === kind; });
+  }
+  if (!pool.length) { pool = LINES; kind = ''; }  // kind를 안 적었어도 뭔가는 보여준다
+  var line = pool[Math.floor(day / KINDS.length) % pool.length];
+
+  // 아이콘은 **엘리먼트로** 넣는다. 글과 한 덩어리로 쓰면 줄이 넘어갈 때
+  //   아이콘만 따로 떨어져 나간다.
+  el.textContent = '';
+  var icon = document.createElement('span');
+  icon.className = 'daily-icon';
+  icon.setAttribute('aria-hidden', 'true');       // 읽어줄 내용이 아니다
+  icon.textContent = ICONS[line.kind || kind] || '💬';
+  el.appendChild(icon);
+  el.appendChild(document.createTextNode(line.text));
+})();
+</script>
 
 {% if site.ga_measurement_id %}
 <script>

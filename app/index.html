@@ -378,6 +378,42 @@
         .sub-links a { color: var(--navy); font-weight: bold; text-decoration: none; }
         .sub-links a:hover { text-decoration: underline; }
 
+        /* 하루 한 줄 (2026-10-01 정호님) — 눈에 띄되 갈림길을 이기지 않는다.
+           ⚠️ 처음엔 흰 바탕에 연회색 글이라 **거의 안 보였다**(정호님: "눈에 잘
+              띄이게"). 간판의 노란색을 옅게 깔고 글자를 진하게 했다.
+           ⚠️ 높이를 미리 잡아둔다(min-height). 글 길이가 날마다 달라서 그때그때
+              늘었다 줄었다 하면 아래 버튼들이 들썩인다. */
+        .daily-line {
+            margin: 1.8rem auto 0;
+            max-width: 30rem;
+            min-height: 3.4em;
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.55;
+            color: #3d3522;
+            background: #fff8e1;
+            border: 1px solid #f2dfa4;
+            border-left: 5px solid #f0b429;
+            border-radius: 12px;
+            padding: .95rem 1.2rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+        }
+
+        /* 결마다 다른 얼굴 — 아이콘이 있으면 시선이 먼저 간다.
+           ⚠️ 폭을 고정한다. 이모지는 글꼴마다 폭이 달라서, 안 그러면 글 시작점이
+              날마다 조금씩 어긋난다. */
+        .daily-line .daily-icon {
+            flex: 0 0 auto;
+            width: 1.6em;
+            font-size: 1.35rem;
+            line-height: 1;
+            text-align: center;
+        }
+
         /* ── 하단 고정 바 (모바일) ──────────────────────────────
            동그란 플로팅 버튼이 본문과 신청 버튼 위에 겹쳐 있었다.
            바는 아무것도 안 가리고 항상 보인다. 데스크탑은 여백이 넉넉해 플로팅 유지. */
@@ -634,6 +670,51 @@
     <a href="https://open.kakao.com/o/sUcwbSci" class="bar-kakao" target="_blank">💬 카톡문의</a>
     <a href="https://forms.gle/wasDzDtYAGTqMEBWA" class="bar-apply" target="_blank">🏢 인력요청</a>
 </nav>
+
+<script>
+(function () {
+  // ★ 같은 날은 누가 봐도 같은 글이고, 자정에 바뀐다. 무작위로 고르면 새로고침할
+  //   때마다 달라져서 "오늘의 한마디"가 아니라 그냥 랜덤 문구가 된다.
+  // ★ 서버가 이미 하나를 그려뒀다(index.html.j2). 여기서는 **오늘 것으로 바꾸기만**
+  //   한다 — 그래야 로딩 중에 빈 줄이 안 보이고, JS가 막혀도 뭔가는 남는다.
+  // ⚠️ 보는 사람 기기의 날짜를 쓴다. 시차가 있는 곳에서 보면 하루 어긋날 수 있는데,
+  //    파주 현장 사이트라 그게 문제가 되는 경우는 없다.
+  var el = document.getElementById('dailyLine');
+  if (!el) return;
+  var LINES = [{"kind": "work", "text": "\uc624\ub298 \ud758\ub9b0 \ub540\uc740 \ub0b4\uc77c\uc758 \ubc25\uc774 \ub429\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc0c8\ubcbd\uc5d0 \ub098\uc11c\ub294 \ubc1c\uac78\uc74c\uc774 \uc81c\uc77c \ubb34\uac81\uace0, \uc81c\uc77c \uac12\uc9d1\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc798\ud558\ub294 \uc0ac\ub78c\ubcf4\ub2e4 \uc57d\uc18d \uc9c0\ud0a4\ub294 \uc0ac\ub78c\uc774 \uc624\ub798 \uac11\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc77c \uc798\ud55c\ub2e4\ub294 \ub9d0\uc740 \uacb0\uad6d \u0027\uac19\uc774 \uc77c\ud558\uae30 \ud3b8\ud558\ub2e4\u0027\ub294 \ub9d0\uc785\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc11c\ub450\ub974\uba74 \ud558\ub8e8\uac00 \ube68\ub77c\uc9c0\uace0, \uaf3c\uaf3c\ud558\uba74 \ud55c \ub2ec\uc774 \ud3b8\ud574\uc9d1\ub2c8\ub2e4."}, {"kind": "work", "text": "\ud604\uc7a5\uc740 \ub9d0\ubcf4\ub2e4 \uc190\uc774 \uba3c\uc800 \uae30\uc5b5\ud569\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc624\ub298 \ud558\ub8e8\ub3c4 \ubb34\uc0ac\ud788. \uadf8\uac8c \uc81c\uc77c \ud070 \uc2e4\uc801\uc785\ub2c8\ub2e4."}, {"kind": "work", "text": "\ucc98\uc74c \ub098\uac00\ub294 \ud604\uc7a5\uc740 \ub204\uad6c\ub098 \uc5b4\uc0c9\ud569\ub2c8\ub2e4. \ud558\ub8e8\uba74 \uc775\uc219\ud574\uc9d1\ub2c8\ub2e4."}, {"kind": "work", "text": "\ubc25 \uc798 \ucc59\uaca8 \ub4dc\uc138\uc694. \uadf8\uac83\ub3c4 \uc77c\uc758 \uc77c\ubd80\uc785\ub2c8\ub2e4."}, {"kind": "work", "text": "\ube44 \uc624\ub294 \ub0a0 \uc26c\ub294 \uac83\ub3c4 \uc77c\uc815\uc785\ub2c8\ub2e4. \ub9c8\uc74c\uae4c\uc9c0 \uc26c\uc5b4 \uac00\uc138\uc694."}, {"kind": "work", "text": "\ucc98\uc74c\ubd80\ud130 \uc798\ud558\ub294 \uc0ac\ub78c\uc740 \uc5c6\uc2b5\ub2c8\ub2e4. \uc624\ub798 \ud558\ub294 \uc0ac\ub78c\uc774 \uc798\ud558\uac8c \ub429\ub2c8\ub2e4."}, {"kind": "work", "text": "\ub0a8\uc758 \uc18d\ub3c4\uc5d0 \ub9de\ucd94\uc9c0 \ub9c8\uc138\uc694. \ub0b4 \uc18d\ub3c4\ub85c \ub05d\uae4c\uc9c0 \uac00\uba74 \ub429\ub2c8\ub2e4."}, {"kind": "work", "text": "\ud558\ub8e8 \uc77c\ub2f9\uc740 \ud558\ub8e8\uce58 \ub540\uac12\uc785\ub2c8\ub2e4. \ubd80\ub044\ub7ec\uc6b8 \uac83 \ud558\ub098 \uc5c6\uc2b5\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc190\uc774 \uac70\uce60\uc5b4\uc9c4 \ub9cc\ud07c \uc0b4\ub9bc\uc774 \ud3b4\uc9d1\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc624\ub298 \ubabb \ud55c \uac74 \ub0b4\uc77c \ud558\uba74 \ub429\ub2c8\ub2e4. \ub2e4\uce58\uba74 \uadf8\ub9c8\uc800 \ubabb \ud569\ub2c8\ub2e4."}, {"kind": "work", "text": "\ud604\uc7a5\uc5d0\uc11c \ubc30\uc6b4 \uac74 \uc5b4\ub514\uc11c\ub3c4 \ube8f\uae30\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."}, {"kind": "work", "text": "\ub9d0\uc5c6\uc774 \uc77c \uc798\ud558\ub294 \uc0ac\ub78c\uc774 \uc81c\uc77c \ubb34\uc12d\uc2b5\ub2c8\ub2e4."}, {"kind": "work", "text": "\ube44 \uc624\uba74 \uc26c\uace0 \uac1c\uba74 \ub098\uac11\ub2c8\ub2e4. \uadf8\uac8c \uc774 \uc77c\uc758 \ub9ac\ub4ec\uc785\ub2c8\ub2e4."}, {"kind": "work", "text": "\ub098\uc774\ub294 \uc22b\uc790\uace0, \ud604\uc7a5\uc740 \uc190\uc744 \ubd05\ub2c8\ub2e4."}, {"kind": "work", "text": "\uba3c\uc800 \uc628 \uc0ac\ub78c\uc774 \ucee4\ud53c \ud55c \uc794 \ub354 \ub9c8\uc2ed\ub2c8\ub2e4."}, {"kind": "work", "text": "\ubb34\ub9ac\ud558\uc9c0 \ub9c8\uc138\uc694. \ub0b4\uc77c\ub3c4 \ud604\uc7a5\uc740 \uc788\uc2b5\ub2c8\ub2e4."}, {"kind": "work", "text": "\ud798\ub4e0 \ub0a0\uc740 \ub204\uad6c\uc5d0\uac8c\ub098 \uc635\ub2c8\ub2e4. \uadf8\ub9ac\uace0 \uc9c0\ub098\uac11\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc778\uc0ac \ud55c \ubc88\uc774 \ud558\ub8e8\ub97c \ud3b8\ud558\uac8c \ub9cc\ub4ed\ub2c8\ub2e4."}, {"kind": "work", "text": "\ubaa8\ub974\uba74 \ubb3c\uc5b4\ubcf4\uc138\uc694. \ubaa8\ub974\uace0 \ud558\ub294 \uac8c \ub354 \uc704\ud5d8\ud569\ub2c8\ub2e4."}, {"kind": "work", "text": "\uc624\ub298 \ud558\ub8e8\ub3c4 \uace0\uc0dd \ub9ce\uc73c\uc168\uc2b5\ub2c8\ub2e4."}, {"kind": "joke", "text": "\uacf5\uc0ac\uc7a5\uc5d0\uc11c \uc81c\uc77c \ub192\uc740 \uc0ac\ub78c\uc740? \ud06c\ub808\uc778 \uae30\uc0ac\ub2d8."}, {"kind": "joke", "text": "\ubabb\uc774 \ud654\ub098\uba74? \ubabb \ucc38\uc2b5\ub2c8\ub2e4."}, {"kind": "joke", "text": "\uc2dc\uba58\ud2b8\uac00 \uc88b\uc544\ud558\ub294 \ub178\ub798\ub294? \uad73\uc138\uc5b4\ub77c \uae08\uc21c\uc544."}, {"kind": "joke", "text": "\ub9dd\uce58\uac00 \uc81c\uc77c \uc2eb\uc5b4\ud558\ub294 \ub9d0\uc740? \"\uc0b4\uc0b4 \uc880 \uccd0\ub77c.\""}, {"kind": "joke", "text": "\ud1b1\uc774 \uac00\uc7a5 \uc798\ud558\ub294 \uc778\uc0ac\ub294? \"\uc370~\uaca0\uc2b5\ub2c8\ub2e4.\""}, {"kind": "joke", "text": "\ubcbd\ub3cc\uc774 \uc81c\uc77c \ubd80\ub7ec\uc6cc\ud558\ub294 \uac83\uc740? \uc313\uc774\uc9c0 \uc54a\ub294 \ud1b5\uc7a5."}, {"kind": "joke", "text": "\ucca0\uadfc\uc774 \uc88b\uc544\ud558\ub294 \uacc4\uc808\uc740? \ubf08\ub300 \uc788\ub294 \uaca8\uc6b8."}, {"kind": "joke", "text": "\ud398\uc778\ud2b8\uac00 \uc790\uae30\uc18c\uac1c\ud560 \ub54c? \"\uc800\ub294 \uc880 \uce60\ud574\uc694.\""}, {"kind": "joke", "text": "\uc0ac\ub2e4\ub9ac\uac00 \uc81c\uc77c \ubb34\uc11c\uc6cc\ud558\ub294 \ub9d0\uc740? \"\ud55c \uce78\ub9cc \ub354.\""}, {"kind": "joke", "text": "\uc7a5\uac11\uc774 \ud558\ub8e8 \uc911 \uc81c\uc77c \ubc14\uc060 \ub54c\ub294? \uc190 \ud0c8 \ub54c."}, {"kind": "joke", "text": "\uc0bd\uc774 \ud654\ub098\uba74? \uc0bd\uc2dc\uac04\uc5d0 \ub364\ube55\ub2c8\ub2e4."}, {"kind": "joke", "text": "\ubcbd\uc774 \uc81c\uc77c \uc2eb\uc5b4\ud558\ub294 \ub9d0\uc740? \"\uc5ec\uae30 \ub6ab\uc790.\""}, {"kind": "joke", "text": "\uc720\ub9ac\ucc3d\uc774 \uc81c\uc77c \ubb34\uc11c\uc6cc\ud558\ub294 \uac83\uc740? \ub3cc\uc9c1\uad6c."}, {"kind": "joke", "text": "\uc9c0\ubd95\uc774 \ub298 \ud558\ub294 \uc790\ub791\uc740? \"\ub0b4\uac00 \uc81c\uc77c \uc704\uc57c.\""}, {"kind": "joke", "text": "\uc548\uc804\ubaa8\ub97c \uc548 \uc4f0\uba74? \uc548\uc804 \ubabb \uc501\ub2c8\ub2e4."}, {"kind": "joke", "text": "\ud398\uc778\ud2b8\uce60\ud558\ub2e4 \uc878\uba74? \uce60\uce60\ub9de\uc2b5\ub2c8\ub2e4."}, {"kind": "joke", "text": "\ud0c0\uc77c\uc774 \uc81c\uc77c \ub4e3\uae30 \uc2eb\uc740 \ub9d0\uc740? \"\uc774\uac70 \uc090\ub6a4\uc5b4\uc84c\ub294\ub370?\""}, {"kind": "joke", "text": "\ub808\ubbf8\ucf58 \ucc28\uac00 \ub2a6\uc73c\uba74? \ubd84\uc704\uae30\ubd80\ud130 \uad73\uc2b5\ub2c8\ub2e4."}, {"kind": "joke", "text": "\ud604\uc7a5\uc5d0\uc11c \uc81c\uc77c \ube60\ub978 \uc0ac\ub78c\uc740? \uc0c8\ucc38 \uba39\uc73c\ub7ec \uac00\ub294 \uc0ac\ub78c."}, {"kind": "joke", "text": "\ubc18\uc7a5\ub2d8\uc774 \uc81c\uc77c \uc88b\uc544\ud558\ub294 \uc18c\ub9ac\ub294? \"\ub2e4 \ub410\uc2b5\ub2c8\ub2e4.\""}, {"kind": "joke", "text": "\uc548\uc804\ud654\uac00 \uc138\uc0c1\uc5d0\uc11c \uc81c\uc77c \uc2eb\uc5b4\ud558\ub294 \uac83\uc740? \ubabb."}, {"kind": "joke", "text": "\uc904\uc790\uac00 \uc81c\uc77c \uc798\ud558\ub294 \uac83\uc740? \uc7ac\ub294 \uac83. \ub208\uce58\ub3c4 \uc798 \uc7bd\ub2c8\ub2e4."}, {"kind": "joke", "text": "\uacc4\ub2e8\uc774 \uc81c\uc77c \uc2eb\uc5b4\ud558\ub294 \uc0ac\ub78c\uc740? \ub450 \uce78\uc529 \uc624\ub974\ub294 \uc0ac\ub78c."}, {"kind": "joke", "text": "\ubaa9\uc218\uac00 \uc81c\uc77c \uc88b\uc544\ud558\ub294 \ub098\ubb34\ub294? \ub3c8\ub098\ubb34."}, {"kind": "joke", "text": "\ub4dc\ub9b4\uc774 \ud558\ub8e8 \uc885\uc77c \ud558\ub294 \ub9d0\uc740? \"\ub6ab\uace0 \uac00\uaca0\uc2b5\ub2c8\ub2e4.\""}, {"kind": "tip", "text": "\ube44 \uc628 \ub2e4\uc74c \ub0a0 \ube44\uacc4\ub294 \ubbf8\ub044\ub7fd\uc2b5\ub2c8\ub2e4. \uccab \ubc1c\uc744 \ucc9c\ucc9c\ud788."}, {"kind": "tip", "text": "\uc548\uc804\ud654 \ubc11\ucc3d\uc740 \ud55c \ub2ec\uc5d0 \ud55c \ubc88 \ubd10\uc8fc\uc138\uc694. \ub2f3\uc73c\uba74 \ubbf8\ub044\ub7ec\uc9d1\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc7a5\uac11\uc740 \uc816\uc73c\uba74 \ud798\uc774 \ubc18\uc73c\ub85c \uc90d\ub2c8\ub2e4. \uc5ec\ubc8c \ud558\ub098\uba74 \ud558\ub8e8\uac00 \ud3b8\ud569\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ub354\uc6b4 \ub0a0\uc740 \ubaa9\ub9c8\ub974\uae30 \uc804\uc5d0 \ub9c8\uc2ed\ub2c8\ub2e4. \ubaa9\ub9c8\ub974\uba74 \uc774\ubbf8 \ub2a6\uc2b5\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ucd94\uc6b4 \ub0a0\uc740 \uc587\uac8c \uc5ec\ub7ec \uacb9. \ub450\uaebc\uc6b4 \ud55c \uacb9\ubcf4\ub2e4 \ub530\ub73b\ud569\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ubb34\uac70\uc6b4 \uac74 \ud5c8\ub9ac\uac00 \uc544\ub2c8\ub77c \ub2e4\ub9ac\ub85c \ub4ed\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ud604\uc7a5 \ub3c4\ucc29\ud558\uba74 \ud654\uc7a5\uc2e4\uacfc \ub300\ud53c\ub85c\ubd80\ud130 \ubd10 \ub450\uc138\uc694."}, {"kind": "tip", "text": "\uae30\ucd08\uc548\uc804\ubcf4\uac74\uad50\uc721 \uc774\uc218\uc99d\uc740 4\ub144\ub9c8\ub2e4 \uac31\uc2e0\uc785\ub2c8\ub2e4. \ub0a0\uc9dc \ud655\uc778\ud574 \ub450\uc138\uc694."}, {"kind": "tip", "text": "\ucd9c\uc5ed \uc804\ub0a0 \ubc24\uc5d0 \uc5f0\ub77d\ucc98\ub97c \ud55c \ubc88 \ud655\uc778\ud558\uc138\uc694. \uc544\uce68\uc5d0 \uc804\ud654\uac00 \uc548 \ub418\uba74 \ubabb \uac11\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ub2e4\ucce4\uc73c\uba74 \uc791\uc544\ub3c4 \ub9d0\ud558\uc138\uc694. \uc228\uae30\uba74 \ubcf8\uc778\ub9cc \uc190\ud574\uc785\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc0c8\ucc38 \uc2dc\uac04\uc5d4 \uadf8\ub298\uc5d0 \uc549\uc73c\uc138\uc694. 5\ubd84\uc774 \uc624\ud6c4\ub97c \ubc14\uafc9\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uac01\ubaa9\uc774\ub098 \ud30c\uc774\ud504\ub294 \ub05d\uc744 \uba3c\uc800 \ubd05\ub2c8\ub2e4. \ub4a4\uac00 \uc5b4\ub514 \uac78\ub9bd\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc0ac\ub2e4\ub9ac\ub294 \ub124 \ubc1c\uc774 \ub2e4 \ub2ff\uc558\ub294\uc9c0 \ubcf4\uace0 \uc624\ub985\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc804\uc120 \uc704\uc5d0\ub294 \uc544\ubb34\uac83\ub3c4 \uc62c\ub824\ub193\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ubabb\uc744 \ubc1f\uc558\uc73c\uba74 \ubc14\ub85c \ub9d0\ud558\uc138\uc694. \ud30c\uc0c1\ud48d \uc8fc\uc0ac\uac00 \ud544\uc694\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uaca8\uc6b8\uc5d4 \ucf58\ud06c\ub9ac\ud2b8\uac00 \ub354\ub514\uac8c \uad73\uc2b5\ub2c8\ub2e4. \uc77c\uc815\uc774 \ubc00\ub9b4 \uc218 \uc788\uc5b4\uc694."}, {"kind": "tip", "text": "\uc548\uc804\ubaa8 \ud131\ub048\uc740 \uc870\uc5ec\uc57c \uc548\uc804\ubaa8\uc785\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uadf8\ub77c\uc778\ub354 \uc4f8 \ub550 \ubcf4\uc548\uacbd. \ub208\uc740 \ud558\ub098\ubfd0\uc785\ub2c8\ub2e4."}, {"kind": "tip", "text": "\ud604\uc7a5 \ubc88\ud638\ub294 \ubbf8\ub9ac \uc800\uc7a5\ud574 \ub450\uc138\uc694. \ub2a6\ub294 \ub0a0 \uc804\ud654 \ud55c \ud1b5\uc774 \ub2e4\ub985\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc5ec\ub984\uc5d4 \uc18c\uae08\ub3c4 \ucc59\uae30\uc138\uc694. \ubb3c\ub9cc \ub9c8\uc2dc\uba74 \ub354 \uc5b4\uc9c0\ub7fd\uc2b5\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc791\uc5c5\ud654 \ub048\uc740 \uc548\uc73c\ub85c \ub123\uc2b5\ub2c8\ub2e4. \ubc1f\ud788\uba74 \ub118\uc5b4\uc9d1\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc313\uc778 \uc790\uc7ac \ubc11\uc73c\ub85c\ub294 \ub4e4\uc5b4\uac00\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. \ubb36\uc5ec \uc788\uc5b4\ub3c4\uc694."}, {"kind": "tip", "text": "\uc2e0\ubd84\uc99d\uacfc \ud1b5\uc7a5 \uc0ac\ubcf8\uc740 \ud3f0\uc5d0 \ucc0d\uc5b4\ub450\uba74 \ud3b8\ud569\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uc77c\ub2f9\uc740 \uadf8\ub0a0 \ud655\uc778\ud558\uc138\uc694. \ub098\uc911\uc740 \uc11c\ub85c \uae30\uc5b5\uc774 \ub2e4\ub985\ub2c8\ub2e4."}, {"kind": "tip", "text": "\uccab \ud604\uc7a5\uc740 30\ubd84 \uc77c\ucc0d \ub098\uc11c\uc138\uc694. \ucc3e\ub294 \ub370 \uc2dc\uac04\uc774 \uac78\ub9bd\ub2c8\ub2e4."}];
+  if (!LINES.length) return;
+
+  // 며칠째인가 — 로컬 날짜를 하루 단위 일련번호로. 매일 정확히 1씩 는다.
+  //   ⚠️ 20261001 같은 숫자를 그냥 쓰면 안 된다. 월말→월초에 70이 뛰어서
+  //      아래 결 고르기(% 3)가 불규칙해진다.
+  var d = new Date();
+  var day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+
+  // ★ **결을 먼저 고르고** 그 안에서 뽑는다.
+  //   그냥 배열에서 순서대로 뽑으면 스물닷새 내리 실용팁만 나온다 — 파일이
+  //   work 25개 · joke 25개 · tip 25개 순서로 묶여 있기 때문이다.
+  //   이렇게 하면 격려 → 개그 → 실용이 하루씩 돌아간다.
+  var KINDS = ['work', 'joke', 'tip'];
+  var ICONS = { work: '☀️', joke: '😄', tip: '💡' };
+  var pool = [], kind = '';
+  for (var k = 0; k < KINDS.length && !pool.length; k++) {
+    kind = KINDS[(day + k) % KINDS.length];       // 그 결이 비어 있으면 다음 결로
+    pool = LINES.filter(function (l) { return l.kind === kind; });
+  }
+  if (!pool.length) { pool = LINES; kind = ''; }  // kind를 안 적었어도 뭔가는 보여준다
+  var line = pool[Math.floor(day / KINDS.length) % pool.length];
+
+  // 아이콘은 **엘리먼트로** 넣는다. 글과 한 덩어리로 쓰면 줄이 넘어갈 때
+  //   아이콘만 따로 떨어져 나간다.
+  el.textContent = '';
+  var icon = document.createElement('span');
+  icon.className = 'daily-icon';
+  icon.setAttribute('aria-hidden', 'true');       // 읽어줄 내용이 아니다
+  icon.textContent = ICONS[line.kind || kind] || '💬';
+  el.appendChild(icon);
+  el.appendChild(document.createTextNode(line.text));
+})();
+</script>
 
 <script>
 (function () {
