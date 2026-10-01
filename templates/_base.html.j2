@@ -374,6 +374,61 @@
             text-align: center;
         }
 
+        /* 현장 용어 퀴즈 (2026-10-01) — 직종 사전 아래. */
+        .quiz-sec { padding-top: 0; }
+        .quiz[hidden] { display: none; }
+        .quiz {
+            max-width: 32rem;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #e3e6ea;
+            border-radius: 14px;
+            padding: 1.3rem 1.2rem 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+        }
+        .quiz-head { margin: 0 0 .9rem; font-size: 1.1rem; color: var(--navy); }
+        .quiz-q { margin: 0 0 1rem; font-size: 1.05rem; line-height: 1.5; color: #22262c; }
+        .quiz-q b { font-size: 1.3rem; color: var(--navy); }
+        .quiz-ask { color: #5b6470; }
+        .quiz-opts { display: grid; gap: .55rem; }
+        /* 보기는 손가락으로 누른다 — 넉넉하게. */
+        .quiz-opt {
+            padding: .85rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 600;
+            text-align: left;
+            color: #22262c;
+            background: #f7f8fa;
+            border: 1px solid #dfe3e8;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .quiz-opt:active { background: #eceff3; }
+        /* 답을 고른 뒤 — 맞은 것은 초록, 내가 고른 틀린 것만 빨강.
+           ⚠️ 나머지는 건드리지 않는다. 다 칠하면 뭘 눌렀는지 안 보인다. */
+        .quiz-opt.is-right { background: #e8f6ec; border-color: #a8d8b6; color: #16633a; }
+        .quiz-opt.is-wrong { background: #fdeceb; border-color: #f2bdb8; color: #9c2a20; }
+        .quiz-opt[disabled] { cursor: default; }
+        .quiz-ans[hidden] { display: none; }
+        .quiz-ans { margin-top: 1rem; }
+        .quiz-verdict { margin: 0 0 .35rem; font-weight: 800; font-size: 1rem; }
+        .quiz-desc { margin: 0; font-size: .92rem; line-height: 1.6; color: #4a5260; }
+        .quiz-next {
+            display: none;
+            width: 100%;
+            margin-top: 1rem;
+            padding: .85rem;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 700;
+            color: #fff;
+            background: var(--navy);
+            border: 0;
+            border-radius: 11px;
+            cursor: pointer;
+        }
+
         /* 내일 날씨 (2026-10-01) — 하루 한 줄 바로 위.
            ⚠️ hidden 속성만으로는 display:flex 가 이긴다. 명시적으로 막는다. */
         .weather-band[hidden] { display: none; }
@@ -624,6 +679,97 @@
   icon.textContent = ICONS[line.kind || kind] || '💬';
   el.appendChild(icon);
   el.appendChild(document.createTextNode(line.text));
+})();
+</script>
+
+{# 현장 용어 퀴즈 — 직종 안내 페이지에만 있다. 없으면 조용히 빠진다. #}
+<script>
+(function () {
+  var box = document.getElementById('roleQuiz');
+  if (!box) return;
+
+  // 사전을 그대로 문제로 쓴다 — 별칭(가다와꾸·아시바)이 있는 직종만.
+  //   ⚠️ 별칭이 곧 문제다. 없으면 "형틀목수는 무슨 일?"이 되어 문제가 안 된다.
+  var ALL = [];
+  {% for g in roles.groups %}{% for r in g.roles %}{% if r.get('alias') %}
+  ALL.push({ word: {{ r.alias | tojson }}, name: {{ r.name | tojson }}, desc: {{ r.desc | tojson }} });
+  {% endif %}{% endfor %}{% endfor %}
+
+  // ⚠️ **답이 문제에 적혀 있으면 뺀다.** "해체 → 해체공", "항타공 → 항타·토류판공",
+  //    "전공 → 전기공" 같은 건 맞혀도 배우는 게 없다.
+  //    ★ 별칭 끝의 '공'을 떼고 본다 — "코킹공"과 "코킹·유리공"은 글자 그대로는
+  //      안 겹치지만, 떼고 보면 '코킹'이 이름 안에 그대로 있다.
+  //    남는 건 "가다와꾸 → 형틀목수", "단도리 → 현장 정리원"처럼 **알아야 아는** 것들이다.
+  function tooClose(word, name) {
+    var n = name.replace(/[()·/\s]/g, '');
+    var w = word.replace(/공$/, '');
+    if (w.length < 2) return true;                   // '전' 한 글자만 남으면 쓸 수 없다
+    return n.indexOf(w) >= 0 || w.indexOf(n) >= 0;
+  }
+
+  var POOL = ALL.filter(function (p) { return !tooClose(p.word, p.name); });
+  if (POOL.length < 4) return;                       // 보기 4개가 안 나오면 접는다
+
+  var wordEl = document.getElementById('quizWord');
+  var optsEl = document.getElementById('quizOpts');
+  var ansEl = document.getElementById('quizAns');
+  var verdictEl = document.getElementById('quizVerdict');
+  var descEl = document.getElementById('quizDesc');
+  var nextBtn = document.getElementById('quizNext');
+  var last = -1;
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function ask() {
+    // ⚠️ 같은 문제가 연달아 나오면 "안 바뀌네?"가 된다. 직전 것만 피한다.
+    var i;
+    do { i = Math.floor(Math.random() * POOL.length); } while (POOL.length > 1 && i === last);
+    last = i;
+    var answer = POOL[i];
+
+    var others = shuffle(POOL.filter(function (p) { return p.name !== answer.name; })).slice(0, 3);
+    var choices = shuffle([answer].concat(others));
+
+    wordEl.textContent = answer.word;
+    ansEl.hidden = true;
+    nextBtn.style.display = 'none';
+    optsEl.textContent = '';
+
+    choices.forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'quiz-opt';
+      b.textContent = c.name;
+      b.addEventListener('click', function () {
+        var right = c.name === answer.name;
+        // 고른 것과 정답만 칠한다. 나머지를 다 칠하면 뭘 눌렀는지 안 보인다.
+        [].forEach.call(optsEl.children, function (el) {
+          el.disabled = true;
+          if (el.textContent === answer.name) el.classList.add('is-right');
+        });
+        if (!right) b.classList.add('is-wrong');
+
+        verdictEl.textContent = right
+          ? '맞았습니다! ' + answer.name + ' (' + answer.word + ')'
+          : '아쉽네요. 정답은 ' + answer.name + '입니다.';
+        verdictEl.style.color = right ? '#16633a' : '#9c2a20';
+        descEl.textContent = answer.desc;
+        ansEl.hidden = false;
+        nextBtn.style.display = 'block';
+      });
+      optsEl.appendChild(b);
+    });
+  }
+
+  nextBtn.addEventListener('click', ask);
+  ask();
+  box.hidden = false;
 })();
 </script>
 

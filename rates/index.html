@@ -414,6 +414,61 @@
             text-align: center;
         }
 
+        /* 현장 용어 퀴즈 (2026-10-01) — 직종 사전 아래. */
+        .quiz-sec { padding-top: 0; }
+        .quiz[hidden] { display: none; }
+        .quiz {
+            max-width: 32rem;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #e3e6ea;
+            border-radius: 14px;
+            padding: 1.3rem 1.2rem 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+        }
+        .quiz-head { margin: 0 0 .9rem; font-size: 1.1rem; color: var(--navy); }
+        .quiz-q { margin: 0 0 1rem; font-size: 1.05rem; line-height: 1.5; color: #22262c; }
+        .quiz-q b { font-size: 1.3rem; color: var(--navy); }
+        .quiz-ask { color: #5b6470; }
+        .quiz-opts { display: grid; gap: .55rem; }
+        /* 보기는 손가락으로 누른다 — 넉넉하게. */
+        .quiz-opt {
+            padding: .85rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 600;
+            text-align: left;
+            color: #22262c;
+            background: #f7f8fa;
+            border: 1px solid #dfe3e8;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .quiz-opt:active { background: #eceff3; }
+        /* 답을 고른 뒤 — 맞은 것은 초록, 내가 고른 틀린 것만 빨강.
+           ⚠️ 나머지는 건드리지 않는다. 다 칠하면 뭘 눌렀는지 안 보인다. */
+        .quiz-opt.is-right { background: #e8f6ec; border-color: #a8d8b6; color: #16633a; }
+        .quiz-opt.is-wrong { background: #fdeceb; border-color: #f2bdb8; color: #9c2a20; }
+        .quiz-opt[disabled] { cursor: default; }
+        .quiz-ans[hidden] { display: none; }
+        .quiz-ans { margin-top: 1rem; }
+        .quiz-verdict { margin: 0 0 .35rem; font-weight: 800; font-size: 1rem; }
+        .quiz-desc { margin: 0; font-size: .92rem; line-height: 1.6; color: #4a5260; }
+        .quiz-next {
+            display: none;
+            width: 100%;
+            margin-top: 1rem;
+            padding: .85rem;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 700;
+            color: #fff;
+            background: var(--navy);
+            border: 0;
+            border-radius: 11px;
+            cursor: pointer;
+        }
+
         /* 내일 날씨 (2026-10-01) — 하루 한 줄 바로 위.
            ⚠️ hidden 속성만으로는 display:flex 가 이긴다. 명시적으로 막는다. */
         .weather-band[hidden] { display: none; }
@@ -881,6 +936,126 @@
   icon.textContent = ICONS[line.kind || kind] || '💬';
   el.appendChild(icon);
   el.appendChild(document.createTextNode(line.text));
+})();
+</script>
+
+<script>
+(function () {
+  var box = document.getElementById('roleQuiz');
+  if (!box) return;
+
+  // 사전을 그대로 문제로 쓴다 — 별칭(가다와꾸·아시바)이 있는 직종만.
+  //   ⚠️ 별칭이 곧 문제다. 없으면 "형틀목수는 무슨 일?"이 되어 문제가 안 된다.
+  var ALL = [];
+  ALL.push({ word: "\uacf0\ube75", name: "\uacf0\ubc29", desc: "\uc5d8\ub9ac\ubca0\uc774\ud130\u00b7\uc0ac\ub2e4\ub9ac\ucc28\uac00 \uc548 \ub2ff\ub294 \uacf3\uc5d0 \ubcbd\ub3cc\u00b7\uc2dc\uba58\ud2b8\u00b7\ud0c0\uc77c\uc744 \ub4f1\uc9d0\uc73c\ub85c \ub098\ub974\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc720\ub3c4\uc6d0", name: "\uc2e0\ud638\uc218", desc: "\ud06c\ub808\uc778\u00b7\uad74\ucc29\uae30 \ub4f1 \uc911\uc7a5\ube44\uac00 \uc6c0\uc9c1\uc77c \ub54c \ubb34\uc804\uae30\u00b7\uc218\uc2e0\ud638\ub85c \uc548\uc804\ud558\uac8c \ud1b5\uc81c\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub3c4\ube44\uacf5", name: "\uc911\ub7c9\ubb3c \uc6b4\ubc18(\ub3c4\ube44)", desc: "\uae30\uacc4\u00b7\ubcc0\uc555\uae30\u00b7\uacf5\uc870\uae30 \uac19\uc740 \ub300\ud615 \uc911\ub7c9\ubb3c\uc744 \uc2e4\ub0b4\ub85c \ubc18\uc785\u00b7\uac70\uce58\ud558\ub294 \uc804\ubb38 \uc778\ub825" });
+  ALL.push({ word: "\uac00\ub2e4\uc640\uafb8", name: "\ud615\ud2c0\ubaa9\uc218", desc: "\ucf58\ud06c\ub9ac\ud2b8\ub97c \ubd80\uc744 \uac70\ud478\uc9d1(\ud615\ud2c0)\uc744 \uc9dc\uace0 \uc124\uce58\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ubc14\ub77c\uc2dc\uacf5", name: "\uac70\ud478\uc9d1 \ud574\uccb4\uacf5", desc: "\ucf58\ud06c\ub9ac\ud2b8\uac00 \uad73\uc740 \ub4a4 \uac70\ud478\uc9d1\uc744 \ub72f\uc5b4\ub0b4\uace0 \uc815\ub9ac\ud558\ub294 \uc0ac\ub78c (\ub099\ud558\ubb3c \uc704\ud5d8)" });
+  ALL.push({ word: "\ub383\ud0b9\uacf5", name: "\ucca0\uadfc\uacf5", desc: "\ucca0\uadfc\uc744 \ub3c4\uba74\ub300\ub85c \uc790\ub974\uace0 \uad6c\ubd80\ub824 \ubb36\uc5b4 \ubc30\uadfc\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uacf5\uad6c\ub9ac", name: "\ucf58\ud06c\ub9ac\ud2b8 \ud0c0\uc124\uacf5", desc: "\ub808\ubbf8\ucf58\u00b7\ud38c\ud504\uce74\ub85c \ucf58\ud06c\ub9ac\ud2b8\ub97c \ubd93\uace0 \ub2e4\uc9c0\ub294 \uc0ac\ub78c (\ud0c0\uc124 \uc2dc\uac04 \ub530\ub77c \uc57c\uac04\u00b7\uc5f0\uc7a5 \uc7a6\uc74c)" });
+  ALL.push({ word: "\uc544\uc2dc\ubc14\uacf5", name: "\ube44\uacc4\uacf5", desc: "\ub192\uc740 \uacf3 \uc791\uc5c5\uc6a9 \ubc1c\ud310(\uac15\uad00\u00b7\uc2dc\uc2a4\ud15c \ube44\uacc4)\uc744 \uc870\ub9bd\u00b7\ud574\uccb4\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc2dc\uc2a4\ud15c\ube44\uacc4", name: "\uc2dc\uc2a4\ud15c\ube44\uacc4\uacf5", desc: "\uaddc\uaca9\ud654\ub41c \uc2dc\uc2a4\ud15c \ube44\uacc4\ub97c \uc870\ub9bd\u00b7\ud574\uccb4\ud558\ub294 \uc0ac\ub78c (\uac15\uad00\ube44\uacc4\uc640 \uc790\uc7ac\u00b7\uacf5\ubc95\uc774 \ub2e4\ub984)" });
+  ALL.push({ word: "\ubcf4\uc591\ube44\uacc4", name: "\ubcf4\uc591\ube44\uacc4\uacf5", desc: "\ub9c8\uac10\uba74\u00b7\uad6c\uc870\ubb3c\uc774 \uc0c1\ud558\uc9c0 \uc54a\uac8c \ubcf4\uc591\uc7ac\ub97c \ub300\uace0 \ube44\uacc4\ub97c \uc138\uc6b0\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ud56d\ud0c0\uacf5", name: "\ud56d\ud0c0\u00b7\ud1a0\ub958\ud310\uacf5", desc: "H\ube54 \uae30\ucd08 \ud30c\uc77c\uc744 \ud56d\ud0c0\uae30\ub85c \uc9c0\ubc18\uc5d0 \ub123\uace0 \ud759\ub9c9\uc774 \ud1a0\ub958\ud310\uc744 \uc2dc\uacf5\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ubaa9\uacf5", name: "\ubaa9\uc218(\ubaa9\uacf5)", desc: "\ud615\ud2c0\u00b7\ub0b4\uc7a5\uc5d0 \ud55c\uc815\ud558\uc9c0 \uc54a\uace0 \ud604\uc7a5\uc758 \ubaa9\uacf5 \uc791\uc5c5\uc744 \ub450\ub8e8 \ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc0ac\uae61", name: "\ubbf8\uc7a5\uacf5", desc: "\ubc14\ub2e5\u00b7\ubcbd\uc5d0 \ubab0\ud0c8\uc744 \ud759\uc190(\uace0\ub370)\uc73c\ub85c \ud3c9\ud3c9\ud558\uac8c \ubc14\ub974\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc4f0\ubbf8\uacf5", name: "\uc870\uc801\uacf5", desc: "\ubcbd\ub3cc\u00b7\ube14\ub85d\uc744 \ubaa8\ub974\ud0c0\ub974\ub85c \uc313\uc544\uc62c\ub9ac\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ud0c0\uc77c", name: "\ud0c0\uc77c\uacf5", desc: "\ud654\uc7a5\uc2e4\u00b7\ubc14\ub2e5 \ud0c0\uc77c\uc744 \ubd99\uc774\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ube91\ub07c", name: "\ub3c4\uc7a5\uacf5", desc: "\ud37c\ud2f0(\ube60\ub370)\u00b7\uc5d0\uc5b4\ub9ac\uc2a4 \ubfdc\uce60\u00b7\ub864\ub7ec\ub85c \ub3c4\uc7a5\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub374\uc870\ubaa9\uc218", name: "\ub0b4\uc7a5\ubaa9\uacf5", desc: "\uc11d\uace0\ubcf4\ub4dc \ucc9c\uc7a5(\ub374\uc870)\u00b7\uac00\ubcbd\u00b7\ubab0\ub529\u00b7\ubb38\ud2c0 \ub4f1 \uc2e4\ub0b4 \ub9c8\uac10\uc744 \ud558\ub294 \uc0ac\ub78c (\uac1c\uc778 \uacf5\uad6c \uc9c0\ucc38)" });
+  ALL.push({ word: "\ubc29\uc218", name: "\ubc29\uc218\uacf5", desc: "\uc625\uc0c1\u00b7\ud654\uc7a5\uc2e4 \ub4f1\uc5d0 \uc6b0\ub808\ud0c4\u00b7\uc2dc\ud2b8\ub85c \ubc29\uc218\uce35\uc744 \ub9cc\ub4dc\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ud558\uc2a4\ub9ac\uacf5", name: "\ud560\uc11d\uacf5(\ud558\uc2a4\ub9ac)", desc: "\ud280\uc5b4\ub098\uc628 \ucf58\ud06c\ub9ac\ud2b8 \uba74\uc744 \uce58\ud551\uac74(\ubfcc\ub808\uce74)\uc73c\ub85c \uae4e\uc544\ub0b4\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub178\ucd9c", name: "\ub178\ucd9c\uacf5(\uacac\ucd9c)", desc: "\ub178\ucd9c \ucf58\ud06c\ub9ac\ud2b8 \uba74\uc744 \uac08\uace0 \uba54\uc6cc \ub9e4\ub048\ud558\uac8c \ubcf4\uc218\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ucf54\uc544\uacf5", name: "\ucf54\uc544\uacf5(\ucc9c\uacf5)", desc: "\ub2e4\uc774\uc544\ubaac\ub4dc \ucf54\uc5b4 \ub4dc\ub9b4\ub85c \ucf58\ud06c\ub9ac\ud2b8\uc5d0 \uad6c\uba4d\uc744 \ub6ab\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ucf54\ud0b9\uacf5", name: "\ucf54\ud0b9\u00b7\uc720\ub9ac\uacf5", desc: "\uc2e4\ub9ac\ucf58 \ucf54\ud0b9 \ub9c8\uac10\u00b7\uc720\ub9ac\ub97c \uc555\ucc29 \uc2dc\uacf5\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub370\ud06c", name: "\ub370\ud06c\uacf5", desc: "\ubaa9\uc7ac\u00b7\ud569\uc131\ubaa9\uc7ac \ub370\ud06c \ubc14\ub2e5\uc744 \uc9dc\uace0 \uae4c\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc870\uacbd", name: "\uc870\uacbd\uacf5", desc: "\ub098\ubb34\u00b7\uc794\ub514\ub97c \uc2ec\uace0 \uc815\uc6d0\u00b7\ud654\ub2e8\uc744 \ub9cc\ub4dc\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub178\uac00\ub2e4", name: "\ubcf4\ud1b5\uc778\ubd80 / \uc7a1\ubd80", desc: "\ud2b9\uc815 \uae30\uc220 \uc5c6\uc774 \ud604\uc7a5\uc758 \uae30\ubcf8 \uc791\uc5c5(\uc6b4\ubc18\u00b7\uc815\ub9ac\u00b7\ubcf4\uc870)\uc744 \ub450\ub8e8 \ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub2e8\ub3c4\ub9ac", name: "\ud604\uc7a5 \uc815\ub9ac\uc6d0", desc: "\uacf5\uc0ac \ud6c4 \uc794\uc7ac\ubb3c \uc815\ub9ac\u00b7\ud3d0\uae30\ubb3c \ub9c8\ub300 \uc791\uc5c5\u00b7\ud1b5\ub85c \ud655\ubcf4\ub97c \uc804\ub2f4\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ubd80\uc2dc\uae30\uacf5", name: "\ucca0\uac70\uacf5", desc: "\uc2e4\ub0b4\ub97c \ud574\uccb4\ud558\uace0 \ud3d0\uae30\ubb3c\uc744 \ubd84\ub9ac\u00b7\ubc18\ucd9c\ud558\ub294 \uc0ac\ub78c (\ubd84\uc9c4\u00b7\uc18c\uc74c\u00b7\uac15\ub3c4 \ud07c)" });
+  ALL.push({ word: "\ud574\uccb4", name: "\ud574\uccb4\uacf5", desc: "\uc124\ube44\u00b7\uad6c\uc870\ubb3c\uc744 \ubd84\ud574\ud574 \ub72f\uc5b4\ub0b4\ub294 \uc0ac\ub78c (\uac74\ubb3c \uc804\uccb4\ub97c \ubd80\uc218\ub294 \ucca0\uac70\uc640 \uad6c\ubd84)" });
+  ALL.push({ word: "\ud654\uc7ac\uac10\uc2dc", name: "\uc548\uc804\uac10\uc2dc\uc6d0", desc: "\ud654\uc7ac \uac10\uc2dc\u00b7\ud1b5\ud589 \ud1b5\uc81c\u00b7\uc548\uc804\uc218\uce59 \uc810\uac80\uc744 \ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ud30c\uc774\ud504\uacf5", name: "\ubc30\uad00\uacf5", desc: "\uc704\uc0dd\u00b7\uc624\ubc30\uc218\u00b7\uc18c\ubc29 \ubc30\uad00\uc744 \uc5f0\uacb0\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc6a9\uc811\uacf5", name: "\uc6a9\uc811\uacf5", desc: "\ucca0\uace8\u00b7\ubc30\uad00\uc744 \uc544\ud06c\u00b7\ud2f0\uadf8(\uc54c\uace4)\ub85c \uc6a9\uc811\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\uc804\uacf5", name: "\uc804\uae30\uacf5", desc: "\ubc30\uc120 \uc785\uc120\u00b7\ucf00\uc774\ube14 \ud2b8\ub808\uc774\u00b7\ubd84\uc804\ubc18\uc744 \uc138\ud305\ud558\ub294 \uc0ac\ub78c" });
+  ALL.push({ word: "\ub2e5\ud2b8\uacf5", name: "\ub2e5\ud2b8\uacf5", desc: "\ud658\uae30 \ub2e5\ud2b8\uad00\uc744 \uc81c\uc791\ud574 \ucc9c\uc7a5\uc5d0 \uc124\uce58\ud558\ub294 \uc0ac\ub78c" });
+
+  // ⚠️ **답이 문제에 적혀 있으면 뺀다.** "해체 → 해체공", "항타공 → 항타·토류판공",
+  //    "전공 → 전기공" 같은 건 맞혀도 배우는 게 없다.
+  //    ★ 별칭 끝의 '공'을 떼고 본다 — "코킹공"과 "코킹·유리공"은 글자 그대로는
+  //      안 겹치지만, 떼고 보면 '코킹'이 이름 안에 그대로 있다.
+  //    남는 건 "가다와꾸 → 형틀목수", "단도리 → 현장 정리원"처럼 **알아야 아는** 것들이다.
+  function tooClose(word, name) {
+    var n = name.replace(/[()·/\s]/g, '');
+    var w = word.replace(/공$/, '');
+    if (w.length < 2) return true;                   // '전' 한 글자만 남으면 쓸 수 없다
+    return n.indexOf(w) >= 0 || w.indexOf(n) >= 0;
+  }
+
+  var POOL = ALL.filter(function (p) { return !tooClose(p.word, p.name); });
+  if (POOL.length < 4) return;                       // 보기 4개가 안 나오면 접는다
+
+  var wordEl = document.getElementById('quizWord');
+  var optsEl = document.getElementById('quizOpts');
+  var ansEl = document.getElementById('quizAns');
+  var verdictEl = document.getElementById('quizVerdict');
+  var descEl = document.getElementById('quizDesc');
+  var nextBtn = document.getElementById('quizNext');
+  var last = -1;
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function ask() {
+    // ⚠️ 같은 문제가 연달아 나오면 "안 바뀌네?"가 된다. 직전 것만 피한다.
+    var i;
+    do { i = Math.floor(Math.random() * POOL.length); } while (POOL.length > 1 && i === last);
+    last = i;
+    var answer = POOL[i];
+
+    var others = shuffle(POOL.filter(function (p) { return p.name !== answer.name; })).slice(0, 3);
+    var choices = shuffle([answer].concat(others));
+
+    wordEl.textContent = answer.word;
+    ansEl.hidden = true;
+    nextBtn.style.display = 'none';
+    optsEl.textContent = '';
+
+    choices.forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'quiz-opt';
+      b.textContent = c.name;
+      b.addEventListener('click', function () {
+        var right = c.name === answer.name;
+        // 고른 것과 정답만 칠한다. 나머지를 다 칠하면 뭘 눌렀는지 안 보인다.
+        [].forEach.call(optsEl.children, function (el) {
+          el.disabled = true;
+          if (el.textContent === answer.name) el.classList.add('is-right');
+        });
+        if (!right) b.classList.add('is-wrong');
+
+        verdictEl.textContent = right
+          ? '맞았습니다! ' + answer.name + ' (' + answer.word + ')'
+          : '아쉽네요. 정답은 ' + answer.name + '입니다.';
+        verdictEl.style.color = right ? '#16633a' : '#9c2a20';
+        descEl.textContent = answer.desc;
+        ansEl.hidden = false;
+        nextBtn.style.display = 'block';
+      });
+      optsEl.appendChild(b);
+    });
+  }
+
+  nextBtn.addEventListener('click', ask);
+  ask();
+  box.hidden = false;
 })();
 </script>
 

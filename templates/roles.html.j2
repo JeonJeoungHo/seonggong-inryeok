@@ -61,6 +61,30 @@
     </div>
 </section>
 
+{# 현장 용어 퀴즈 (2026-10-01) — 위 사전을 그대로 문제로 쓴다.
+   ★ 자리는 **사전 아래**다. 찾으러 온 사람 앞을 막지 않는다 — 다 보고 나서
+     "한번 맞혀볼까?"가 되는 자리다.
+   ★ 틀려도 답과 설명을 보여준다. 이건 시험이 아니라 **배우는 자리**다.
+     신입이 "아 저게 그거구나" 하면 그걸로 된 것이다.
+   ⚠️ 하루 한 줄과 달리 **새로 고칠 때마다 바뀐다.** 퀴즈는 여러 번 푸는 것이
+      자연스럽고, 날짜로 고정하면 하루에 한 문제밖에 못 푼다. #}
+<section class="quiz-sec">
+    <div class="container">
+        <div class="quiz" id="roleQuiz" hidden>
+            <h2 class="quiz-head">🧐 현장 용어 퀴즈</h2>
+            <p class="quiz-q">
+                <b id="quizWord"></b><span class="quiz-ask">은(는) 무슨 일 하는 사람일까요?</span>
+            </p>
+            <div class="quiz-opts" id="quizOpts"></div>
+            <div class="quiz-ans" id="quizAns" hidden>
+                <p class="quiz-verdict" id="quizVerdict"></p>
+                <p class="quiz-desc" id="quizDesc"></p>
+            </div>
+            <button type="button" class="quiz-next" id="quizNext">다음 문제 →</button>
+        </div>
+    </div>
+</section>
+
 <section style="background:#f8f9fa;">
     <div class="container">
         <h2>찾으시는 일이 없으신가요?</h2>
