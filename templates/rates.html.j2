@@ -49,6 +49,20 @@
             {% endfor %}
         </div>
 
+        {# "공표 시중노임단가 276,000원"이 숫자만 덩그러니 있었다(2026-10-01).
+           ★ **같은 표를 양쪽이 본다.** 소장은 "공표보다 싸네"로, 일하실 분은
+             "공표보다 덜 주네"로 읽는다. 실제로 비계공은 공표(282,000)가 우리
+             상한(280,000)보다 높다 — 설명이 없으면 오해만 남는다.
+           ⚠️ 숨기지 않는다. 밝혀두는 쪽이 맞고, **무엇과 비교한 숫자인지**만
+              말해주면 된다. #}
+        {% if region.rates_verified | selectattr('source') | list %}
+        <p class="note note-source">
+            ℹ️ <b>공표 시중노임단가</b>는 건설업계가 조사해 반년마다 발표하는
+            기준 금액입니다. 비교해 보시라고 같이 적었습니다 —
+            실제 일당은 현장 조건과 그날 사정에 따라 이보다 오르기도 내리기도 합니다.
+        </p>
+        {% endif %}
+
         <p class="note">
             {% if region.get('rates_updated') %}{{ region.rates_updated }} 기준 · {% endif %}
             1인 1일 기준입니다.<br>
@@ -58,6 +72,63 @@
         <p class="note">
             표에 없는 직종도 대부분 연결해 드립니다. 전화로 물어봐 주세요.
         </p>
+        {# 일당 계산기 (2026-10-01) — 소장이 표를 보고 제일 먼저 하는 계산이
+           "그럼 5명 사흘이면 얼마야?"다. 그걸 머리로 하게 두지 않는다.
+
+           ★ 계산기는 **표의 금액에 곱하기만** 한다. 그 금액이 무엇인지는 표와
+             아래 안내가 이미 말하고 있으니, 계산기가 새 해석을 보태지 않는다.
+             (교통비·식대·소개비를 여기서 끼워 넣으면 그 순간 틀린 숫자가 된다.)
+           ★ 끝은 **전화**로 보낸다. 계산기는 답이 아니라 전화를 걸 이유다.
+           ⚠️ 서버가 첫 직종 1명 1일로 미리 그려둔다 — JS가 늦거나 막혀도
+              빈 칸이 아니라 숫자가 보인다. #}
+        {% set first = region.rates_verified[0] %}
+        <div class="calc" id="rateCalc"
+             data-rates='{{ region.rates_verified | map(attribute="low") | list | tojson }}'
+             data-highs='{{ region.rates_verified | map(attribute="high") | list | tojson }}'
+             data-names='{{ region.rates_verified | map(attribute="role") | list | tojson }}'>
+            <h3 class="calc-head">💰 얼마나 들까요?</h3>
+
+            <div class="calc-row">
+                <label class="calc-label" for="calcRole">직종</label>
+                <select id="calcRole" class="calc-select">
+                    {% for r in region.rates_verified %}
+                    <option value="{{ loop.index0 }}">{{ r.role }}{% if r.get('alias') %} ({{ r.alias }}){% endif %}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="calc-row">
+                <label class="calc-label">인원</label>
+                <div class="calc-step">
+                    <button type="button" class="calc-btn" data-step="people" data-delta="-1" aria-label="인원 줄이기">−</button>
+                    <span class="calc-num" id="calcPeople">1</span><span class="calc-unit">명</span>
+                    <button type="button" class="calc-btn" data-step="people" data-delta="1" aria-label="인원 늘리기">+</button>
+                </div>
+            </div>
+
+            <div class="calc-row">
+                <label class="calc-label">일수</label>
+                <div class="calc-step">
+                    <button type="button" class="calc-btn" data-step="days" data-delta="-1" aria-label="일수 줄이기">−</button>
+                    <span class="calc-num" id="calcDays">1</span><span class="calc-unit">일</span>
+                    <button type="button" class="calc-btn" data-step="days" data-delta="1" aria-label="일수 늘리기">+</button>
+                </div>
+            </div>
+
+            <div class="calc-out">
+                <strong id="calcTotal">{{ '{:,}'.format(first.low) }}원 ~ {{ '{:,}'.format(first.high) }}원</strong>
+                <small id="calcWhat">{{ first.role }} 1명 × 1일</small>
+            </div>
+
+            <p class="calc-note">
+                표의 금액에 인원과 일수를 곱한 값입니다.
+                현장 조건에 따라 달라지니 <b>정확한 금액은 전화로</b> 알려드립니다.
+            </p>
+            <a href="tel:{{ region.phones[0].number }}" class="calc-call">
+                📞 정확한 금액 물어보기 {{ region.phones[0].number }}
+            </a>
+        </div>
+
         <p class="sub-links">
             <a href="{{ link('roles') }}">각 직종이 무슨 일인지 보기 →</a>
         </p>
