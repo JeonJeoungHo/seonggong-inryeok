@@ -35,6 +35,25 @@
             </a>
         </div>
 
+        {# 내일 날씨 (2026-10-01) — 건설에서 비는 재미가 아니라 생존 정보다.
+           비 오면 그날 일이 없어서, 인부도 소장도 전날 밤에 날씨를 본다.
+           ★ 늘어놓지 않는다. 습도·풍속은 날씨 앱이 할 일이고 우리는
+             **일이 있냐 없냐**만 답한다 — 비 오는가, 아침이 몇 도인가.
+           ⚠️ 서버가 미리 못 그린다(실시간 값이다). 그래서 **기본은 숨김**이고
+              값이 와야 보인다 — 못 받아오면 오류 대신 조용히 없는 셈이 된다. #}
+        {% if region.get('weather_point') %}
+        <a class="weather-band" id="weatherBand" hidden
+           href="https://www.weather.go.kr/w/weather/forecast/short-term.do" target="_blank" rel="noopener"
+           data-lat="{{ region.weather_point.lat }}" data-lon="{{ region.weather_point.lon }}"
+           data-label="{{ region.weather_point.label }}">
+            <span class="weather-icon" id="weatherIcon" aria-hidden="true">☁️</span>
+            <span class="weather-text">
+                <b id="weatherHead"></b>
+                <small id="weatherSub"></small>
+            </span>
+        </a>
+        {% endif %}
+
         {# 하루 한 줄 (2026-10-01 정호님) — "정보도 얻고 문의도 되는데 재미가 없다"에서 나왔다.
            ★ 자리는 **전화 버튼과 갈림길 아래**다. 맨 위에 두면 "파주 인력사무소"를
              찾아온 분이 개그부터 보게 된다 — 간판·전화·갈림길이 먼저다.

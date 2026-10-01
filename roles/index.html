@@ -414,6 +414,30 @@
             text-align: center;
         }
 
+        /* 내일 날씨 (2026-10-01) — 하루 한 줄 바로 위.
+           ⚠️ hidden 속성만으로는 display:flex 가 이긴다. 명시적으로 막는다. */
+        .weather-band[hidden] { display: none; }
+        .weather-band {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            margin: 1.4rem auto 0;
+            max-width: 30rem;
+            padding: .85rem 1.1rem;
+            background: #eef4fb;
+            border: 1px solid #cfe0f3;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1d3f66;
+        }
+        .weather-band .weather-icon { flex: 0 0 auto; width: 1.7em; font-size: 1.5rem; line-height: 1; text-align: center; }
+        .weather-band .weather-text { display: block; line-height: 1.45; }
+        .weather-band b { display: block; font-size: 1rem; font-weight: 700; }
+        .weather-band small { display: block; margin-top: .15rem; font-size: .84rem; color: #4d6b8f; }
+        /* 비·눈이면 색을 바꾼다 — "오늘 일 있나"가 걸린 날이라 눈에 띄어야 한다. */
+        .weather-band.is-wet { background: #fdf0e7; border-color: #f5cfae; color: #7a3d12; }
+        .weather-band.is-wet small { color: #9a5a28; }
+
         /* 일당 계산기 (2026-10-01) — 시세표 바로 아래.
            ⚠️ 숫자를 키운다. 결과가 작으면 굴려볼 맛이 안 난다.
            ⚠️ +/− 버튼은 손가락으로 누른다 — 44px 밑으로 내리지 않는다. */
@@ -965,6 +989,65 @@
   icon.textContent = ICONS[line.kind || kind] || '💬';
   el.appendChild(icon);
   el.appendChild(document.createTextNode(line.text));
+})();
+</script>
+
+<script>
+(function () {
+  var band = document.getElementById('weatherBand');
+  if (!band || !window.fetch) return;
+
+  // ★ Open-Meteo — **키가 필요 없다.** 정적 사이트라 키를 숨길 데가 없어서
+  //   이쪽을 골랐다(바로일감은 Django가 있어 OpenWeatherMap 키를 .env에 숨긴다).
+  //   키를 HTML에 적으면 남이 가져다 쓰고, 할당량이 차면 **우리 날씨가 먼저 멈춘다.**
+  var url = 'https://api.open-meteo.com/v1/forecast'
+    + '?latitude=' + band.getAttribute('data-lat')
+    + '&longitude=' + band.getAttribute('data-lon')
+    + '&daily=weather_code,temperature_2m_min,temperature_2m_max'
+    + '&timezone=Asia%2FSeoul&forecast_days=2';
+
+  // 날씨 코드(WMO)를 현장 말로. 비·눈만 가르면 되지 세세히 나눌 이유가 없다.
+  function tell(code) {
+    if (code === 0 || code === 1) return { icon: '☀️', text: '맑음', wet: false };
+    if (code === 2) return { icon: '⛅', text: '구름 조금', wet: false };
+    if (code === 3) return { icon: '☁️', text: '흐림', wet: false };
+    if (code === 45 || code === 48) return { icon: '🌫️', text: '안개', wet: false };
+    if (code >= 71 && code <= 77) return { icon: '🌨️', text: '눈', wet: true };
+    if (code === 85 || code === 86) return { icon: '🌨️', text: '눈', wet: true };
+    if (code >= 95) return { icon: '⛈️', text: '비·천둥', wet: true };
+    if (code >= 51 && code <= 57) return { icon: '🌦️', text: '이슬비', wet: true };
+    if (code >= 61 && code <= 82) return { icon: '🌧️', text: '비', wet: true };
+    return { icon: '☁️', text: '', wet: false };     // 모르는 코드면 날씨 말을 비운다
+  }
+
+  fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+    var d = data && data.daily;
+    if (!d || !d.weather_code || d.weather_code.length < 2) return;
+
+    var w = tell(d.weather_code[1]);                 // [0]=오늘 [1]=내일
+    if (!w.text) return;                             // 뭔지 모르면 아예 안 띄운다
+    var lo = Math.round(d.temperature_2m_min[1]);
+    var hi = Math.round(d.temperature_2m_max[1]);
+    var where = band.getAttribute('data-label');
+
+    document.getElementById('weatherIcon').textContent = w.icon;
+    document.getElementById('weatherHead').textContent =
+      '내일 ' + where + ' — ' + w.text + ' · 아침 ' + lo + '℃';
+
+    // ★ 한 줄 더 붙이는 기준은 **일이 있냐 없냐**다.
+    //   비·눈이 먼저고, 그다음이 영하(콘크리트가 더디게 굳어 일정이 밀린다).
+    var sub = '';
+    if (w.wet) sub = '현장이 쉴 수 있습니다. 사무소에 확인해 보세요.';
+    else if (lo <= 0) sub = '영하입니다. 콘크리트 작업은 일정이 밀릴 수 있어요.';
+    else sub = '낮 ' + hi + '℃까지 오릅니다.';
+    document.getElementById('weatherSub').textContent = sub;
+
+    if (w.wet) band.classList.add('is-wet');
+    band.hidden = false;
+  }).catch(function () {
+    // ⚠️ 못 받아오면 **아무것도 안 한다.** 오류 문구를 띄우면, 날씨가 없는 것보다
+    //    사이트가 고장 난 것처럼 보인다. 날씨는 거들 뿐이다.
+  });
 })();
 </script>
 
